@@ -45,8 +45,15 @@ export default function AnalyticsPage() {
 
   useEffect(() => {
     fetch("/api/coach/clients")
-      .then(res => res.json())
-      .then(data => setClients(data))
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch clients");
+        return res.json();
+      })
+      .then(data => {
+        if (data && Array.isArray(data.clients)) {
+          setClients(data.clients);
+        }
+      })
       .catch(console.error);
   }, []);
 
