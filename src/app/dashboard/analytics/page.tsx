@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  Area, Line, ComposedChart as ReComposedChart
+  Area, AreaChart
 } from "recharts";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -113,10 +113,10 @@ export default function AnalyticsPage() {
           ))}
         </div>
 
-        {/* Charts — Client Health is the hero (wider), Revenue is the sidebar */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Client Health — main/hero */}
-          <div className="lg:col-span-8">
+        {/* Charts — Stacked Full Width */}
+        <div className="flex flex-col gap-6">
+          {/* Client Health */}
+          <div className="w-full">
             <ClientHealthChart 
               selectedClient={selectedClient} 
               onSelect={setSelectedClient} 
@@ -125,17 +125,17 @@ export default function AnalyticsPage() {
             />
           </div>
 
-          {/* Revenue Momentum — compact sidebar */}
-          <Card className="lg:col-span-4 p-6 border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
-            <div className="flex items-center justify-between mb-6">
+          {/* Revenue Trend */}
+          <Card className="p-8 border shadow-sm" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+            <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-lg font-black" style={{ color: "var(--foreground)" }}>Revenue</h3>
-                <p className="text-sm font-medium mt-0.5" style={{ color: "var(--muted-foreground)" }}>6-month trend</p>
+                <h3 className="text-xl font-black" style={{ color: "var(--foreground)" }}>Revenue Momentum</h3>
+                <p className="text-sm font-medium mt-1" style={{ color: "var(--muted-foreground)" }}>6-month performance trend</p>
               </div>
-              <div className="flex gap-1 p-1 rounded-lg" style={{ background: "var(--muted)" }}>
-                {["6M", "1Y"].map((t) => (
- <button key={t} 
-                    className={`px-2.5 py-1 text-[10px] font-black rounded-md transition-all ${t === "6M" ? "shadow-sm" : ""}`}
+              <div className="flex gap-1 p-1.5 rounded-xl border shadow-sm" style={{ background: "var(--background)", borderColor: "var(--border)" }}>
+                {["1M", "3M", "6M", "1Y"].map((t) => (
+                  <button key={t} 
+                    className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${t === "6M" ? "shadow-md" : "hover:bg-muted"}`}
                     style={{ 
                       background: t === "6M" ? "var(--foreground)" : "transparent",
                       color: t === "6M" ? "var(--card)" : "var(--muted-foreground)"
@@ -145,36 +145,47 @@ export default function AnalyticsPage() {
                 ))}
               </div>
             </div>
-            <div className="h-[320px] w-full">
+            <div className="h-[360px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <ReComposedChart data={REVENUE_DATA}>
+                <AreaChart data={REVENUE_DATA}>
                   <defs>
                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.15}/>
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.25}/>
                       <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
+                  <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="var(--border)" opacity={0.5} />
                   <XAxis 
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fontSize: 10, fontWeight: 700, fill: "var(--muted-foreground)" }} 
-                    dy={10}
+                    tick={{ fontSize: 11, fontWeight: 700, fill: "var(--muted-foreground)" }} 
+                    dy={12}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fontSize: 10, fontWeight: 700, fill: "var(--muted-foreground)" }} 
-                    width={45}
+                    tick={{ fontSize: 11, fontWeight: 700, fill: "var(--muted-foreground)" }} 
+                    width={50}
+                    tickFormatter={(val) => `$${val}`}
                   />
                   <Tooltip 
-                    contentStyle={{ background: "var(--card)", borderRadius: "12px", border: "1px solid var(--border)", fontSize: "12px", fontWeight: "bold", color: "var(--foreground)" }}
-                    itemStyle={{ color: "var(--foreground)" }}
+                    cursor={{ stroke: "var(--border)", strokeWidth: 2, strokeDasharray: "4 4" }}
+                    contentStyle={{ background: "var(--card)", borderRadius: "14px", border: "1px solid var(--border)", fontSize: "13px", fontWeight: "900", color: "var(--foreground)", padding: "10px 14px", boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+                    itemStyle={{ color: "#6366f1", fontWeight: "900" }}
+                    formatter={(val: any) => [`$${Number(val || 0).toLocaleString()}`, "Revenue"]}
+                    labelStyle={{ color: "var(--muted-foreground)", marginBottom: "4px", fontWeight: "700" }}
                   />
-                  <Area type="monotone" dataKey="value" stroke="none" fillOpacity={1} fill="url(#colorRev)" />
-                  <Line type="monotone" dataKey="value" stroke="#6366f1" strokeWidth={3} dot={{ r: 3, fill: "#6366f1", strokeWidth: 2, stroke: "var(--card)" }} activeDot={{ r: 6 }} />
-                </ReComposedChart>
+                  <Area 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#6366f1" 
+                    strokeWidth={4} 
+                    fillOpacity={1} 
+                    fill="url(#colorRev)" 
+                    activeDot={{ r: 7, strokeWidth: 3, stroke: "var(--card)", fill: "#6366f1" }} 
+                  />
+                </AreaChart>
               </ResponsiveContainer>
             </div>
           </Card>
