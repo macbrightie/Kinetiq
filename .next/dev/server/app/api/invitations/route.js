@@ -1,0 +1,13 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/invitations/route.js")
+R.c("server/chunks/node_modules_2eb5556f._.js")
+R.c("server/chunks/node_modules_next_d37e4499._.js")
+R.c("server/chunks/node_modules_@clerk_shared_dist_runtime_5a1aaa35._.js")
+R.c("server/chunks/node_modules_@clerk_backend_dist_7d371bc9._.js")
+R.c("server/chunks/node_modules_@clerk_nextjs_dist_esm_cc2fa802._.js")
+R.c("server/chunks/node_modules_postal-mime_src_a014ae66._.js")
+R.c("server/chunks/node_modules_svix_dist_56996d0e._.js")
+R.c("server/chunks/[root-of-the-server]__4ff7fb47._.js")
+R.c("server/chunks/[root-of-the-server]__827fd9a7._.js")
+R.c("server/chunks/_next-internal_server_app_api_invitations_route_actions_fde7d3ae.js")
+R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/invitations/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/invitations/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

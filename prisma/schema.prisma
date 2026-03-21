@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  COACH
+  CLIENT
+}
+
+enum RiskLevel {
+  HEALTHY
+  WARNING
+  AT_RISK
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  image         String?
+  role          Role      @default(CLIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  coachProfile  Coach?
+  clientProfile Client?
+  sentMessages  Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+}
+
+model Coach {
+  id             String @id @default(cuid())
+  userId         String @unique
+  user           User   @relation(fields: [userId], references: [id])
+  specialization String?
+  clientRange    String?
+  
+  clients     Client[]
+  invitations ClientInvitation[]
+}
+
+model Client {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  coachId       String
+  coach         Coach    @relation(fields: [coachId], references: [id])
+  
+  healthScore     Int           @default(100)
+  riskStatus      RiskLevel     @default(HEALTHY)
+  
+  // Social & Photo
+  igHandle        String?
+  xHandle         String?
+  whatsapp        String?
+  photoUrl        String?
+  
+  // Integrations
+  terraUserId     String?
+  stravaUserId    String?
+  stravaAccessToken  String?
+  stravaRefreshToken String?
+  stravaExpiresAt    DateTime?
+  connectedChannels String[]    @default([])
+  
+  activityLogs    ActivityLog[]
+  assessments     Assessment[]
+  alerts          Alert[]
+}
+
+model ClientInvitation {
+  id          String       @id @default(cuid())
+  token       String       @unique @default(cuid())
+  email       String
+  name        String
+  coachId     String
+  coach       Coach        @relation(fields: [coachId], references: [id])
+  igHandle    String?
+  xHandle     String?
+  whatsapp    String?
+  status      InviteStatus @default(PENDING)
+  expiresAt   DateTime
+  createdAt   DateTime     @default(now())
+  clientId    String?      // Links to Client.id after onboarding
+}
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id])
+  type        String   // e.g., "WORKOUT", "CARDIO"
+  completed   Boolean  @default(false)
+  timestamp   DateTime @default(now())
+}
+
+model Assessment {
+  id          String   @id @default(cuid())
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id])
+  weight      Float?
+  mood        Int?     // 1-5
+  notes       String?
+  timestamp   DateTime @default(now())
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id])
+  type        String   // e.g., "INACTIVITY", "MISSED_WORKOUT"
+  message     String
+  severity    RiskLevel
+  resolved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  senderId    String
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId  String
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  content     String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}

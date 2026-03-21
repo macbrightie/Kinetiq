@@ -1,0 +1,15 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/coach/clients/route": "app/api/coach/clients/route.js",
+  "/api/invitations/[token]/route": "app/api/invitations/[token]/route.js",
+  "/api/invitations/route": "app/api/invitations/route.js",
+  "/api/terra/session/route": "app/api/terra/session/route.js",
+  "/client-setup/[token]/page": "app/client-setup/[token]/page.js",
+  "/dashboard/alerts/page": "app/dashboard/alerts/page.js",
+  "/dashboard/analytics/page": "app/dashboard/analytics/page.js",
+  "/dashboard/clients/page": "app/dashboard/clients/page.js",
+  "/dashboard/help/page": "app/dashboard/help/page.js",
+  "/dashboard/messages/page": "app/dashboard/messages/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/settings/page": "app/dashboard/settings/page.js"
+}
