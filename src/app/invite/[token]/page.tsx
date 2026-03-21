@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 
-export default function ClientOnboardingPage({ params }: { params: { token: string } }) {
+export default function ClientOnboardingPage() {
     const [step, setStep] = useState(1);
     const [data, setData] = useState({
         weight: '',
