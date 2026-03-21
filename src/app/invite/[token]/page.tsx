@@ -38,7 +38,7 @@ export default function ClientOnboardingPage() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button
+ <Button
                             className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
                             onClick={() => setStep(2)}
                         >
@@ -91,7 +91,7 @@ export default function ClientOnboardingPage() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button
+ <Button
                             className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
                             onClick={handleFinish}
                             disabled={!data.weight || !data.goal || !data.level}

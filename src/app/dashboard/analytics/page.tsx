@@ -57,11 +57,11 @@ export default function AnalyticsPage() {
           </div>
 
           <div className="flex gap-3">
-            <Button variant="outline" className="rounded-xl font-bold h-11 px-6 transition-all">
+ <Button variant="outline" className=" font-bold h-11 px-6 transition-all">
               <Download size={16} className="mr-2" />
               Export Data
             </Button>
-            <Button className="rounded-xl font-black h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+ <Button className=" font-black h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
               Refresh Insights
             </Button>
           </div>
@@ -103,7 +103,7 @@ export default function AnalyticsPage() {
                 <h3 className="text-lg font-black" style={{ color: "var(--foreground)" }}>Client Health</h3>
                 <p className="text-sm font-medium mt-0.5" style={{ color: "var(--muted-foreground)" }}>Weekly retention benchmarks</p>
               </div>
-              <Button variant="ghost" size="icon" className="rounded-xl border" style={{ borderColor: "var(--border)" }}>
+ <Button variant="ghost" size="icon" className=" border" style={{ borderColor: "var(--border)" }}>
                 <Share2 size={16} />
               </Button>
             </div>
@@ -143,7 +143,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="flex gap-1 p-1 rounded-lg" style={{ background: "var(--muted)" }}>
                 {["6M", "1Y"].map((t) => (
-                  <button key={t} 
+ <button key={t} 
                     className={`px-2.5 py-1 text-[10px] font-black rounded-md transition-all ${t === "6M" ? "shadow-sm" : ""}`}
                     style={{ 
                       background: t === "6M" ? "var(--foreground)" : "transparent",

@@ -24,7 +24,7 @@ function ProfilePanel({ user, onClose }: { user: any; onClose: () => void }) {
       <Card className="w-full max-w-lg p-8 border shadow-2xl animate-in zoom-in-95 duration-300" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-black" style={{ color: "var(--foreground)" }}>Profile Information</h2>
-          <button onClick={onClose} className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
+ <button onClick={onClose} className="w-9 h-9 flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
         </div>
         <div className="space-y-5">
           <div>
@@ -42,10 +42,10 @@ function ProfilePanel({ user, onClose }: { user: any; onClose: () => void }) {
           </div>
         </div>
         <div className="flex gap-3 mt-8">
-          <Button onClick={handleSave} className="flex-1 rounded-xl font-black h-11 transition-all" style={{ background: saved ? "#10b981" : "var(--foreground)", color: "var(--card)" }}>
+ <Button onClick={handleSave} className="flex-1 font-black h-11 transition-all" style={{ background: saved ? "#10b981" : "var(--foreground)", color: "var(--card)" }}>
             {saved ? <><Check size={16} className="mr-2" />Saved!</> : "Save Changes"}
           </Button>
-          <Button onClick={onClose} variant="outline" className="flex-1 rounded-xl font-bold h-11">Cancel</Button>
+ <Button onClick={onClose} variant="outline" className="flex-1 font-bold h-11">Cancel</Button>
         </div>
       </Card>
     </div>
@@ -64,7 +64,7 @@ function PasswordPanel({ onClose }: { onClose: () => void }) {
       <Card className="w-full max-w-lg p-8 border shadow-2xl animate-in zoom-in-95 duration-300" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-black" style={{ color: "var(--foreground)" }}>Security & Password</h2>
-          <button onClick={onClose} className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
+ <button onClick={onClose} className="w-9 h-9 flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
         </div>
         <div className="space-y-5">
           <div>
@@ -73,7 +73,7 @@ function PasswordPanel({ onClose }: { onClose: () => void }) {
               <input type={showCurrent ? "text" : "password"} value={current} onChange={e => setCurrent(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-indigo-500/30 pr-12"
                 style={{ background: "var(--muted)", color: "var(--foreground)", border: "1px solid var(--border)" }} />
-              <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "var(--muted-foreground)" }}>
+ <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "var(--muted-foreground)" }}>
                 {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
@@ -84,7 +84,7 @@ function PasswordPanel({ onClose }: { onClose: () => void }) {
               <input type={showNew ? "text" : "password"} value={newPwd} onChange={e => setNewPwd(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-indigo-500/30 pr-12"
                 style={{ background: "var(--muted)", color: "var(--foreground)", border: "1px solid var(--border)" }} />
-              <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "var(--muted-foreground)" }}>
+ <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "var(--muted-foreground)" }}>
                 {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
@@ -94,10 +94,10 @@ function PasswordPanel({ onClose }: { onClose: () => void }) {
           </div>
         </div>
         <div className="flex gap-3 mt-8">
-          <Button onClick={handleSave} className="flex-1 rounded-xl font-black h-11" style={{ background: saved ? "#10b981" : "var(--foreground)", color: "var(--card)" }}>
+ <Button onClick={handleSave} className="flex-1 font-black h-11" style={{ background: saved ? "#10b981" : "var(--foreground)", color: "var(--card)" }}>
             {saved ? <><Check size={16} className="mr-2" />Updated!</> : "Update Password"}
           </Button>
-          <Button onClick={onClose} variant="outline" className="flex-1 rounded-xl font-bold h-11">Cancel</Button>
+ <Button onClick={onClose} variant="outline" className="flex-1 font-bold h-11">Cancel</Button>
         </div>
       </Card>
     </div>
@@ -110,7 +110,7 @@ function BillingPanel({ onClose }: { onClose: () => void }) {
       <Card className="w-full max-w-lg p-8 border shadow-2xl animate-in zoom-in-95 duration-300" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-black" style={{ color: "var(--foreground)" }}>Billing & Subscription</h2>
-          <button onClick={onClose} className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
+ <button onClick={onClose} className="w-9 h-9 flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
         </div>
         <div className="p-6 rounded-2xl mb-6 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #6366f1 0%, #a78bfa 100%)" }}>
           <p className="text-xs font-black uppercase tracking-widest text-white/70 mb-1">Current Plan</p>
@@ -133,8 +133,8 @@ function BillingPanel({ onClose }: { onClose: () => void }) {
           ))}
         </div>
         <div className="flex gap-3">
-          <Button className="flex-1 rounded-xl font-black h-11" style={{ background: "var(--foreground)", color: "var(--card)" }}>Manage Plan</Button>
-          <Button onClick={onClose} variant="outline" className="flex-1 rounded-xl font-bold h-11">Close</Button>
+ <Button className="flex-1 font-black h-11" style={{ background: "var(--foreground)", color: "var(--card)" }}>Manage Plan</Button>
+ <Button onClick={onClose} variant="outline" className="flex-1 font-bold h-11">Close</Button>
         </div>
       </Card>
     </div>
@@ -151,7 +151,7 @@ function LocalizationPanel({ onClose }: { onClose: () => void }) {
       <Card className="w-full max-w-lg p-8 border shadow-2xl animate-in zoom-in-95 duration-300" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-black" style={{ color: "var(--foreground)" }}>Localization</h2>
-          <button onClick={onClose} className="w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
+ <button onClick={onClose} className="w-9 h-9 flex items-center justify-center transition-all hover:bg-muted" style={{ color: "var(--muted-foreground)" }}><X size={18} /></button>
         </div>
         <div className="space-y-5">
           <div>
@@ -176,10 +176,10 @@ function LocalizationPanel({ onClose }: { onClose: () => void }) {
           </div>
         </div>
         <div className="flex gap-3 mt-8">
-          <Button onClick={handleSave} className="flex-1 rounded-xl font-black h-11" style={{ background: saved ? "#10b981" : "var(--foreground)", color: "var(--card)" }}>
+ <Button onClick={handleSave} className="flex-1 font-black h-11" style={{ background: saved ? "#10b981" : "var(--foreground)", color: "var(--card)" }}>
             {saved ? <><Check size={16} className="mr-2" />Saved!</> : "Save Preferences"}
           </Button>
-          <Button onClick={onClose} variant="outline" className="flex-1 rounded-xl font-bold h-11">Cancel</Button>
+ <Button onClick={onClose} variant="outline" className="flex-1 font-bold h-11">Cancel</Button>
         </div>
       </Card>
     </div>
@@ -232,7 +232,7 @@ export default function SettingsPage() {
                   </div>
                 )}
               </div>
-              <button
+ <button
                 onClick={() => fileInputRef.current?.click()}
                 className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl flex items-center justify-center shadow-xl border-4 hover:scale-110 transition-all"
                 style={{ background: "var(--foreground)", color: "var(--card)", borderColor: "var(--card)" }}>
@@ -244,9 +244,9 @@ export default function SettingsPage() {
               <h3 className="text-2xl font-black" style={{ color: "var(--foreground)" }}>{user?.fullName || "Coach"}</h3>
               <p className="font-medium" style={{ color: "var(--muted-foreground)" }}>{user?.primaryEmailAddress?.emailAddress}</p>
               <div className="flex gap-2 mt-4">
-                <Button size="sm" variant="outline" className="rounded-xl font-bold" onClick={() => setActivePanel("profile")}>Edit Profile</Button>
+ <Button size="sm" variant="outline" className=" font-bold" onClick={() => setActivePanel("profile")}>Edit Profile</Button>
                 <SignOutButton>
-                  <Button size="sm" variant="ghost" className="rounded-xl font-bold text-red-500 hover:bg-red-500/10 hover:text-red-500">
+ <Button size="sm" variant="ghost" className=" font-bold text-red-500 hover:bg-red-500/10 hover:text-red-500">
                     <LogOut size={16} className="mr-2" />
                     Sign Out
                   </Button>
@@ -269,7 +269,7 @@ export default function SettingsPage() {
                   { label: "Billing & Subscription", icon: Wallet, desc: "Manage your Pro plan", action: () => setActivePanel("billing") },
                 ].map((item, j, arr) => (
                   <>
-                    <button key={j} onClick={item.action} className="w-full p-5 px-6 flex items-center justify-between hover:bg-muted/30 transition-all cursor-pointer group text-left">
+ <button key={j} onClick={item.action} className="w-full p-5 px-6 flex items-center justify-between hover:bg-muted/30 transition-all cursor-pointer group text-left">
                       <div className="flex items-center gap-5">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all group-hover:scale-110 duration-200" style={{ background: "var(--muted)", color: "var(--muted-foreground)" }}>
                           <item.icon size={18} />
@@ -319,7 +319,7 @@ export default function SettingsPage() {
                   <Switch checked={theme === "dark"} onCheckedChange={() => toggle()} />
                 </div>
                 <div className="mx-6 h-px" style={{ background: "var(--border)", opacity: 0.4 }} />
-                <button onClick={() => setActivePanel("localization")} className="w-full p-5 px-6 flex items-center justify-between hover:bg-muted/30 transition-all group text-left">
+ <button onClick={() => setActivePanel("localization")} className="w-full p-5 px-6 flex items-center justify-between hover:bg-muted/30 transition-all group text-left">
                   <div className="flex items-center gap-5">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "var(--muted)", color: "var(--muted-foreground)" }}>
                       <Globe size={18} />
@@ -336,7 +336,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Help */}
-          <button className="w-full p-6 text-left rounded-2xl border transition-all hover:bg-orange-500/10 group flex items-center justify-between" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+ <button className="w-full p-6 text-left border transition-all hover:bg-orange-500/10 group flex items-center justify-between" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500">
                 <HelpCircle size={24} />

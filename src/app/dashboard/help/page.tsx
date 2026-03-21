@@ -88,7 +88,7 @@ export default function HelpPage() {
             <p className="text-sm text-indigo-100 mb-6 font-medium leading-relaxed">
               Can't find what you need? Our team is available 24/7 for premium support.
             </p>
-            <Button className="w-full rounded-xl font-black bg-white text-indigo-600 hover:bg-slate-100 shadow-xl transition-all">
+ <Button className="w-full font-black bg-white text-indigo-600 hover:bg-slate-100 shadow-xl transition-all">
               Live Chat
             </Button>
           </Card>

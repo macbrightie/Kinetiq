@@ -101,7 +101,7 @@ function Chip({
     label: string; selected: boolean; onClick: () => void;
 }) {
     return (
-        <button
+ <button
             onClick={onClick}
             className="px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200"
             style={{
@@ -211,7 +211,7 @@ export default function OnboardingPage() {
                 {/* Top bar */}
                 <div className="flex items-center justify-between px-8 py-5" style={{ borderBottom: "1px solid var(--panel-border)" }}>
                     <StepDots step={step} />
-                    <button
+ <button
                         onClick={toggleTheme}
                         className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
                         style={{
@@ -346,7 +346,7 @@ export default function OnboardingPage() {
                     className="flex items-center justify-between px-8 py-5"
                     style={{ borderTop: "1px solid var(--panel-border)" }}
                 >
-                    <button
+ <button
                         onClick={handleBack}
                         className="flex items-center gap-1.5 text-sm font-medium transition-opacity"
                         style={{
@@ -360,7 +360,7 @@ export default function OnboardingPage() {
                     </button>
 
                     <div className="flex items-center gap-3">
-                        <button
+ <button
                             onClick={() => router.push("/dashboard")}
                             className="px-4 py-2 rounded-lg text-xs font-medium border transition-all hover:bg-neutral-100 dark:hover:bg-neutral-800"
                             style={{
@@ -371,7 +371,7 @@ export default function OnboardingPage() {
                             Skip for now (Dev)
                         </button>
 
-                        <button
+ <button
                             onClick={handleNext}
                             disabled={!canContinue}
                             className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all"

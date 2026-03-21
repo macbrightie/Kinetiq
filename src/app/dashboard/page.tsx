@@ -10,6 +10,7 @@ import {
 import { InviteClientModal } from "@/components/InviteClientModal";
 import { Loader } from "@/components/Loader";
 import { DashboardHeader } from "@/components/DashboardHeader";
+import { Button } from "@/components/ui/button";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface ActivityItem { name: string; icon: string; pct: number; color: string; }
@@ -165,7 +166,7 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
                             style={{ background: cfg.bg, color: cfg.color }}>{cfg.label}</span>
                     </div>
                 </div>
-                <button onClick={onClose}
+ <button onClick={onClose}
                     className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:opacity-60"
                     style={{ background: "var(--muted)", color: "var(--muted-foreground)" }}>
                     <X size={14} />
@@ -294,7 +295,7 @@ function ClientHealthChart({
                         </div>
                     ))}
                     <div className="relative">
-                        <button onClick={() => setFilterOpen((o) => !o)}
+ <button onClick={() => setFilterOpen((o) => !o)}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-80"
                             style={{ background: "var(--muted)", color: "var(--muted-foreground)" }}>
                             <Filter size={12} /> {FILTER_LABELS[sortMode]} <ChevronDown size={11} />
@@ -303,7 +304,7 @@ function ClientHealthChart({
                             <div className="absolute right-0 top-full mt-1 z-50 rounded-xl overflow-hidden shadow-2xl"
                                 style={{ background: "var(--card)", border: "1px solid var(--border)", minWidth: 175 }}>
                                 {(["all", "best", "worst", "warning"] as SortMode[]).map((m) => (
-                                    <button key={m} className="w-full text-left px-4 py-2.5 text-xs font-medium"
+ <button key={m} className="w-full text-left px-4 py-2.5 text-xs font-medium"
                                         style={{ background: sortMode === m ? "var(--muted)" : "transparent", color: "var(--foreground)" }}
                                         onClick={() => { setSortMode(m); setFilterOpen(false); }}>{FILTER_LABELS[m]}</button>
                                 ))}
@@ -474,7 +475,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                             className="flex-1 bg-transparent outline-none text-xs"
                             style={{ color: "var(--foreground)" }} />
                         {search && (
-                            <button onClick={() => setSearch("")} style={{ color: "var(--muted-foreground)", opacity: 0.5, lineHeight: 1 }}>×</button>
+ <button onClick={() => setSearch("")} style={{ color: "var(--muted-foreground)", opacity: 0.5, lineHeight: 1 }}>×</button>
                         )}
                     </div>
 
@@ -482,7 +483,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                     <div className="flex items-center rounded-xl overflow-hidden p-0.5 gap-0.5"
                         style={{ background: "var(--muted)" }}>
                         {(["grid", "list"] as const).map((v) => (
-                            <button key={v} onClick={() => setViewMode(v)}
+ <button key={v} onClick={() => setViewMode(v)}
                                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all"
                                 style={{
                                     background: viewMode === v ? "var(--card)" : "transparent",
@@ -539,7 +540,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                 <div className="text-center py-12" style={{ color: "var(--muted-foreground)" }}>
                     <p className="text-3xl mb-2">🔍</p>
                     <p className="text-sm font-semibold">No clients match "{search}"</p>
-                    <button onClick={() => setSearch("")} className="text-xs mt-2 underline opacity-60">Clear search</button>
+ <button onClick={() => setSearch("")} className="text-xs mt-2 underline opacity-60">Clear search</button>
                 </div>
             )}
 
@@ -759,7 +760,7 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
                             </span>
                         </div>
                     </div>
-                    <button onClick={onClose}
+ <button onClick={onClose}
                         className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:opacity-70 transition-opacity shrink-0 mt-1"
                         style={{ background: closeBg, color: textMuted }}>
                         <X size={14} />
@@ -799,7 +800,7 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
                         </label>
                         <div className="grid grid-cols-2 gap-3">
                             {channels.map((c) => (
-                                <button key={c.id} onClick={() => onSend(c.id)}
+ <button key={c.id} onClick={() => onSend(c.id)}
                                     className="group flex items-center gap-3.5 p-4 rounded-2xl transition-all duration-200 cursor-pointer hover:-translate-y-[2px] active:scale-[0.97] text-left"
                                     style={{ background: chBg, border: `1.5px solid ${chBorder}` }}
                                     onMouseEnter={(e) => {
@@ -1016,11 +1017,11 @@ export default function DashboardPage() {
                             <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                                 It's time to invite your first client and start tracking their progress with Kinetiq AI.
                             </p>
-                            <button onClick={() => setShowInviteModal(true)}
-                                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm transition-all shadow-xl shadow-indigo-500/25">
+ <Button onClick={() => setShowInviteModal(true)}
+                                className="h-auto gap-2 px-8 py-4 rounded-2xl font-black text-sm shadow-xl">
                                 <UserPlus size={18} />
                                 Invite Your First Client
-                            </button>
+                            </Button>
                         </div>
                     ) : (
                         <div className={`flex gap-8 transition-all duration-500`}>
@@ -1057,7 +1058,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="h-4 w-px bg-white/10" />
                     <p className="text-xs text-white/50 font-medium">Message for {selectedClient?.name.split(" ")[0]}</p>
-                    <button onClick={handleAction} className="bg-white text-black px-5 py-2 rounded-full text-xs font-black hover:scale-105 active:scale-95 transition-transform cursor-pointer">
+ <button onClick={handleAction} className="bg-white text-black px-5 py-2 text-xs font-black hover:scale-105 active:scale-95 transition-transform cursor-pointer">
                         Personalize &amp; Send
                     </button>
                 </div>

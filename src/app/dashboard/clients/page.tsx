@@ -11,6 +11,7 @@ import {
 import { InviteClientModal } from "@/components/InviteClientModal";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Loader } from "@/components/Loader";
+import { Button } from "@/components/ui/button";
 
 
 // ─── Types & Constants ────────────────────────────────────────────────────────
@@ -70,7 +71,7 @@ function ClientProfilePanel({ client, onClose }: { client: ClientType; onClose: 
             >
                 <div className="p-6 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
                     <h3 className="font-black text-lg" style={{ color: "var(--foreground)" }}>Client Profile</h3>
-                    <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
+ <button onClick={onClose} className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
                         <X size={16} />
                     </button>
                 </div>
@@ -123,7 +124,7 @@ function ClientProfilePanel({ client, onClose }: { client: ClientType; onClose: 
                 </div>
 
                 <div className="p-6" style={{ borderTop: "1px solid var(--border)" }}>
-                    <button onClick={() => { alert(`Full profile for ${client.name} — extended profile page coming soon!`); }}
+ <button onClick={() => { alert(`Full profile for ${client.name} — extended profile page coming soon!`); }}
                         className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90"
                         style={{ background: "var(--foreground)", color: "var(--card)" }}>
                         View Full Profile <ChevronRight size={16} />
@@ -247,11 +248,11 @@ export default function ClientsPage() {
                 </p>
 
                 <div className="flex items-center gap-2 p-1 rounded-xl" style={{ background: "var(--muted)" }}>
-                    <button onClick={() => setViewMode("grid")}
+ <button onClick={() => setViewMode("grid")}
                         className={`p-2 rounded-lg transition-all ${viewMode === "grid" ? "bg-foreground text-card shadow-lg" : "text-muted-foreground hover:text-foreground"}`}>
                         <Grid size={18} />
                     </button>
-                    <button onClick={() => setViewMode("list")}
+ <button onClick={() => setViewMode("list")}
                         className={`p-2 rounded-lg transition-all ${viewMode === "list" ? "bg-foreground text-card shadow-lg" : "text-muted-foreground hover:text-foreground"}`}>
                         <List size={18} />
                     </button>
@@ -269,10 +270,10 @@ export default function ClientsPage() {
                         <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                             Try adjusting your search filters or invite a new client to your roster.
                         </p>
-                        <button onClick={() => {setSearch(""); setRiskFilter("all");}}
-                            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm transition-all">
+ <Button onClick={() => {setSearch(""); setRiskFilter("all");}}
+                            className="gap-2 px-8 py-4 font-black">
                             Clear Filters
-                        </button>
+                        </Button>
                     </div>
                 ) : viewMode === "grid" ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -396,7 +397,7 @@ export default function ClientsPage() {
                                                 <p className="text-sm font-bold">{client.workouts}</p>
                                             </td>
                                             <td className="px-6 py-5 text-right relative" ref={openMenuId === client.id ? menuRef : null}>
-                                                <button
+ <button
                                                     onClick={(e) => { e.stopPropagation(); setOpenMenuId(openMenuId === client.id ? null : client.id); }}
                                                     className="p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground">
                                                     <MoreHorizontal size={18} />
@@ -404,18 +405,18 @@ export default function ClientsPage() {
                                                 {openMenuId === client.id && (
                                                     <div className="absolute right-4 top-full mt-1 w-44 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
                                                         style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
-                                                        <button onClick={() => { setProfileClient(client); setOpenMenuId(null); }}
+ <button onClick={() => { setProfileClient(client); setOpenMenuId(null); }}
                                                             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors text-left"
                                                             style={{ color: "var(--foreground)" }}>
                                                             <Eye size={15} /> View Profile
                                                         </button>
-                                                        <button onClick={() => { alert(`Message ${client.name} — coming soon!`); setOpenMenuId(null); }}
+ <button onClick={() => { alert(`Message ${client.name} — coming soon!`); setOpenMenuId(null); }}
                                                             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors text-left"
                                                             style={{ color: "var(--foreground)" }}>
                                                             <MessageCircle size={15} /> Message Client
                                                         </button>
                                                         <div className="my-1 h-px" style={{ background: "var(--border)" }} />
-                                                        <button onClick={() => { setClients(prev => prev.filter(c => c.id !== client.id)); setOpenMenuId(null); }}
+ <button onClick={() => { setClients(prev => prev.filter(c => c.id !== client.id)); setOpenMenuId(null); }}
                                                             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-semibold hover:bg-red-500/10 transition-colors text-left text-red-500">
                                                             <Trash2 size={15} /> Remove
                                                         </button>

@@ -87,7 +87,7 @@ function MessageModal({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; onC
             <h3 className="font-black text-lg" style={{ color: "var(--foreground)" }}>{alert.client}</h3>
             <p className="text-xs font-medium" style={{ color: "var(--muted-foreground)" }}>{alert.origin}</p>
           </div>
-          <button onClick={onClose} className="ml-auto w-8 h-8 rounded-xl flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
+ <button onClick={onClose} className="ml-auto w-8 h-8 flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
             <X size={16} />
           </button>
         </div>
@@ -113,10 +113,10 @@ function MessageModal({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; onC
               style={{ background: "var(--muted)", color: "var(--foreground)", border: "1px solid var(--border)" }}
             />
             <div className="flex gap-3 mt-4">
-              <Button onClick={handleSend} className="flex-1 rounded-xl font-black h-11" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+ <Button onClick={handleSend} className="flex-1 font-black h-11" style={{ background: "var(--foreground)", color: "var(--card)" }}>
                 <Send size={15} className="mr-2" /> Send Message
               </Button>
-              <Button onClick={onClose} variant="outline" className="flex-1 rounded-xl font-bold h-11">Cancel</Button>
+ <Button onClick={onClose} variant="outline" className="flex-1 font-bold h-11">Cancel</Button>
             </div>
           </>
         )}
@@ -140,7 +140,7 @@ function ClientSidePanel({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; 
         {/* Header */}
         <div className="p-6 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
           <h3 className="font-black text-lg" style={{ color: "var(--foreground)" }}>Client Overview</h3>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
+ <button onClick={onClose} className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
             <X size={16} />
           </button>
         </div>
@@ -219,11 +219,11 @@ export default function AlertsPage() {
             </h1>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" className="rounded-xl font-bold h-11 px-6 transition-all" onClick={() => setAlerts([])}>
+ <Button variant="outline" className=" font-bold h-11 px-6 transition-all" onClick={() => setAlerts([])}>
               Mark all read
             </Button>
             <Link href="/dashboard/settings">
-              <Button className="rounded-xl font-black shadow-lg h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+ <Button className=" font-black shadow-lg h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
                 System Settings
               </Button>
             </Link>
@@ -276,29 +276,26 @@ export default function AlertsPage() {
                     </p>
                   </div>
 
-                  {/* Action buttons – always visible, more prominent */}
+                  {/* Action buttons – always visible, standard hover */}
                   <div className="flex items-center gap-2 shrink-0">
-                    <button
-                      onClick={(e) => dismissAlert(alert.id, e)}
+ <Button variant="outline" size="icon"
+                      onClick={(e: React.MouseEvent) => dismissAlert(alert.id, e)}
                       title="Dismiss alert"
-                      className="w-10 h-10 rounded-xl border flex items-center justify-center transition-all hover:bg-emerald-500/10 hover:text-emerald-500 hover:border-emerald-500/30"
-                      style={{ borderColor: "var(--border)", color: "var(--muted-foreground)" }}>
+                      className="text-muted-foreground w-10 h-10 shadow-sm">
                       <CheckCircle2 size={17} />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setMessageAlert(alert); }}
+                    </Button>
+ <Button variant="outline" size="icon"
+                      onClick={(e: React.MouseEvent) => { e.stopPropagation(); setMessageAlert(alert); }}
                       title="Send message"
-                      className="w-10 h-10 rounded-xl border flex items-center justify-center transition-all hover:bg-indigo-500/10 hover:text-indigo-500 hover:border-indigo-500/30"
-                      style={{ borderColor: "var(--border)", color: "var(--muted-foreground)" }}>
+                      className="text-muted-foreground w-10 h-10 shadow-sm">
                       <MessageSquare size={17} />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setSideAlert(alert); }}
+                    </Button>
+ <Button variant="outline" size="icon"
+                      onClick={(e: React.MouseEvent) => { e.stopPropagation(); setSideAlert(alert); }}
                       title="View details"
-                      className="w-10 h-10 rounded-xl border flex items-center justify-center transition-all hover:bg-muted group-hover:translate-x-0.5"
-                      style={{ borderColor: "var(--border)", color: "var(--muted-foreground)" }}>
+                      className="text-muted-foreground w-10 h-10 shadow-sm transition-transform group-hover:translate-x-0.5">
                       <ChevronRight size={17} />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </Card>

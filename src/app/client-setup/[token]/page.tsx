@@ -128,7 +128,7 @@ export default function ClientSetupPage() {
                 </div>
                 <h1 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Wait a second...</h1>
                 <p className="text-gray-500 dark:text-gray-400">{error}</p>
-                <button onClick={() => window.location.reload()} className="mt-8 px-8 py-4 bg-gray-900 dark:bg-blue-600 text-white font-bold rounded-2xl transition-transform active:scale-95">
+ <button onClick={() => window.location.reload()} className="mt-8 px-8 py-4 bg-gray-900 dark:bg-blue-600 text-white font-bold transition-transform active:scale-95">
                     Try Again
                 </button>
             </MotionCard>
@@ -205,7 +205,7 @@ export default function ClientSetupPage() {
                                     </div>
                                 </div>
 
-                                <button onClick={handleNext}
+ <button onClick={handleNext}
                                     className="w-full py-6 rounded-[28px] bg-gray-900 dark:bg-blue-600 text-white font-black text-lg shadow-2xl shadow-gray-900/10 dark:shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group relative z-[60]">
                                     Let's Go
                                     <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
@@ -258,7 +258,7 @@ export default function ClientSetupPage() {
                                     </div>
                                 </div>
 
-                                <button onClick={handleNext}
+ <button onClick={handleNext}
                                     className="w-full py-6 rounded-[28px] bg-gray-900 dark:bg-blue-600 text-white font-black text-lg shadow-2xl shadow-gray-900/10 dark:shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group relative z-[60]">
                                     Next Step
                                     <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
@@ -318,7 +318,7 @@ export default function ClientSetupPage() {
                                 </div>
 
                                 <div className="pt-4 space-y-6">
-                                    <button onClick={handleComplete} disabled={submitting}
+ <button onClick={handleComplete} disabled={submitting}
                                         className="w-full py-6 rounded-[28px] bg-blue-600 text-white font-black text-xl shadow-[0_20px_40px_-10px_rgba(37,99,235,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 relative z-[60]">
                                         {submitting ? "Almost there..." : "Finish Onboarding"}
                                         <CheckCircle2 size={24} />

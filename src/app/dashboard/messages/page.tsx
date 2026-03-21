@@ -107,13 +107,13 @@ export default function MessagesPage() {
           </div>
           
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
+ <Button variant="ghost" size="icon" className=" hover:bg-muted">
               <Phone size={18} className="text-muted-foreground" />
             </Button>
-            <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
+ <Button variant="ghost" size="icon" className=" hover:bg-muted">
               <Video size={18} className="text-muted-foreground" />
             </Button>
-            <Button variant="ghost" size="icon" className="rounded-xl hover:bg-muted">
+ <Button variant="ghost" size="icon" className=" hover:bg-muted">
               <MoreVertical size={18} className="text-muted-foreground" />
             </Button>
           </div>
@@ -150,10 +150,10 @@ export default function MessagesPage() {
         {/* Action Bar */}
         <div className="p-6 bg-muted/20">
           <div className="relative flex items-center gap-3 bg-card border border-border/50 rounded-2xl p-2.5 px-4 shadow-xl shadow-black/5">
-            <Button variant="ghost" size="icon" className="rounded-xl h-10 w-10 text-muted-foreground hover:bg-muted">
+ <Button variant="ghost" size="icon" className=" h-10 w-10 text-muted-foreground hover:bg-muted">
               <ImageIcon size={18} />
             </Button>
-            <Button variant="ghost" size="icon" className="rounded-xl h-10 w-10 text-muted-foreground hover:bg-muted">
+ <Button variant="ghost" size="icon" className=" h-10 w-10 text-muted-foreground hover:bg-muted">
               <Paperclip size={18} />
             </Button>
             <div className="h-6 w-px bg-border/50 mx-1" />
@@ -161,10 +161,10 @@ export default function MessagesPage() {
               placeholder="Type your message here..." 
               className="flex-1 bg-transparent border-none focus-visible:ring-0 text-sm font-medium h-10 p-0"
             />
-            <Button variant="ghost" size="icon" className="rounded-xl h-10 w-10 text-muted-foreground hover:bg-muted">
+ <Button variant="ghost" size="icon" className=" h-10 w-10 text-muted-foreground hover:bg-muted">
               <Smile size={18} />
             </Button>
-            <Button className="rounded-xl h-10 w-10 shadow-lg shadow-indigo-500/20" style={{ background: 'var(--foreground)', color: 'var(--card)' }}>
+ <Button className=" h-10 w-10 shadow-lg shadow-indigo-500/20" style={{ background: 'var(--foreground)', color: 'var(--card)' }}>
               <Send size={16} />
             </Button>
           </div>

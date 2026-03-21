@@ -15,10 +15,10 @@ export default function LandingPage() {
                 </div>
                 <div className="flex items-center gap-4">
                     <Link href="/sign-in">
-                        <Button variant="ghost" className="text-neutral-400 hover:text-white">Sign In</Button>
+ <Button variant="ghost" className="text-neutral-400 hover:text-white">Sign In</Button>
                     </Link>
                     <Link href="/sign-up">
-                        <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white">Start Free Trial</Button>
+ <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white">Start Free Trial</Button>
                     </Link>
                 </div>
             </nav>
@@ -45,12 +45,12 @@ export default function LandingPage() {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <Link href="/sign-up">
-                                <Button size="lg" className="h-14 px-8 text-lg bg-fuchsia-600 hover:bg-fuchsia-700 text-white gap-2">
+ <Button size="lg" className="h-14 px-8 text-lg bg-fuchsia-600 hover:bg-fuchsia-700 text-white gap-2">
                                     Get Started for Free <ArrowRight className="w-5 h-5" />
                                 </Button>
                             </Link>
                             <Link href="/dashboard">
-                                <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-neutral-800 bg-neutral-900/50 text-white hover:bg-neutral-800">
+ <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-neutral-800 bg-neutral-900/50 text-white hover:bg-neutral-800">
                                     View Demo
                                 </Button>
                             </Link>
