@@ -11,6 +11,8 @@ import {
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DashboardHeader } from "@/components/DashboardHeader";
+import ClientHealthChart, { ClientType } from "@/components/ClientHealthChart";
+import React, { useState, useEffect } from "react";
 
 const REVENUE_DATA = [
   { name: "Jan", value: 4200 },
@@ -38,6 +40,16 @@ const STATS = [
 ];
 
 export default function AnalyticsPage() {
+  const [clients, setClients] = useState<ClientType[]>([]);
+  const [selectedClient, setSelectedClient] = useState<ClientType | null>(null);
+
+  useEffect(() => {
+    fetch("/api/coach/clients")
+      .then(res => res.json())
+      .then(data => setClients(data))
+      .catch(console.error);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "var(--background)" }}>
       <DashboardHeader title="Analytics Hub" showInvite={false} />
@@ -97,42 +109,14 @@ export default function AnalyticsPage() {
         {/* Charts — Client Health is the hero (wider), Revenue is the sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Client Health — main/hero */}
-          <Card className="lg:col-span-8 p-6 border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-lg font-black" style={{ color: "var(--foreground)" }}>Client Health</h3>
-                <p className="text-sm font-medium mt-0.5" style={{ color: "var(--muted-foreground)" }}>Weekly retention benchmarks</p>
-              </div>
- <Button variant="ghost" size="icon" className=" border" style={{ borderColor: "var(--border)" }}>
-                <Share2 size={16} />
-              </Button>
-            </div>
-            <div className="h-[320px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={RETENTION_DATA} barCategoryGap="35%">
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
-                  <XAxis 
-                    dataKey="name" 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fontSize: 11, fontWeight: 700, fill: "var(--muted-foreground)" }} 
-                    dy={10}
-                  />
-                  <YAxis 
-                    axisLine={false} 
-                    tickLine={false} 
-                    tick={{ fontSize: 11, fontWeight: 700, fill: "var(--muted-foreground)" }} 
-                    domain={[0, 100]}
-                  />
-                  <Tooltip 
-                    cursor={{ fill: "var(--muted)", opacity: 0.5 }}
-                    contentStyle={{ background: "var(--card)", borderRadius: "12px", border: "1px solid var(--border)", fontSize: "12px", fontWeight: "bold" }}
-                  />
-                  <Bar dataKey="value" fill="#10b981" radius={[8, 8, 0, 0]} barSize={32} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
+          <div className="lg:col-span-8">
+            <ClientHealthChart 
+              selectedClient={selectedClient} 
+              onSelect={setSelectedClient} 
+              clients={clients} 
+              mode="analytics" 
+            />
+          </div>
 
           {/* Revenue Momentum — compact sidebar */}
           <Card className="lg:col-span-4 p-6 border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
