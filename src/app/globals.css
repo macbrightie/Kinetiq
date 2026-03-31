@@ -1,44 +1,32 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueUltraLight.otf') format('opentype');
-  font-weight: 200;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueLight.otf') format('opentype');
+  font-family: 'Satoshi';
+  src: url('/OTF/Satoshi-Light.otf') format('opentype');
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueRoman.otf') format('opentype');
+  font-family: 'Satoshi';
+  src: url('/OTF/Satoshi-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueMedium.otf') format('opentype');
+  font-family: 'Satoshi';
+  src: url('/OTF/Satoshi-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueBold.otf') format('opentype');
+  font-family: 'Satoshi';
+  src: url('/OTF/Satoshi-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueHeavy.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'helvetica-neue-5';
-  src: url('/helvetica-neue-5/HelveticaNeueBlack.otf') format('opentype');
+  font-family: 'Satoshi';
+  src: url('/OTF/Satoshi-Black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
 }
@@ -88,14 +76,14 @@
   :root {
     color-scheme: light;
     --background: #f4f4f5;
-    --foreground: #09090b;
+    --foreground: #0C0C0C;
     --card: #ffffff;
-    --card-foreground: #09090b;
+    --card-foreground: #0C0C0C;
     --primary: #9333ea;
     --primary-foreground: #ffffff;
     --accent: #0ea5e9;
-    --muted: #f4f4f5;
-    --muted-foreground: #71717a;
+    --muted: #e4e4e7;
+    --muted-foreground: #52525b;
     --destructive: #ef4444;
     --border: #e4e4e7;
     --input: #ffffff;
@@ -105,17 +93,20 @@
   }
 }
 
+/* ─── Make Tailwind dark: respond to .dark class (not prefers-color-scheme) ─── */
+@variant dark (&:where(.dark, .dark *));
+
 /* ─── Manual class overrides ─── */
 .dark {
   color-scheme: dark;
-  --background: #0a0a0a;
+  --background: #0C0C0C;
   --foreground: #ededed;
   --card: #141414;
   --card-foreground: #ffffff;
   --primary: #c026d3;
   --primary-foreground: #ffffff;
   --muted: #262626;
-  --muted-foreground: #737373;
+  --muted-foreground: #a3a3a3;
   --border: #2a2a2a;
   --input: #1e1e1e;
   --ring: #c026d3;
@@ -126,13 +117,13 @@
 .light {
   color-scheme: light;
   --background: #f4f4f5;
-  --foreground: #09090b;
+  --foreground: #0C0C0C;
   --card: #ffffff;
-  --card-foreground: #09090b;
+  --card-foreground: #0C0C0C;
   --primary: #9333ea;
   --primary-foreground: #ffffff;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
+  --muted: #e4e4e7;
+  --muted-foreground: #52525b;
   --border: #e4e4e7;
   --input: #ffffff;
   --ring: #9333ea;
@@ -143,8 +134,45 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "helvetica-neue-5", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-family: "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ─── Badge utility ─── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 12px;
+  padding-right: 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.badge img,
+.badge svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Force all native buttons to pill — Shadcn Button already uses rounded-full */
+/* This catches any <button> not using the Button component */
+button:not([class*="rounded"]):not([data-square]) {
+  border-radius: 9999px;
+}
+
+/* Remove blue/teal outline from focus on selects and inputs */
+select:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--border);
 }
 
 /* Square avatar with rounded corners — overrides Tailwind rounded-full */

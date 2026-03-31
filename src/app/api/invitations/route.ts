@@ -24,6 +24,10 @@ export async function POST(request: Request) {
         console.log('Request body:', body);
         const { name, email, ig, x, whatsapp } = body;
 
+        // Always derive latest name/avatar from Clerk
+        const emailAddress = user.emailAddresses[0]?.emailAddress;
+        const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Coach';
+
         let coach = await prisma.coach.findUnique({
             where: { userId },
             include: { user: true }
@@ -31,18 +35,17 @@ export async function POST(request: Request) {
 
         if (!coach) {
             console.log('Coach not found, creating user and coach profile...');
-            const emailAddress = user.emailAddresses[0]?.emailAddress;
-            const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Coach';
 
             // Ensure User exists first
             const dbUser = await prisma.user.upsert({
                 where: { email: emailAddress },
-                update: {},
+                update: { name: fullName, image: user.imageUrl },
                 create: {
                     id: user.id,
                     email: emailAddress,
                     name: fullName,
                     role: Role.COACH,
+                    image: user.imageUrl,
                 }
             });
 
@@ -53,12 +56,19 @@ export async function POST(request: Request) {
                 },
                 include: { user: true }
             });
-
+            console.log('Created coach:', coach.id);
+        } else {
+            // Coach exists — always sync name/avatar from Clerk so it stays current
             await prisma.user.update({
-                where: { id: user.id },
-                data: { image: user.imageUrl }
+                where: { id: coach.userId },
+                data: { name: fullName, image: user.imageUrl }
             });
-            console.log('Created coach and updated image:', coach.id);
+            // Refresh the coach object with updated user data
+            coach = await prisma.coach.findUnique({
+                where: { userId },
+                include: { user: true }
+            }) as typeof coach;
+            console.log('Synced coach name from Clerk:', fullName);
         }
 
         if (!coach || !coach.user) {

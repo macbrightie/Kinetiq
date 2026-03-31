@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { UserPlus, Mail, Instagram, Phone, Send, X, CheckCircle, Sparkles } from "lucide-react";
+import { UserPlus, Mail, Instagram, Phone, Send, Plus as Add, CheckCircle2 as CheckCircle, Sparkles, X, ArrowRight, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CreditCard } from "@/components/ui/card";
+import { getActivityType } from "@/lib/fitnessUtils";
 
 interface InviteClientModalProps {
   onClose: () => void;
@@ -15,20 +17,27 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
   const [form, setForm] = useState({ name: "", email: "", ig: "", x: "", whatsapp: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/invitations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (res.ok) setSent(true);
-      else console.error("Failed to send invitation");
+      if (res.ok) {
+        setSent(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data?.error || `Server error (${res.status}). Please try again.`);
+      }
     } catch (err) {
       console.error(err);
+      setError("Can't reach the server. Check your database connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -43,31 +52,31 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
   if (sent) {
     return (
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-        <Card className="w-full max-w-[400px] p-10 text-center shadow-2xl flex flex-col items-center border-none rounded-[26px] animate-in zoom-in-95 duration-300"
+        <CreditCard className="w-full max-w-[400px] p-10 text-center shadow-2xl flex flex-col items-center border-none rounded-[26px] animate-in zoom-in-95 duration-300"
           style={{ background: "var(--card)", color: "var(--foreground)" }}>
           <div className="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mb-6">
             <CheckCircle size={40} className="text-emerald-500" />
           </div>
-          <h3 className="text-xl font-black mb-2 font-plus-jakarta">Invitation Sent!</h3>
+          <h3 className="text-xl font-medium mb-2 font-plus-jakarta">Invitation Sent!</h3>
           <p className="text-sm leading-relaxed mb-8 opacity-60">
-            We've sent an invitation to <strong className="font-bold">{form.email}</strong>.<br />
+            We've sent an invitation to <strong className="font-medium">{form.email}</strong>.<br />
             They can now set up their profile and connect their apps.
           </p>
           <Button 
             onClick={onClose} 
-            className="w-full h-12 rounded-xl font-black text-sm transition-all shadow-lg"
-            style={{ background: "var(--foreground)", color: "var(--card)" }}
+            size="lg"
+            className="w-full shadow-lg"
           >
             Awesome, thanks!
           </Button>
-        </Card>
+        </CreditCard>
       </div>
     );
   }
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <Card className="w-full max-w-[480px] overflow-hidden shadow-2xl flex flex-col relative border-none rounded-[26px] animate-in zoom-in-95 duration-300"
+      <CreditCard className="w-full max-w-[480px] overflow-hidden shadow-2xl flex flex-col relative border-none rounded-[26px] animate-in zoom-in-95 duration-300"
         style={{ background: "var(--card)", color: "var(--foreground)" }}>
         
         {/* Subtle Background Elements */}
@@ -91,7 +100,7 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
           <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-indigo-500/10 border border-indigo-500/20 shadow-lg shadow-indigo-500/10">
             <UserPlus size={26} className="text-indigo-500" />
           </div>
-          <h3 className="text-2xl font-black tracking-tight leading-tight font-plus-jakarta">
+          <h3 className="text-2xl font-medium tracking-tight leading-tight font-plus-jakarta">
             Invite New Client
           </h3>
           <p className="text-sm mt-1.5 font-medium opacity-60 max-w-[320px]">
@@ -100,9 +109,9 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
           
           <Button 
             variant="ghost" 
-            size="icon" 
+            size="icon-sm" 
             onClick={onClose}
-            className="absolute top-6 right-6 w-8 h-8 rounded-full hover:bg-muted text-muted-foreground transition-all"
+            className="absolute top-6 right-6 rounded-full"
           >
             <X size={16} />
           </Button>
@@ -112,19 +121,19 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
         <form onSubmit={handleInvite} className="px-8 pb-8 space-y-6 relative z-20">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-[11px] font-black uppercase tracking-widest opacity-60 ml-1">Full Name</Label>
+              <Label htmlFor="name" className="text-[12px] font-medium uppercase tracking-widest opacity-60 ml-1">Full Name</Label>
               <Input 
                 id="name"
                 required 
                 placeholder="e.g. Sam Patel"
                 value={form.name} 
                 onChange={e => setForm({ ...form, name: e.target.value })}
-                className="h-12 rounded-xl bg-muted/50 border-border/50 focus:bg-muted focus:border-indigo-500/50 transition-all text-sm font-medium placeholder:opacity-30"
+                className="h-12 rounded-xl bg-muted/50 border-border/50 focus:bg-muted focus:border-indigo-500/50 transition-all text-sm font-semibold text-foreground placeholder:opacity-30"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest opacity-60 ml-1">Email Address</Label>
+              <Label htmlFor="email" className="text-[12px] font-medium uppercase tracking-widest opacity-60 ml-1">Email Address</Label>
               <Input 
                 id="email"
                 required 
@@ -132,12 +141,12 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
                 placeholder="sam@example.com"
                 value={form.email} 
                 onChange={e => setForm({ ...form, email: e.target.value })}
-                className="h-12 rounded-xl bg-muted/50 border-border/50 focus:bg-muted focus:border-indigo-500/50 transition-all text-sm font-medium placeholder:opacity-30"
+                className="h-12 rounded-xl bg-muted/50 border-border/50 focus:bg-muted focus:border-indigo-500/50 transition-all text-sm font-semibold text-foreground placeholder:opacity-30"
               />
             </div>
 
             <div className="space-y-3">
-              <Label className="text-[11px] font-black uppercase tracking-widest opacity-60 ml-1 block">Social Handles (Optional)</Label>
+              <Label className="text-[12px] font-medium uppercase tracking-widest opacity-60 ml-1 block">Social Handles (Optional)</Label>
               <div className="grid grid-cols-2 gap-3">
                 <div className="relative">
                   <Instagram size={14} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-40" />
@@ -163,7 +172,7 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="whatsapp" className="text-[11px] font-black uppercase tracking-widest opacity-60 ml-1">WhatsApp Number (Optional)</Label>
+              <Label htmlFor="whatsapp" className="text-[12px] font-medium uppercase tracking-widest opacity-60 ml-1">WhatsApp Number (Optional)</Label>
               <div className="relative">
                 <Phone size={14} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-40" />
                 <Input 
@@ -178,20 +187,28 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
           </div>
 
           <div className="space-y-4 pt-2">
+            {error && (
+              <div className="flex items-start gap-3 px-4 py-3 rounded-xl text-sm font-medium"
+                style={{ background: "rgba(239,68,68,0.08)", color: "#ef4444", border: "1px solid rgba(239,68,68,0.2)" }}>
+                <span className="mt-0.5 shrink-0">⚠️</span>
+                <span>{error}</span>
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-3">
               <Button 
                 type="button"
                 variant="outline" 
+                size="lg"
                 onClick={onClose}
-                className="h-12 rounded-xl font-bold text-sm bg-transparent border-border hover:bg-muted transition-all"
+                className="w-full"
               >
                 Cancel
               </Button>
               <Button 
                 type="submit" 
                 disabled={loading}
-                className="h-12 rounded-xl font-bold text-sm text-white hover:opacity-90 shadow-lg shadow-indigo-500/10 transition-all flex items-center justify-center gap-2"
-                style={{ background: "var(--foreground)", color: "var(--card)" }}
+                size="lg"
+                className="w-full shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -203,13 +220,15 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
                 )}
               </Button>
             </div>
-            
-            <p className="text-[10px] text-center font-black uppercase tracking-widest opacity-20">
-              Link expires in 7 days • Premium Security
-            </p>
+            <div className="flex justify-center mt-3">
+              <span className="flex items-center text-[12px] font-medium text-muted-foreground opacity-90">
+                <BadgeCheck size={14} className="mr-1.5 opacity-60" />
+                Link expires in 7 days • Premium Security
+              </span>
+            </div>
           </div>
         </form>
-      </Card>
+      </CreditCard>
 
       <style jsx>{`
         .font-plus-jakarta {

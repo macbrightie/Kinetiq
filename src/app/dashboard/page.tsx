@@ -1,18 +1,42 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
+import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/ThemeProvider";
-import {
-    Sun, Moon, Bell, Users, AlertTriangle, Activity, CheckCircle,
-    Send, Flame, TrendingUp, TrendingDown, Filter, ChevronDown,
-    Sparkles, MessageCircle, Phone, AlertCircle, X, UserPlus, Instagram, Mail,
+import { 
+    Sun, 
+    Moon, 
+    Bell, 
+    Users, 
+    Activity, 
+    TriangleAlert, 
+    CheckCircle2 as CheckCircle, 
+    TrendingUp, 
+    TrendingDown,
+    Filter,
+    ChevronDown,
+    Sparkles,
+    MessageCircle,
+    Phone,
+    LayoutDashboard,
+    Plus,
+    UserPlus,
+    Send,
+    Zap,
+    AlertCircle,
+    Instagram,
+    Mail
 } from "lucide-react";
 import { InviteClientModal } from "@/components/InviteClientModal";
 import { Loader } from "@/components/Loader";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { BadgeCheck, BookmarkIcon, ArrowUpRightIcon } from "lucide-react";
 
 import ClientHealthChart, { ClientType, SortMode, STATUS_CFG } from "@/components/ClientHealthChart";
+import { FitnessFigure } from "@/components/FitnessFigure";
+import { getActivityType } from "@/lib/fitnessUtils";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -88,7 +112,7 @@ function Hatch({ id, color }: { id: string; color: string }) {
 }
 
 // ─── Stat card stripe pattern ───────────────────────────────────────────────
-function CardPattern({ id }: { id: string }) {
+function CreditCardPattern({ id }: { id: string }) {
     return (
         <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
             <defs>
@@ -106,7 +130,7 @@ function OutlineLightButton({ label }: { label: string }) {
     return (
         <div className="shrink-0 rounded-xl cursor-pointer p-px"
             style={{ background: "linear-gradient(90deg,#6366f1,#a78bfa,#ec4899,#f59e0b,#6366f1)", backgroundSize: "300% 100%", animation: "movingBorder 3s linear infinite" }}>
-            <div className="flex items-center gap-1.5 px-5 py-2.5 rounded-[11px] text-xs font-extrabold tracking-wide active:scale-95"
+            <div className="flex items-center gap-1.5 px-5 py-2.5 rounded-[11px] text-xs font-medium tracking-wide active:scale-95"
                 style={{ background: "rgba(10,10,20,0.92)", color: "#a78bfa" }}>
                 {label}
             </div>
@@ -139,7 +163,7 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
         >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 shrink-0"
-                style={{ borderBottom: "1px solid var(--border)" }}>
+                style={{ borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--border)" }}>
                 <div className="flex items-center gap-3">
                     <div className="relative shrink-0">
                         <img src={client.photo} alt={client.name} className="avatar-sq"
@@ -147,16 +171,16 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
                         <span className="absolute -bottom-0.5 -right-0.5 text-base">{cfg.icon}</span>
                     </div>
                     <div>
-                        <p className="font-extrabold text-sm leading-tight" style={{ color: "var(--foreground)" }}>{client.name}</p>
-                        <p className="text-[12px] mt-0.5" style={{ color: "var(--muted-foreground)" }}>{client.origin} · {client.lastActive}</p>
-                        <span className="text-[12px] font-bold px-2.5 py-0.5 rounded-full inline-block mt-1.5"
+                        <p className="font-medium text-sm leading-tight" style={{ color: "var(--foreground)" }}>{client.name}</p>
+                        <p className="text-[12px] mt-0.5 font-medium" style={{ color: "var(--muted-foreground)" }}>{client.origin} · {client.lastActive}</p>
+                        <span className="text-[12px] font-semibold px-2.5 py-0.5 rounded-full inline-block mt-1.5"
                             style={{ background: cfg.bg, color: cfg.color }}>{cfg.label}</span>
                     </div>
                 </div>
- <button onClick={onClose}
+                 <button onClick={onClose}
                     className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:opacity-60"
                     style={{ background: "var(--muted)", color: "var(--muted-foreground)" }}>
-                    <X size={14} />
+                    <Plus style={{transform: "rotate(45deg)"}} size={14} />
                 </button>
             </div>
 
@@ -167,13 +191,13 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
                     style={{ background: `${client.color}10`, border: `1px solid ${client.color}22` }}>
                     <div className="relative flex items-center justify-center shrink-0">
                         <Ring pct={client.score} color={client.color} size={72} />
-                        <span className="absolute text-xl font-extrabold" style={{ color: client.color }}>{client.score}</span>
+                        <span className="absolute text-xl font-medium" style={{ color: client.color }}>{client.score}</span>
                     </div>
                     <div className="flex-1">
-                        <p className="text-[12px] font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--muted-foreground)" }}>Health Score</p>
-                        <p className="font-extrabold text-sm" style={{ color: "var(--foreground)" }}>{client.workouts} workouts</p>
+                        <p className="text-[12px] font-semibold uppercase tracking-widest mb-1.5" style={{ color: "var(--muted-foreground)" }}>Health Score</p>
+                        <p className="font-medium text-sm" style={{ color: "var(--foreground)" }}>{client.workouts} workouts</p>
                         <div className="flex items-center gap-3 mt-2">
-                            <span className="text-xs font-bold px-2.5 py-1 rounded-full"
+                            <span className="text-xs font-medium px-2.5 py-1 rounded-full"
                                 style={{ background: client.weightChange > 0 ? "rgba(245,158,11,0.12)" : "rgba(16,185,129,0.12)", color: client.weightChange > 0 ? "#f59e0b" : "#10b981" }}>
                                 {client.weightChange > 0 ? "▲" : "▼"} {Math.abs(client.weightChange)}kg weight
                             </span>
@@ -183,7 +207,7 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
 
                 {/* This week heatmap */}
                 <div>
-                    <p className="text-[12px] font-bold uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>This Week</p>
+                    <p className="text-[12px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--muted-foreground)" }}>This Week</p>
                     <div className="flex items-end gap-2 justify-between">
                         {client.week.map((v, i) => (
                             <div key={i} className="flex flex-col items-center gap-2">
@@ -197,13 +221,13 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
 
                 {/* Activity breakdown */}
                 <div>
-                    <p className="text-[12px] font-bold uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>Activity Breakdown</p>
+                    <p className="text-[12px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--muted-foreground)" }}>Activity Breakdown</p>
                     <div className="space-y-3">
                         {client.topActivities.map((a, i) => (
                             <div key={i}>
                                 <div className="flex items-center justify-between mb-1.5">
-                                    <span className="text-xs font-semibold" style={{ color: "var(--muted-foreground)" }}>{a.icon} {a.name}</span>
-                                    <span className="text-xs font-extrabold" style={{ color: "var(--foreground)" }}>{a.pct > 0 ? `${a.pct}%` : "—"}</span>
+                                    <span className="text-xs font-medium" style={{ color: "var(--muted-foreground)" }}>{a.icon} {a.name}</span>
+                                    <span className="text-xs font-medium" style={{ color: "var(--foreground)" }}>{a.pct > 0 ? `${a.pct}%` : "—"}</span>
                                 </div>
                                 <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
                                     <div className="h-full rounded-full transition-all duration-700"
@@ -218,15 +242,15 @@ function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; o
                 <div className="flex items-center justify-between rounded-xl px-4 py-3"
                     style={{ background: "rgba(249,115,22,0.08)", border: "1px solid rgba(249,115,22,0.15)" }}>
                     <div className="flex items-center gap-2">
-                        <Flame size={14} style={{ color: "#f97316" }} />
-                        <span className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>Avg Daily Calories</span>
+                        <Zap size={14} style={{ color: "#f97316" }} />
+                        <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>Avg Daily Calories</span>
                     </div>
-                    <span className="font-extrabold" style={{ color: "#f97316" }}>{client.calories} kcal</span>
+                    <span className="font-medium" style={{ color: "#f97316" }}>{client.calories} kcal</span>
                 </div>
 
                 {/* Sidebar footer nudge — not a dupe: points to bottom floating bar */}
                 <div className="rounded-2xl p-4 text-center" style={{ background: "var(--muted)", border: "1px solid var(--border)" }}>
-                    <p className="text-xs font-semibold" style={{ color: "var(--muted-foreground)" }}>💬 Ready to reach out?</p>
+                    <p className="text-xs font-medium" style={{ color: "var(--muted-foreground)" }}>💬 Ready to reach out?</p>
                     <p className="text-xs mt-1 opacity-70" style={{ color: "var(--muted-foreground)" }}>Hit <strong>Personalize &amp; Send</strong> at the bottom of the screen to personalise and choose a channel.</p>
                 </div>
             </div>
@@ -265,8 +289,8 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
             {/* Header row — title left, controls right */}
             <div className="flex items-center justify-between mb-5 gap-3">
                 <div>
-                    <h2 className="text-base font-bold" style={{ color: "var(--foreground)" }}>Client Activity</h2>
-                    <p className="text-xs mt-0.5" style={{ color: "var(--muted-foreground)" }}>Weekly overview · {filtered.length} clients</p>
+                    <h2 className="text-base font-medium" style={{ color: "var(--foreground)" }}>Client Activity</h2>
+                    <p className="text-xs mt-0.5 font-medium" style={{ color: "var(--muted-foreground)" }}>Weekly overview · {filtered.length} clients</p>
                 </div>
 
                 {/* Controls — pushed right */}
@@ -282,21 +306,31 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                             className="flex-1 bg-transparent outline-none text-xs"
                             style={{ color: "var(--foreground)" }} />
                         {search && (
- <button onClick={() => setSearch("")} style={{ color: "var(--muted-foreground)", opacity: 0.5, lineHeight: 1 }}>×</button>
+                            <Button 
+                                variant="ghost" 
+                                size="icon-xs" 
+                                onClick={() => setSearch("")} 
+                                className="opacity-50 hover:opacity-100"
+                            >
+                                <Plus style={{transform: "rotate(45deg)"}} size={12} />
+                            </Button>
                         )}
                     </div>
 
                     {/* Grid / List toggle */}
                     <div className="flex items-center rounded-xl overflow-hidden p-0.5 gap-0.5"
                         style={{ background: "var(--muted)" }}>
-                        {(["grid", "list"] as const).map((v) => (
- <button key={v} onClick={() => setViewMode(v)}
-                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all"
-                                style={{
-                                    background: viewMode === v ? "var(--card)" : "transparent",
-                                    color: viewMode === v ? "var(--foreground)" : "var(--muted-foreground)",
-                                    boxShadow: viewMode === v ? "0 1px 6px rgba(0,0,0,0.12)" : "none",
-                                }}>
+                         {(["grid", "list"] as const).map((v) => (
+                            <Button 
+                                key={v} 
+                                onClick={() => setViewMode(v)}
+                                variant={viewMode === v ? "secondary" : "ghost"}
+                                size="sm"
+                                className={cn(
+                                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold uppercase transition-all shadow-none",
+                                    viewMode === v ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+                                )}
+                            >
                                 {v === "grid" ? (
                                     <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
                                         <rect x="3" y="3" width="8" height="8" rx="1.5" /><rect x="13" y="3" width="8" height="8" rx="1.5" />
@@ -307,8 +341,8 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                         <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
                                     </svg>
                                 )}
-                                {v.charAt(0).toUpperCase() + v.slice(1)}
-                            </button>
+                                {v}
+                            </Button>
                         ))}
                     </div>
                 </div>
@@ -346,7 +380,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
             {filtered.length === 0 && (
                 <div className="text-center py-12" style={{ color: "var(--muted-foreground)" }}>
                     <p className="text-3xl mb-2">🔍</p>
-                    <p className="text-sm font-semibold">No clients match "{search}"</p>
+                    <p className="text-sm font-medium">No clients match "{search}"</p>
  <button onClick={() => setSearch("")} className="text-xs mt-2 underline opacity-60">Clear search</button>
                 </div>
             )}
@@ -375,14 +409,14 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                                 )}
                                             </div>
                                             <div>
-                                                <p className="text-sm font-extrabold leading-tight" style={{ color: "var(--foreground)" }}>{client.name}</p>
+                                                <p className="text-sm font-medium leading-tight" style={{ color: "var(--foreground)" }}>{client.name}</p>
                                                 <p className="text-[12px] mt-0.5" style={{ color: "var(--muted-foreground)" }}>{client.lastActive}</p>
                                                 <p className="text-[12px] opacity-50 font-medium" style={{ color: "var(--muted-foreground)" }}>{client.origin}</p>
                                             </div>
                                         </div>
                                         <div className="relative flex items-center justify-center shrink-0">
                                             <Ring pct={client.score} color={client.color} size={44} />
-                                            <span className="absolute text-[12px] font-extrabold" style={{ color: "var(--foreground)" }}>{client.score}</span>
+                                            <span className="absolute text-[12px] font-semibold" style={{ color: "var(--foreground)" }}>{client.score}</span>
                                         </div>
                                     </div>
                                     <div className="space-y-2.5">
@@ -390,7 +424,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                             <div key={i}>
                                                 <div className="flex items-center justify-between mb-1">
                                                     <span className="text-[12px]" style={{ color: "var(--muted-foreground)" }}>{a.icon} {a.name}</span>
-                                                    <span className="text-[12px] font-bold" style={{ color: "var(--foreground)" }}>{a.pct > 0 ? `${a.pct}%` : "—"}</span>
+                                                    <span className="text-[12px] font-semibold" style={{ color: "var(--foreground)" }}>{a.pct > 0 ? `${a.pct}%` : "—"}</span>
                                                 </div>
                                                 <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
                                                     <div className="h-full rounded-full transition-all duration-700"
@@ -416,12 +450,12 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                     <div className="flex items-center gap-2.5">
                                         <div className="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0" style={{ background: `${cfg.color}28` }}>{cfg.icon}</div>
                                         <div>
-                                            <p className="text-[12px] font-extrabold leading-tight" style={{ color: cfg.color }}>{cfg.label}</p>
-                                            <p className="text-[12px] mt-0.5 font-semibold" style={{ color: "var(--muted-foreground)" }}>{client.workouts} sessions</p>
+                                            <p className="text-[12px] font-semibold leading-tight" style={{ color: cfg.color }}>{cfg.label}</p>
+                                            <p className="text-[12px] mt-0.5 font-medium" style={{ color: "var(--muted-foreground)" }}>{client.workouts} sessions</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-sm font-extrabold" style={{ color: "var(--foreground)" }}>{client.calories}</p>
+                                        <p className="text-sm font-medium" style={{ color: "var(--foreground)" }}>{client.calories}</p>
                                         <p className="text-[12px]" style={{ color: "var(--muted-foreground)" }}>kcal/day</p>
                                     </div>
                                 </div>
@@ -435,9 +469,9 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
             {viewMode === "list" && (
                 <div className="rounded-2xl overflow-hidden" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
                     {/* Table head */}
-                    <div className="grid px-5 py-3 text-[12px] font-bold uppercase tracking-wider" style={{
+                    <div className="grid px-5 py-3 text-[12px] font-semibold uppercase tracking-wider" style={{
                         gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 80px",
-                        color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)", background: "var(--muted)",
+                        color: "var(--muted-foreground)", borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--border)", background: "var(--muted)",
                     }}>
                         <span>Client</span><span>Score</span><span>Top Activity</span><span>Sessions</span><span>Calories</span><span>Status</span>
                     </div>
@@ -449,7 +483,9 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                 className="grid items-center px-5 py-3.5 transition-colors hover:opacity-90 cursor-pointer"
                                 style={{
                                     gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 80px",
-                                    borderBottom: i < filtered.length - 1 ? "1px solid var(--border)" : "none",
+                                    borderBottomWidth: i < filtered.length - 1 ? 1 : 0,
+                                    borderBottomStyle: "solid",
+                                    borderBottomColor: "var(--border)",
                                 }}
                                 onClick={() => onCheckIn(client)}
                                 onMouseEnter={(e) => handleMouseMove(e, client)}
@@ -465,7 +501,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                         )}
                                     </div>
                                     <div>
-                                        <p className="text-xs font-extrabold" style={{ color: "var(--foreground)" }}>{client.name}</p>
+                                        <p className="text-xs font-medium" style={{ color: "var(--foreground)" }}>{client.name}</p>
                                         <p className="text-[12px]" style={{ color: "var(--muted-foreground)" }}>{client.lastActive} · {client.origin}</p>
                                     </div>
                                 </div>
@@ -473,12 +509,12 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                 <div className="flex items-center gap-2">
                                     <div className="relative flex items-center justify-center shrink-0">
                                         <Ring pct={client.score} color={client.color} size={32} />
-                                        <span className="absolute text-[12px] font-extrabold" style={{ color: "var(--foreground)" }}>{client.score}</span>
+                                        <span className="absolute text-[12px] font-semibold" style={{ color: "var(--foreground)" }}>{client.score}</span>
                                     </div>
                                 </div>
                                 {/* Top activity */}
                                 <div className="flex items-center gap-2">
-                                    <span className="text-sm">{topAct.icon}</span>
+                                    <FitnessFigure type={getActivityType(topAct.icon)} size={16} />
                                     <div className="flex-1">
                                         <p className="text-[12px] font-semibold" style={{ color: "var(--foreground)" }}>{topAct.name}</p>
                                         <div className="h-1 rounded-full overflow-hidden mt-1" style={{ background: "rgba(255,255,255,0.06)", maxWidth: 80 }}>
@@ -487,13 +523,18 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                     </div>
                                 </div>
                                 {/* Sessions */}
-                                <p className="text-xs font-bold" style={{ color: "var(--foreground)" }}>{client.workouts}</p>
+                                <p className="text-xs font-medium" style={{ color: "var(--foreground)" }}>{client.workouts}</p>
                                 {/* Calories */}
-                                <p className="text-xs font-bold" style={{ color: "#f97316" }}>{client.calories} kcal</p>
-                                {/* Status badge */}
-                                <span className="text-[12px] font-extrabold px-2.5 py-1 rounded-full text-center"
-                                    style={{ background: cfg.bg, color: cfg.color }}>{cfg.icon} {cfg.label}</span>
-                            </div>
+                                <p className="text-xs font-medium" style={{ color: "#f97316" }}>{client.calories} kcal</p>
+                                 {/* Status badge */}
+                                 <Badge 
+                                     variant="secondary"
+                                     className="w-[100px] justify-center border-none shadow-none"
+                                     style={{ background: cfg.bg, color: cfg.color }}
+                                 >
+                                     {cfg.icon} {cfg.label}
+                                 </Badge>
+                             </div>
                         );
                     })}
                 </div>
@@ -515,16 +556,8 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
     const [msg, setMsg] = useState(client.aiMsg);
     const cfg = STATUS_CFG[client.status];
 
-    const bg = dark ? "#0e0e18" : "#fafafa";
-    const cardBg = dark ? "#13131f" : "#ffffff";
-    const border = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
-    const textPrimary = dark ? "rgba(255,255,255,0.93)" : "#111";
-    const textMuted = dark ? "rgba(255,255,255,0.36)" : "rgba(0,0,0,0.42)";
-    const inputBg = dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)";
-    const inputBorder = dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.08)";
-    const chBg = dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.025)";
-    const chBorder = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
-    const closeBg = dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
+    const border = "var(--border)";
+    const textMuted = "var(--muted-foreground)";
 
     const allChannels = [
         { id: "whatsapp", label: "WhatsApp", icon: <WhatsAppIcon />, glow: "#25d366" },
@@ -536,10 +569,10 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
     const channels = allChannels.filter(c => client.connectedChannels.includes(c.id));
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/50 backdrop-blur-md"
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#0C0C0C]/60 backdrop-blur-md"
             style={{ animation: "fadeIn .18s ease-out" }}>
-            <div className="rounded-[28px] w-full max-w-[500px] overflow-hidden shadow-2xl flex flex-col"
-                style={{ background: cardBg, border: `1px solid ${border}`, maxHeight: "92vh", animation: "pop .22s cubic-bezier(0.34,1.56,0.64,1)" }}>
+            <div className="rounded-[32px] w-full max-w-[500px] overflow-hidden shadow-2xl flex flex-col"
+                style={{ background: "var(--card)", border: "1px solid var(--border)", maxHeight: "92vh", animation: "pop .22s cubic-bezier(0.34,1.56,0.64,1)" }}>
 
                 {/* Decorative gradient strip */}
                 <div className="h-1 w-full shrink-0"
@@ -555,23 +588,26 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
                             <span className="absolute -bottom-1 -right-1 text-sm">{cfg.icon}</span>
                         </div>
                         <div>
-                            <h3 className="text-lg font-black tracking-tight leading-tight" style={{ color: textPrimary }}>
+                            <h3 className="text-xl font-medium tracking-tight leading-tight" style={{ color: "var(--foreground)" }}>
                                 Check in with {client.name.split(" ")[0]}
                             </h3>
-                            <p className="text-xs mt-1 font-medium" style={{ color: textMuted }}>
-                                Reach out on the channel they're most active on
-                            </p>
-                            <span className="inline-flex items-center gap-1.5 mt-2.5 text-xs font-extrabold px-3 py-1 rounded-full"
-                                style={{ background: cfg.bg, color: cfg.color }}>
-                                {cfg.icon} {cfg.label} · Score {client.score}
-                            </span>
+                                <Badge 
+                                    variant="secondary"
+                                    className="mt-2.5 border-none shadow-none"
+                                    style={{ background: cfg.bg, color: cfg.color }}
+                                >
+                                    {cfg.icon} {cfg.label} · Score {client.score}
+                                </Badge>
+                            </div>
                         </div>
-                    </div>
- <button onClick={onClose}
-                        className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:opacity-70 transition-opacity shrink-0 mt-1"
-                        style={{ background: closeBg, color: textMuted }}>
-                        <X size={14} />
-                    </button>
+                    <Button 
+                        variant="ghost" 
+                        size="icon-sm" 
+                        onClick={onClose}
+                        className="rounded-full"
+                    >
+                        <Plus style={{transform: "rotate(45deg)"}} size={14} />
+                    </Button>
                 </div>
 
                 {/* Scrollable body */}
@@ -580,19 +616,19 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
                     {/* Coaching tip */}
                     <div className="rounded-2xl p-4 flex items-start gap-3"
                         style={{ background: `${cfg.color}12`, border: `1px solid ${cfg.color}25` }}>
-                        <Sparkles size={14} className="mt-0.5 shrink-0" style={{ color: cfg.color }} />
+                        <Sparkles size={14}  className="mt-0.5 shrink-0" style={{ color: cfg.color }} />
                         <p className="text-xs font-medium leading-relaxed" style={{ color: cfg.color }}>{client.tip}</p>
                     </div>
 
                     {/* Message box */}
                     <div className="space-y-2.5">
-                        <label className="flex items-center gap-2 text-xs font-black uppercase tracking-widest" style={{ color: textMuted }}>
+                        <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest" style={{ color: textMuted }}>
                             <span>Your Message</span>
                             <span>✏️</span>
                         </label>
                         <textarea value={msg} onChange={(e) => setMsg(e.target.value)}
-                            className="w-full rounded-2xl p-5 text-sm outline-none resize-none leading-relaxed transition-all"
-                            style={{ background: inputBg, border: `1.5px solid ${inputBorder}`, color: textPrimary, minHeight: 100 }}
+                            className="w-full rounded-[24px] p-5 text-sm font-medium outline-none resize-none leading-relaxed transition-all"
+                            style={{ background: "var(--muted)", border: "1px solid var(--border)", color: "var(--foreground)", minHeight: 100 }}
                             placeholder="Add your personal touch — skip the AI tone…" />
                         <p className="text-xs italic" style={{ color: textMuted }}>Coaches who personalise get 3× better responses.</p>
                     </div>
@@ -602,25 +638,30 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
 
                     {/* Channel buttons */}
                     <div className="space-y-3">
-                        <label className="flex items-center gap-2 text-xs font-black uppercase tracking-widest" style={{ color: textMuted }}>
+                        <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest" style={{ color: textMuted }}>
                             <span>Where to Send?</span>
                         </label>
                         <div className="grid grid-cols-2 gap-3">
                             {channels.map((c) => (
- <button key={c.id} onClick={() => onSend(c.id)}
-                                    className="group flex items-center gap-3.5 p-4 rounded-2xl transition-all duration-200 cursor-pointer hover:-translate-y-[2px] active:scale-[0.97] text-left"
-                                    style={{ background: chBg, border: `1.5px solid ${chBorder}` }}
-                                    onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 20px ${c.glow}28`;
-                                        (e.currentTarget as HTMLElement).style.borderColor = `${c.glow}50`;
+                                <Button 
+                                    key={c.id} 
+                                    onClick={() => onSend(c.id)}
+                                    variant="outline"
+                                    size="lg"
+                                    className="group flex flex-col h-auto items-center gap-3 p-6 transition-all duration-300 hover:border-indigo-500/50 rounded-[32px]"
+                                    style={{ 
+                                        boxShadow: `0 8px 16px ${c.glow}08`,
+                                        borderColor: border
                                     }}
-                                    onMouseLeave={(e) => {
-                                        (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                                        (e.currentTarget as HTMLElement).style.borderColor = chBorder;
-                                    }}>
-                                    <span className="shrink-0 group-hover:scale-110 transition-transform">{c.icon}</span>
-                                    <span className="text-sm font-bold" style={{ color: textPrimary }}>{c.label}</span>
-                                </button>
+                                >
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
+                                        style={{ background: `${c.glow}15`, color: c.glow }}>
+                                        {c.icon}
+                                    </div>
+                                    <span className="text-xs font-bold uppercase tracking-widest opacity-60">
+                                        {c.label.split(" ")[0]}
+                                    </span>
+                                </Button>
                             ))}
                         </div>
                     </div>
@@ -681,14 +722,16 @@ function CelebrationOverlay({ clientName = "your client" }: { clientName?: strin
                     style={{ animation: "clapHands 0.4s ease-in-out infinite alternate" }}>
                     👏
                 </div>
-                <h3 className="text-2xl font-black text-white tracking-tight">You did it, Coach!</h3>
+                <h3 className="text-2xl font-medium text-white tracking-tight">You did it, Coach!</h3>
                 <p className="text-sm text-white/55 mt-2 leading-relaxed">
                     You just checked in with <strong className="text-white/90">{clientName}</strong>.<br />
                     Personal messages like this build real trust and momentum.
                 </p>
-                <div className="mt-5 flex items-center justify-center gap-2 text-xs font-bold text-[#10b981]">
-                    <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
-                    Your impact matters — keep making those connections! 🚀
+                <div className="mt-6 flex justify-center">
+                    <Badge variant="secondary" className="gap-2 px-4 py-2 text-[12px] text-[#10b981] bg-[#10b981]/10 border-none shadow-none">
+                        <BadgeCheck size={14} data-icon="inline-start" />
+                        Impact Verified · Trust Multiplied 🚀
+                    </Badge>
                 </div>
             </div>
         </div>
@@ -757,7 +800,7 @@ export default function DashboardPage() {
     const displayStats = [
         { label: "Total Clients", value: dashboardStats.totalClients, badge: "+2 this month", trend: "up", icon: Users, color: "#6366f1" },
         { label: "Avg. Health Score", value: dashboardStats.avgScore, badge: "Live data", trend: "up", icon: Activity, color: "#0ea5e9" },
-        { label: "At Risk", value: dashboardStats.atRisk, badge: "Needs attention", trend: "down", icon: AlertTriangle, color: "#f43f5e" },
+        { label: "At Risk", value: dashboardStats.atRisk, badge: "Needs attention", trend: "down", icon: TriangleAlert, color: "#f43f5e" },
         { label: "Active This Week", value: dashboardStats.activeEngage, badge: "Engagement", trend: "up", icon: CheckCircle, color: "#10b981" },
     ];
 
@@ -771,28 +814,46 @@ export default function DashboardPage() {
 
             {/* ── Main Dashboard Content ── */}
             <main className="flex-1 overflow-y-auto">
-                <div className="max-w-[1600px] mx-auto p-8 pt-4 space-y-10">
+                <div className="max-w-[1600px] mx-auto p-8 pt-6 space-y-10">
                     
-                    {/* Stat Cards */}
+                    {/* Page Headings */}
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-2">
+                        <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center">
+                                    <LayoutDashboard size={16} className="text-indigo-500" />
+                                </div>
+                                <span className="text-[12px] font-medium uppercase tracking-[0.2em] text-indigo-500 opacity-80">Your Daily Overview</span>
+                            </div>
+                            <h1 className="text-4xl font-medium tracking-tight leading-none" style={{ color: "var(--foreground)" }}>
+                                Dashboard
+                            </h1>
+                        </div>
+                    </div>
+
+                    {/* Stat CreditCards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {displayStats.map((stat, i) => (
                             <div key={i} className="relative rounded-3xl p-6 overflow-hidden transition-all duration-300 hover:scale-[1.02] cursor-default"
                                 style={{ background: "var(--card)", border: "1px solid var(--border)" }}
                                 onMouseEnter={() => setHoveredStat(stat.label)} onMouseLeave={() => setHoveredStat(null)}>
-                                <CardPattern id={`cp${i}`} />
+                                <CreditCardPattern id={`cp${i}`} />
                                 <div className="relative z-10 flex items-start justify-between">
                                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 shadow-lg"
                                         style={{ background: `${stat.color}15`, color: stat.color }}>
-                                        <stat.icon size={24} />
+                                        <stat.icon size={24}  />
                                     </div>
-                                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
-                                        style={{ background: stat.trend === "up" ? "rgba(16,185,129,0.12)" : "rgba(244,63,94,0.12)", color: stat.trend === "up" ? "#10b981" : "#f43f5e" }}>
-                                        {stat.trend === "up" ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                                    <Badge 
+                                        variant="secondary"
+                                        className="gap-1.5 px-2.5 py-1 text-[12px] font-bold uppercase tracking-widest border-none shadow-none"
+                                        style={{ background: stat.trend === "up" ? "rgba(16,185,129,0.12)" : "rgba(244,63,94,0.12)", color: stat.trend === "up" ? "#10b981" : "#f43f5e" }}
+                                    >
+                                        {stat.trend === "up" ? <TrendingUp size={11}  /> : <TrendingDown size={11}  />}
                                         {stat.badge}
-                                    </div>
+                                    </Badge>
                                 </div>
                                 <div className="relative z-10">
-                                    <p className="text-[12px] font-black uppercase tracking-widest leading-none mb-1" style={{ color: "var(--muted-foreground)" }}>{stat.label}</p>
+                                    <p className="text-[12px] font-semibold uppercase tracking-widest leading-none mb-1" style={{ color: "var(--muted-foreground)" }}>{stat.label}</p>
                                     <h3 className="text-3xl font-black tracking-tighter" style={{ color: "var(--foreground)" }}>
                                         {loading ? "..." : (
                                             <CountUp 
@@ -813,20 +874,23 @@ export default function DashboardPage() {
                     {loading ? (
                         <div className="flex flex-col items-center justify-center py-20 gap-6">
                             <Loader />
-                            <p className="text-sm font-black uppercase tracking-[0.2em] text-indigo-500 opacity-60">Syncing Team Data...</p>
+                            <p className="text-sm font-medium uppercase tracking-[0.2em] text-indigo-500 opacity-60">Syncing Team Data...</p>
                         </div>
                     ) : clients.length === 0 ? (
                         <div className="text-center py-20 rounded-[40px]" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
                             <div className="w-20 h-20 rounded-[30px] bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center mx-auto mb-6">
-                                <Users size={40} className="text-indigo-600 dark:text-indigo-400" />
+                                <Users size={40}  className="text-indigo-600 dark:text-indigo-400" />
                             </div>
-                            <h2 className="text-2xl font-black text-foreground mb-2">No clients yet</h2>
+                            <h2 className="text-2xl font-medium text-foreground mb-2">No clients yet</h2>
                             <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                                 It's time to invite your first client and start tracking their progress with Kinetiq AI.
                             </p>
- <Button onClick={() => setShowInviteModal(true)}
-                                className="h-auto gap-2 px-8 py-4 rounded-2xl font-black text-sm shadow-xl">
-                                <UserPlus size={18} />
+                            <Button 
+                                onClick={() => setShowInviteModal(true)}
+                                size="lg"
+                                className="shadow-xl rounded-full px-8 py-6 font-bold active:scale-95 transition-all"
+                            >
+                                <UserPlus size={18} className="mr-2" />
                                 Invite Your First Client
                             </Button>
                         </div>
@@ -858,16 +922,23 @@ export default function DashboardPage() {
 
             {/* Floating Kinetiq AI Bar — z-[90] to sit above panels but below modals */}
             <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-[90] transition-all duration-500 ${selectedClient ? "translate-y-0 opacity-100 pointer-events-auto" : "translate-y-20 opacity-0 pointer-events-none"} ${buzz ? "ai-buzz" : ""}`}>
-                <div className="rounded-full bg-black/85 backdrop-blur-2xl border border-white/10 p-2 shadow-2xl flex items-center gap-4 pl-6 pr-2">
+                <div className="rounded-full backdrop-blur-2xl border border-white/10 p-2 shadow-2xl flex items-center gap-4 pl-6 pr-2"
+                     style={{ background: "#0C0C0Cee" }}>
                     <div className="flex items-center gap-2">
-                        <Sparkles size={14} className="text-purple-400" />
-                        <span className="text-xs font-extrabold text-white">Kinetiq AI Ready</span>
+                        <Sparkles size={14}  className="text-purple-400" />
+                        <span className="text-xs font-bold text-white tracking-tight">Kinetiq AI Ready</span>
                     </div>
-                    <div className="h-4 w-px bg-white/10" />
-                    <p className="text-xs text-white/50 font-medium">Message for {selectedClient?.name.split(" ")[0]}</p>
- <button onClick={handleAction} className="bg-white text-black px-5 py-2 text-xs font-black hover:scale-105 active:scale-95 transition-transform cursor-pointer">
-                        Personalize &amp; Send
-                    </button>
+                    <div className="h-4 w-px bg-white/20" />
+                    <p className="text-xs text-white/60 font-medium tracking-tight">Personalized message for {selectedClient?.name.split(" ")[0]}</p>
+                    <Button 
+                        onClick={handleAction} 
+                        size="sm" 
+                        className="bg-white rounded-full font-bold h-9 px-5 active:scale-95 transition-all"
+                        style={{ color: "#0C0C0C" }}
+                    >
+                        Send Now
+                        <Send size={14} className="ml-2" />
+                    </Button>
                 </div>
             </div>
 

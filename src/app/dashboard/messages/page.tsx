@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, Send, MoreVertical, Phone, Video, Image as ImageIcon, Paperclip, Smile, User, Circle } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Search, Send, MoreVertical, Phone, Video, ImageIcon, Paperclip, Smile, User, Circle } from "lucide-react";
+import { CreditCard } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DashboardHeader } from "@/components/DashboardHeader";
@@ -33,14 +33,14 @@ export default function MessagesPage() {
         {/* Overlay Coming Soon */}
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/40 backdrop-blur-[2px] pointer-events-none">
           <div className="bg-gradient-to-br from-indigo-500 to-purple-600 px-8 py-3 rounded-2xl shadow-2xl shadow-indigo-500/40 border border-white/20 animate-in zoom-in-95 duration-500">
-            <p className="text-white font-black tracking-widest uppercase text-sm">Coming Soon</p>
+            <p className="text-white font-medium tracking-widest uppercase text-sm">Coming Soon</p>
           </div>
         </div>
 
         {/* Sidebar - Conversations List */}
-      <Card className="w-80 flex flex-col border-none shadow-xl overflow-hidden" style={{ background: 'var(--card)' }}>
+      <CreditCard className="w-80 flex flex-col border-none shadow-xl overflow-hidden" style={{ background: 'var(--card)' }}>
         <div className="p-6 border-b border-border/50">
-          <h2 className="text-2xl font-black mb-4">Messages</h2>
+          <h2 className="text-2xl font-medium mb-4">Messages</h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={14} />
             <Input 
@@ -64,7 +64,7 @@ export default function MessagesPage() {
                   </div>
                 ) : (
                   <div 
-                    className="w-11 h-11 rounded-xl flex items-center justify-center font-black text-white text-xs shadow-lg"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center font-medium text-white text-xs shadow-lg"
                     style={{ background: `linear-gradient(135deg, ${conv.color}, ${conv.color}dd)` }}
                   >
                     {conv.initials}
@@ -76,32 +76,32 @@ export default function MessagesPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-0.5">
-                  <span className={`font-bold text-sm truncate ${activeTab === conv.id ? 'text-indigo-400' : ''}`}>{conv.name}</span>
-                  <span className="text-[10px] opacity-40 font-bold uppercase">{conv.time}</span>
+                  <span className={`font-medium text-sm truncate ${activeTab === conv.id ? 'text-indigo-400' : ''}`}>{conv.name}</span>
+                  <span className="text-[12px] opacity-40 font-medium uppercase">{conv.time}</span>
                 </div>
                 <p className="text-xs opacity-50 truncate leading-tight">{conv.lastMsg}</p>
               </div>
             </div>
           ))}
         </div>
-      </Card>
+      </CreditCard>
 
       {/* Main Chat Area */}
-      <Card className="flex-1 flex flex-col border-none shadow-2xl overflow-hidden relative" style={{ background: 'var(--card)' }}>
+      <CreditCard className="flex-1 flex flex-col border-none shadow-2xl overflow-hidden relative" style={{ background: 'var(--card)' }}>
         {/* Header */}
         <div className="p-4 px-6 border-b border-border/50 flex items-center justify-between bg-muted/20 backdrop-blur-md sticky top-0 z-10">
           <div className="flex items-center gap-4">
             <div 
-                className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-xs shadow-md"
+                className="w-10 h-10 rounded-xl flex items-center justify-center font-medium text-white text-xs shadow-md"
                 style={{ background: `linear-gradient(135deg, #6366f1, #a78bfa)` }}
             >
               CW
             </div>
             <div>
-              <p className="font-black text-base leading-tight">Casey Ward</p>
+              <p className="font-medium text-base leading-tight">Casey Ward</p>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <Circle size={8} fill="#10b981" className="text-emerald-500" />
-                <span className="text-[10px] font-black uppercase text-emerald-500 tracking-wider">Online Now</span>
+                <span className="text-[12px] font-medium uppercase text-emerald-500 tracking-wider">Online Now</span>
               </div>
             </div>
           </div>
@@ -135,14 +135,14 @@ export default function MessagesPage() {
               >
                 {msg.text}
               </div>
-              <span className="text-[10px] mt-1.5 opacity-30 font-black uppercase tracking-tighter">
+              <span className="text-[12px] mt-1.5 opacity-30 font-medium uppercase tracking-tighter">
                 {msg.time}
               </span>
             </div>
           ))}
           <div className="py-4 flex items-center gap-4">
              <div className="h-px flex-1 bg-border/20" />
-             <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-20">Today</span>
+             <span className="text-[12px] font-medium uppercase tracking-[0.2em] opacity-20">Today</span>
              <div className="h-px flex-1 bg-border/20" />
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function MessagesPage() {
             </Button>
           </div>
         </div>
-      </Card>
+      </CreditCard>
       </div>
     </div>
   );

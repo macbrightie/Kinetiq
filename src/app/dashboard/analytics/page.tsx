@@ -1,18 +1,17 @@
 "use client";
 
-import { 
-  TrendingUp, Users, DollarSign, Activity, ArrowUpRight, 
-  ArrowDownRight, Target, Share2, Download 
-} from "lucide-react";
+import { TrendingUp, Users, DollarSign, Activity, ChevronUp, ChevronDown, Target, Share, Download, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   Area, AreaChart
 } from "recharts";
-import { Card } from "@/components/ui/card";
+import { CreditCard } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import ClientHealthChart, { ClientType } from "@/components/ClientHealthChart";
 import React, { useState, useEffect } from "react";
+import { Icon } from "@iconify/react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const REVENUE_DATA = [
   { name: "Jan", value: 4200 },
@@ -57,6 +56,18 @@ export default function AnalyticsPage() {
       .catch(console.error);
   }, []);
 
+  const handleExport = () => {
+    const csvContent = "data:text/csv;charset=utf-8,Month,Revenue\n"
+      + REVENUE_DATA.map(d => `${d.name},${d.value}`).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "kinetiq_revenue_report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "var(--background)" }}>
       <DashboardHeader title="Analytics Hub" showInvite={false} />
@@ -68,32 +79,33 @@ export default function AnalyticsPage() {
               <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
                 <TrendingUp size={16} className="text-emerald-500" />
               </div>
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-500 opacity-80">Performance Metrics</span>
+              <span className="text-[12px] font-medium uppercase tracking-[0.2em] text-emerald-500 opacity-80">Performance Metrics</span>
             </div>
-            <h1 className="text-4xl font-black tracking-tight leading-none" style={{ color: "var(--foreground)" }}>
+            <h1 className="text-4xl font-medium tracking-tight leading-none" style={{ color: "var(--foreground)" }}>
               Coach Insights
             </h1>
           </div>
 
           <div className="flex gap-3">
- <Button variant="outline" className=" font-bold h-11 px-6 transition-all">
+            <Button variant="outline" onClick={handleExport} className="font-medium h-11 px-6 rounded-full transition-all">
               <Download size={16} className="mr-2" />
-              Export Data
+              Export Report
             </Button>
- <Button className=" font-black h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+            <Button className="font-medium h-11 px-6 shadow-lg shadow-indigo-500/10 rounded-full active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+              <Icon icon="iconly:light/refresh" width={16} className="mr-2" />
               Refresh Insights
             </Button>
           </div>
         </div>
 
-        {/* Stat Cards */}
+        {/* Stat CreditCards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {STATS.map((stat, i) => (
-            <Card key={i} className="p-6 border relative overflow-hidden group" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+            <CreditCard key={i} className="p-6 border relative overflow-hidden group" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
               <div className="flex items-start justify-between relative z-10">
                 <div>
-                  <p className="text-[11px] font-black uppercase tracking-widest mb-1" style={{ color: "var(--muted-foreground)" }}>{stat.label}</p>
-                  <p className="text-3xl font-black" style={{ color: "var(--foreground)" }}>{stat.value}</p>
+                  <p className="text-[12px] font-medium uppercase tracking-widest mb-1" style={{ color: "var(--muted-foreground)" }}>{stat.label}</p>
+                  <p className="text-3xl font-medium" style={{ color: "var(--foreground)" }}>{stat.value}</p>
                 </div>
                 <div 
                   className="w-11 h-11 rounded-2xl flex items-center justify-center"
@@ -103,13 +115,13 @@ export default function AnalyticsPage() {
                 </div>
               </div>
               <div className="mt-3 flex items-center gap-2 relative z-10">
-                <div className={`flex items-center gap-0.5 text-xs font-black ${stat.trend === "up" ? "text-emerald-500" : "text-orange-500"}`}>
+                <div className={`flex items-center gap-0.5 text-xs font-medium ${stat.trend === "up" ? "text-emerald-500" : "text-orange-500"}`}>
                   {stat.trend === "up" ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                   {stat.change}
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-tighter" style={{ color: "var(--muted-foreground)" }}>vs last month</span>
+                <span className="text-[12px] font-medium uppercase tracking-tighter" style={{ color: "var(--muted-foreground)" }}>vs last month</span>
               </div>
-            </Card>
+            </CreditCard>
           ))}
         </div>
 
@@ -126,23 +138,22 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Revenue Trend */}
-          <Card className="p-8 border shadow-sm" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+          <CreditCard className="p-8 border shadow-sm" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-xl font-black" style={{ color: "var(--foreground)" }}>Revenue Momentum</h3>
+                <h3 className="text-xl font-medium" style={{ color: "var(--foreground)" }}>Revenue Momentum</h3>
                 <p className="text-sm font-medium mt-1" style={{ color: "var(--muted-foreground)" }}>6-month performance trend</p>
               </div>
-              <div className="flex gap-1 p-1.5 rounded-xl border shadow-sm" style={{ background: "var(--background)", borderColor: "var(--border)" }}>
-                {["1M", "3M", "6M", "1Y"].map((t) => (
-                  <button key={t} 
-                    className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${t === "6M" ? "shadow-md" : "hover:bg-muted"}`}
-                    style={{ 
-                      background: t === "6M" ? "var(--foreground)" : "transparent",
-                      color: t === "6M" ? "var(--card)" : "var(--muted-foreground)"
-                    }}>
-                    {t}
-                  </button>
-                ))}
+              <div className="flex gap-1">
+                <Tabs defaultValue="6M" className="w-[180px]">
+                  <TabsList className="grid w-full grid-cols-4 rounded-full p-1 h-[34px]" style={{ background: "var(--muted)" }}>
+                    {["1M", "3M", "6M", "1Y"].map(t => (
+                      <TabsTrigger key={t} value={t} className="rounded-full text-[11px] font-medium data-[state=active]:bg-[var(--foreground)] data-[state=active]:text-[var(--card)] data-[state=active]:shadow-md hover:text-[var(--foreground)] transition-all">
+                        {t}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
               </div>
             </div>
             <div className="h-[360px] w-full">
@@ -188,7 +199,7 @@ export default function AnalyticsPage() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-          </Card>
+          </CreditCard>
         </div>
       </main>
     </div>

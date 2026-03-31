@@ -1,100 +1,74 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Activity, Shield, Zap, ArrowRight } from 'lucide-react';
+import { SignUp } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { AuthLayout } from "@/components/AuthLayout";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+    const { userId } = await auth();
+
     return (
-        <div className="flex flex-col min-h-screen bg-black text-white">
-            {/* Navigation */}
-            <nav className="flex items-center justify-between px-6 py-4 glass sticky top-0 z-50">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-fuchsia-600 flex items-center justify-center">
-                        <Activity className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-xl font-bold tracking-tight">Kinetiq</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <Link href="/sign-in">
- <Button variant="ghost" className="text-neutral-400 hover:text-white">Sign In</Button>
-                    </Link>
-                    <Link href="/sign-up">
- <Button className="bg-fuchsia-600 hover:bg-fuchsia-700 text-white">Start Free Trial</Button>
-                    </Link>
-                </div>
-            </nav>
+        <AuthLayout 
+            title="Predict client burnout before it happens" 
+            subtitle="Join the inner circle of data-driven fitness coaches. Save money by reducing churn and preventing departures before they start."
+        >
+            <div className="space-y-8">
+                {!userId ? (
+                    <>
+                        <SignUp
+                            appearance={{
+                                elements: {
+                                    rootBox: "w-full",
+                                    card: "bg-transparent border-none shadow-none p-0 w-full",
+                                    header: "hidden",
+                                    headerTitle: "hidden",
+                                    headerSubtitle: "hidden",
+                                    socialButtonsBlockButton: "bg-neutral-900 border-neutral-800 text-white hover:bg-neutral-800 h-14 rounded-3xl transition-all shadow-xl shadow-fuchsia-600/5",
+                                    socialButtonsBlockButtonText: "font-medium text-sm",
+                                    formButtonPrimary: "bg-white text-black hover:bg-neutral-200 text-xs font-medium uppercase tracking-[0.2em] h-14 rounded-3xl transition-all normal-case shadow-2xl shadow-indigo-500/10",
+                                    dividerLine: "bg-neutral-800",
+                                    dividerText: "text-neutral-500 font-medium uppercase tracking-widest text-[12px]",
+                                    formFieldLabel: "text-neutral-500 font-medium uppercase tracking-widest text-[9px] mb-2.5 ml-1",
+                                    formFieldInput: "bg-neutral-900 border-neutral-800 text-white focus:ring-fuchsia-500 h-10 px-4 rounded-xl transition-all",
+                                    footer: "hidden",
+                                    identityPreview: "bg-neutral-900 border-neutral-800",
+                                    identityPreviewText: "text-white",
+                                    formResendCodeLink: "text-fuchsia-400 hover:text-fuchsia-300",
+                                }
+                            }}
+                            routing="path"
+                            path="/"
+                            signInUrl="/sign-in"
+                        />
 
-            {/* Hero Section */}
-            <main className="flex-1">
-                <section className="relative pt-20 pb-32 overflow-hidden">
-                    <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-fuchsia-600/10 blur-[120px] rounded-full" />
-                    <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 blur-[120px] rounded-full" />
-
-                    <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 text-xs font-medium mb-8">
-                            <Zap className="w-3 h-3" />
-                            <span>Next-Gen Client Intelligence</span>
-                        </div>
-
-                        <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-                            Predict Client <span className="bg-gradient-to-r from-fuchsia-500 to-cyan-400 bg-clip-text text-transparent">Burnout</span> Before It Happens.
-                        </h1>
-
-                        <p className="text-xl text-neutral-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-                            Kinetiq monitors engagement, adherence, and progress signals to alert fitness coaches when clients are at risk of dropping off.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link href="/sign-up">
- <Button size="lg" className="h-14 px-8 text-lg bg-fuchsia-600 hover:bg-fuchsia-700 text-white gap-2">
-                                    Get Started for Free <ArrowRight className="w-5 h-5" />
-                                </Button>
-                            </Link>
-                            <Link href="/dashboard">
- <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-neutral-800 bg-neutral-900/50 text-white hover:bg-neutral-800">
-                                    View Demo
+                        <div className="pt-8 border-t border-white/5 space-y-4">
+                            <p className="text-center text-[12px] text-neutral-500 font-medium uppercase tracking-widest">
+                                Already in the circle? 
+                            </p>
+                            <Link href="/sign-in" className="block">
+                                <Button variant="outline" className="w-full h-14 rounded-3xl border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-900 font-medium transition-all">
+                                    Sign in to Dashboard
                                 </Button>
                             </Link>
                         </div>
+                    </>
+                ) : (
+                    <div className="text-center lg:text-left space-y-6">
+                        <div className="p-8 rounded-[32px] bg-neutral-900 border border-white/5 shadow-2xl">
+                            <h3 className="text-2xl font-medium mb-3">Welcome Back, Coach.</h3>
+                            <p className="text-neutral-400 font-medium mb-8 leading-relaxed">
+                                You are already signed in and authenticated. Your dashboard and predictive models are ready.
+                            </p>
+                            <Link href="/dashboard" className="block">
+                                <Button className="w-full h-14 rounded-3xl bg-white text-black hover:bg-neutral-200 font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+                                    Open Dashboard <ChevronRight size={16} />
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
-                </section>
-
-                {/* Features Preview */}
-                <section className="py-24 border-t border-neutral-800 bg-neutral-900/20">
-                    <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-                        <FeatureCard
-                            icon={<Activity className="text-fuchsia-500" />}
-                            title="Behavior Analysis"
-                            description="Track workout adherence and engagement patterns automatically."
-                        />
-                        <FeatureCard
-                            icon={<Shield className="text-cyan-400" />}
-                            title="Risk Detection"
-                            description="AI-driven signals identify clients losing motivation in real-time."
-                        />
-                        <FeatureCard
-                            icon={<Zap className="text-yellow-400" />}
-                            title="Instant Alerts"
-                            description="Get notified immediately when a client passes a critical risk threshold."
-                        />
-                    </div>
-                </section>
-            </main>
-
-            <footer className="py-12 border-t border-neutral-900 text-center text-neutral-500 text-sm">
-                <p>© 2026 Kinetiq Platform. Built for Elite Coaches.</p>
-            </footer>
-        </div>
-    );
-}
-
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
-    return (
-        <div className="p-8 rounded-2xl glass border-neutral-800/50 hover:border-fuchsia-500/30 transition-all group">
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                {icon}
+                )}
             </div>
-            <h3 className="text-xl font-bold mb-3 text-white">{title}</h3>
-            <p className="text-neutral-400 leading-relaxed">{description}</p>
-        </div>
+        </AuthLayout>
     );
 }

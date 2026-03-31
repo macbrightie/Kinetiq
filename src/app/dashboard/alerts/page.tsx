@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { AlertTriangle, Bell, MessageSquare, ChevronRight, Activity, Zap, CheckCircle2, X, Send, User } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { TriangleAlert, Bell, MessageSquare as Message, ChevronRight, Activity, Zap as Flash, CheckCircle2, Plus as Add, Send, User, Sparkles } from "lucide-react";
+import { CreditCard } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -80,24 +80,24 @@ function MessageModal({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; onC
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)" }}>
-      <Card className="w-full max-w-md p-6 border shadow-2xl animate-in zoom-in-95 duration-300" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+      <CreditCard className="w-full max-w-md p-6 border shadow-2xl animate-in zoom-in-95 duration-300" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         <div className="flex items-center gap-4 mb-6">
           <img src={alert.photo} alt={alert.client} className="w-12 h-12 rounded-xl object-cover" style={{ border: `2px solid ${alert.color}` }} />
           <div>
-            <h3 className="font-black text-lg" style={{ color: "var(--foreground)" }}>{alert.client}</h3>
+            <h3 className="font-medium text-lg" style={{ color: "var(--foreground)" }}>{alert.client}</h3>
             <p className="text-xs font-medium" style={{ color: "var(--muted-foreground)" }}>{alert.origin}</p>
           </div>
  <button onClick={onClose} className="ml-auto w-8 h-8 flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
-            <X size={16} />
+            <Add style={{transform: "rotate(45deg)"}} size={16} />
           </button>
         </div>
 
         {sent ? (
           <div className="flex flex-col items-center py-8 gap-3">
             <div className="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center">
-              <CheckCircle2 size={28} className="text-emerald-500" />
+              <CheckCircle2 size={28}  className="text-emerald-500" />
             </div>
-            <p className="font-black text-emerald-500">Message Sent!</p>
+            <p className="font-medium text-emerald-500">Message Sent!</p>
           </div>
         ) : (
           <>
@@ -113,14 +113,14 @@ function MessageModal({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; onC
               style={{ background: "var(--muted)", color: "var(--foreground)", border: "1px solid var(--border)" }}
             />
             <div className="flex gap-3 mt-4">
- <Button onClick={handleSend} className="flex-1 font-black h-11" style={{ background: "var(--foreground)", color: "var(--card)" }}>
-                <Send size={15} className="mr-2" /> Send Message
+ <Button onClick={handleSend} className="flex-1 font-medium h-11" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+                <Send size={15}  className="mr-2" /> Send Message
               </Button>
- <Button onClick={onClose} variant="outline" className="flex-1 font-bold h-11">Cancel</Button>
+ <Button onClick={onClose} variant="outline" className="flex-1 font-medium h-11">Cancel</Button>
             </div>
           </>
         )}
-      </Card>
+      </CreditCard>
     </div>
   );
 }
@@ -138,29 +138,29 @@ function ClientSidePanel({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; 
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
-          <h3 className="font-black text-lg" style={{ color: "var(--foreground)" }}>Client Overview</h3>
+        <div className="p-6 flex items-center justify-between" style={{ borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--border)" }}>
+          <h3 className="font-medium text-lg" style={{ color: "var(--foreground)" }}>Client Overview</h3>
  <button onClick={onClose} className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-all" style={{ color: "var(--muted-foreground)" }}>
-            <X size={16} />
+            <Add style={{transform: "rotate(45deg)"}} size={16} />
           </button>
         </div>
 
         {/* Profile */}
-        <div className="p-6 flex flex-col items-center text-center" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="p-6 flex flex-col items-center text-center" style={{ borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--border)" }}>
           <div className="relative mb-4">
             <img src={alert.photo} alt={alert.client} className="w-24 h-24 rounded-3xl object-cover shadow-xl" style={{ border: `3px solid ${color}` }} />
             <span className="absolute -top-1 -right-1 text-lg">{alert.type === "CRITICAL" ? "🚨" : alert.type === "WARNING" ? "⚠️" : "✅"}</span>
           </div>
-          <h2 className="text-xl font-black" style={{ color: "var(--foreground)" }}>{alert.client}</h2>
+          <h2 className="text-xl font-medium" style={{ color: "var(--foreground)" }}>{alert.client}</h2>
           <p className="text-sm font-medium mb-4" style={{ color: "var(--muted-foreground)" }}>{alert.origin}</p>
-          <span className="text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest" style={{ background: `${color}15`, color }}>
+          <span className="text-[12px] font-medium px-3 py-1 rounded-full uppercase tracking-widest" style={{ background: `${color}15`, color }}>
             {alert.type}
           </span>
         </div>
 
         {/* Stats */}
         <div className="p-6 flex-1 space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest mb-4" style={{ color: "var(--muted-foreground)" }}>Quick Stats</p>
+          <p className="text-[12px] font-medium uppercase tracking-widest mb-4" style={{ color: "var(--muted-foreground)" }}>Quick Stats</p>
           {[
             { label: "Health Score", value: `${alert.score}%` },
             { label: "Sessions This Week", value: alert.workouts },
@@ -168,20 +168,20 @@ function ClientSidePanel({ alert, onClose }: { alert: typeof INITIAL_ALERTS[0]; 
           ].map(stat => (
             <div key={stat.label} className="flex items-center justify-between py-3 px-4 rounded-xl" style={{ background: "var(--muted)" }}>
               <span className="text-sm font-medium" style={{ color: "var(--muted-foreground)" }}>{stat.label}</span>
-              <span className="text-sm font-black" style={{ color: "var(--foreground)" }}>{stat.value}</span>
+              <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>{stat.value}</span>
             </div>
           ))}
 
           <div className="p-4 rounded-xl mt-4" style={{ background: `${color}10`, border: `1px solid ${color}30` }}>
-            <p className="text-xs font-bold mb-1" style={{ color }}>AI Insight</p>
+            <p className="text-xs font-medium mb-1" style={{ color }}>AI Insight</p>
             <p className="text-xs font-medium" style={{ color: "var(--foreground)" }}>{alert.aiMsg}</p>
           </div>
         </div>
 
         {/* Footer */}
         <div className="p-6 space-y-3" style={{ borderTop: "1px solid var(--border)" }}>
-          <Link href={`/dashboard/clients/${alert.id}`} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90" style={{ background: "var(--foreground)", color: "var(--card)" }}>
-            <User size={15} /> View Full Profile
+          <Link href={`/dashboard/clients/${alert.id}`} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-medium text-sm transition-all hover:opacity-90" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+            <User size={15}  /> View Full Profile
           </Link>
         </div>
       </div>
@@ -205,25 +205,25 @@ export default function AlertsPage() {
     <div className="flex flex-col min-h-screen" style={{ background: "var(--background)" }}>
       <DashboardHeader title="Alerts Center" showInvite={false} />
 
-      <main className="flex-1 p-8 max-w-6xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <main className="flex-1 p-8 max-w-[1600px] mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center">
                 <Bell size={16} className="text-indigo-500" />
               </div>
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-500 opacity-80">Monitoring System</span>
+              <span className="text-[12px] font-medium uppercase tracking-[0.2em] text-indigo-500 opacity-80">Monitoring System</span>
             </div>
-            <h1 className="text-4xl font-black tracking-tight leading-none" style={{ color: "var(--foreground)" }}>
+            <h1 className="text-4xl font-medium tracking-tight leading-none" style={{ color: "var(--foreground)" }}>
               Critical Updates
             </h1>
           </div>
           <div className="flex gap-3">
- <Button variant="outline" className=" font-bold h-11 px-6 transition-all" onClick={() => setAlerts([])}>
+ <Button variant="outline" className=" font-medium h-11 px-6 transition-all" onClick={() => setAlerts([])}>
               Mark all read
             </Button>
             <Link href="/dashboard/settings">
- <Button className=" font-black shadow-lg h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
+ <Button className=" font-medium shadow-lg h-11 px-6 active:scale-95 transition-all" style={{ background: "var(--foreground)", color: "var(--card)" }}>
                 System Settings
               </Button>
             </Link>
@@ -233,15 +233,15 @@ export default function AlertsPage() {
         {alerts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <div className="w-20 h-20 rounded-[30px] bg-emerald-500/10 flex items-center justify-center">
-              <CheckCircle2 size={36} className="text-emerald-500" />
+              <CheckCircle2 size={36}  className="text-emerald-500" />
             </div>
-            <h2 className="text-2xl font-black" style={{ color: "var(--foreground)" }}>All Clear!</h2>
+            <h2 className="text-2xl font-medium" style={{ color: "var(--foreground)" }}>All Clear!</h2>
             <p className="text-sm font-medium" style={{ color: "var(--muted-foreground)" }}>No active alerts right now. Great job staying on top of things.</p>
           </div>
         ) : (
           <div className="space-y-4">
             {alerts.map((alert) => (
-              <Card
+              <CreditCard
                 key={alert.id}
                 onClick={() => router.push(`/dashboard/clients/${alert.id}`)}
                 className="group relative overflow-hidden transition-all hover:scale-[1.005] hover:shadow-2xl cursor-pointer active:scale-[0.995]"
@@ -264,12 +264,12 @@ export default function AlertsPage() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="font-black text-xl tracking-tight" style={{ color: "var(--foreground)" }}>{alert.client}</span>
-                      <span className="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-widest border"
+                      <span className="font-medium text-xl tracking-tight" style={{ color: "var(--foreground)" }}>{alert.client}</span>
+                      <span className="text-[9px] font-medium px-2 py-0.5 rounded-md uppercase tracking-widest border"
                         style={{ borderColor: `${alert.color}40`, color: alert.color, background: `${alert.color}15` }}>
                         {alert.type}
                       </span>
-                      <span className="text-xs ml-auto font-bold uppercase tracking-[0.1em]" style={{ color: "var(--muted-foreground)" }}>{alert.time}</span>
+                      <span className="text-xs ml-auto font-medium uppercase tracking-[0.1em]" style={{ color: "var(--muted-foreground)" }}>{alert.time}</span>
                     </div>
                     <p className="font-medium text-base truncate pr-16" style={{ color: "var(--muted-foreground)" }}>
                       {alert.message}
@@ -282,46 +282,46 @@ export default function AlertsPage() {
                       onClick={(e: React.MouseEvent) => dismissAlert(alert.id, e)}
                       title="Dismiss alert"
                       className="text-muted-foreground w-10 h-10 shadow-sm">
-                      <CheckCircle2 size={17} />
+                      <CheckCircle2 size={17}  />
                     </Button>
  <Button variant="outline" size="icon"
                       onClick={(e: React.MouseEvent) => { e.stopPropagation(); setMessageAlert(alert); }}
                       title="Send message"
                       className="text-muted-foreground w-10 h-10 shadow-sm">
-                      <MessageSquare size={17} />
+                      <Message size={17}  />
                     </Button>
  <Button variant="outline" size="icon"
                       onClick={(e: React.MouseEvent) => { e.stopPropagation(); setSideAlert(alert); }}
                       title="View details"
                       className="text-muted-foreground w-10 h-10 shadow-sm transition-transform group-hover:translate-x-0.5">
-                      <ChevronRight size={17} />
+                      <ChevronRight size={17}  />
                     </Button>
                   </div>
                 </div>
-              </Card>
+              </CreditCard>
             ))}
           </div>
         )}
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card className="p-8 border-none bg-indigo-500/[0.06] relative overflow-hidden group">
-            <Activity size={48} className="absolute -right-4 -bottom-4 text-indigo-500/10 group-hover:scale-110 transition-transform" />
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-3 opacity-60">Pulse Rate</p>
-            <p className="text-4xl font-black tracking-tighter" style={{ color: "var(--foreground)" }}>98.4%</p>
-            <p className="text-xs mt-2 font-bold uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>System Uptime</p>
-          </Card>
-          <Card className="p-8 border-none bg-emerald-500/[0.06] relative overflow-hidden group">
-            <CheckCircle2 size={48} className="absolute -right-4 -bottom-4 text-emerald-500/10 group-hover:scale-110 transition-transform" />
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500 mb-3 opacity-60">Resolution</p>
-            <p className="text-4xl font-black tracking-tighter" style={{ color: "var(--foreground)" }}>12m</p>
-            <p className="text-xs mt-2 font-bold uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>Avg. Response Time</p>
-          </Card>
-          <Card className="p-8 border-none bg-orange-500/[0.06] relative overflow-hidden group">
-            <Zap size={48} className="absolute -right-4 -bottom-4 text-orange-500/10 group-hover:scale-110 transition-transform" />
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500 mb-3 opacity-60">Efficiency</p>
-            <p className="text-4xl font-black tracking-tighter" style={{ color: "var(--foreground)" }}>+24%</p>
-            <p className="text-xs mt-2 font-bold uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>Client Success Rate</p>
-          </Card>
+          <CreditCard className="p-8 border-none bg-indigo-500/[0.06] relative overflow-hidden group">
+            <Activity size={48}  className="absolute -right-4 -bottom-4 text-indigo-500/10 group-hover:scale-110 transition-transform" />
+            <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-indigo-500 mb-3 opacity-60">Pulse Rate</p>
+            <p className="text-4xl font-medium tracking-tighter" style={{ color: "var(--foreground)" }}>98.4%</p>
+            <p className="text-xs mt-2 font-medium uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>System Uptime</p>
+          </CreditCard>
+          <CreditCard className="p-8 border-none bg-emerald-500/[0.06] relative overflow-hidden group">
+            <CheckCircle2 size={48}  className="absolute -right-4 -bottom-4 text-emerald-500/10 group-hover:scale-110 transition-transform" />
+            <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-emerald-500 mb-3 opacity-60">Resolution</p>
+            <p className="text-4xl font-medium tracking-tighter" style={{ color: "var(--foreground)" }}>12m</p>
+            <p className="text-xs mt-2 font-medium uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>Avg. Response Time</p>
+          </CreditCard>
+          <CreditCard className="p-8 border-none bg-orange-500/[0.06] relative overflow-hidden group">
+            <Flash size={48}  className="absolute -right-4 -bottom-4 text-orange-500/10 group-hover:scale-110 transition-transform" />
+            <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-orange-500 mb-3 opacity-60">Efficiency</p>
+            <p className="text-4xl font-medium tracking-tighter" style={{ color: "var(--foreground)" }}>+24%</p>
+            <p className="text-xs mt-2 font-medium uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>Client Success Rate</p>
+          </CreditCard>
         </div>
       </main>
 

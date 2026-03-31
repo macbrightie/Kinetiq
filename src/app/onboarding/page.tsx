@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, BarChart2, CheckCircle } from "lucide-react";
+import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, Chart, CheckCircle2 as CheckCircle } from "lucide-react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Step = 1 | 2 | 3;
@@ -41,7 +41,7 @@ function ClientGraph() {
             {/* Center coach node */}
             <div className="absolute float-anim flex flex-col items-center gap-1.5 z-10">
                 <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
+                    className="w-16 h-16 rounded-full flex items-center justify-center text-white font-medium text-lg shadow-lg"
                     style={{ background: "var(--primary)", boxShadow: "0 0 32px color-mix(in srgb, var(--primary) 60%, transparent)" }}
                 >
                     YOU
@@ -55,7 +55,7 @@ function ClientGraph() {
             {nodes.map((node, i) => (
                 <div
                     key={i}
-                    className="node-pulse absolute z-10 flex items-center justify-center rounded-full text-white text-xs font-semibold shadow-md select-none"
+                    className="node-pulse absolute z-10 flex items-center justify-center rounded-full text-white text-xs font-medium shadow-md select-none"
                     style={{
                         left: node.cx,
                         top: node.cy,
@@ -66,7 +66,7 @@ function ClientGraph() {
                     }}
                 >
                     <div
-                        className={`w-full h-full rounded-full flex items-center justify-center text-white text-xs font-semibold ${colors[i]}`}
+                        className={`w-full h-full rounded-full flex items-center justify-center text-white text-xs font-medium ${colors[i]}`}
                     >
                         {initials[i]}
                     </div>
@@ -143,9 +143,9 @@ export default function OnboardingPage() {
     };
 
     const panelStats = [
-        { icon: <Users size={14} />, label: "Avg. clients per coach", value: "18" },
-        { icon: <BarChart2 size={14} />, label: "Risk alerts caught early", value: "94%" },
-        { icon: <CheckCircle size={14} />, label: "Retention improvement", value: "+37%" },
+        { icon: <Users size={14}  />, label: "Avg. clients per coach", value: "18" },
+        { icon: <Chart size={14}  />, label: "Risk alerts caught early", value: "94%" },
+        { icon: <CheckCircle size={14}  />, label: "Retention improvement", value: "+37%" },
     ];
 
     return (
@@ -175,7 +175,7 @@ export default function OnboardingPage() {
                     >
                         <Activity size={16} className="text-white" />
                     </div>
-                    <span className="font-bold text-lg" style={{ color: "var(--foreground)" }}>
+                    <span className="font-medium text-lg" style={{ color: "var(--foreground)" }}>
                         Kinetiq
                     </span>
                 </div>
@@ -189,7 +189,7 @@ export default function OnboardingPage() {
 
                 {/* Stats */}
                 <div className="z-10 space-y-3">
-                    <p className="text-xs uppercase tracking-widest font-semibold mb-4" style={{ color: "var(--muted-foreground)" }}>
+                    <p className="text-xs uppercase tracking-widest font-medium mb-4" style={{ color: "var(--muted-foreground)" }}>
                         Trusted by elite coaches
                     </p>
                     {panelStats.map((stat, i) => (
@@ -198,7 +198,7 @@ export default function OnboardingPage() {
                                 {stat.icon}
                                 <span className="text-xs">{stat.label}</span>
                             </div>
-                            <span className="text-sm font-bold" style={{ color: "var(--foreground)" }}>
+                            <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>
                                 {stat.value}
                             </span>
                         </div>
@@ -209,7 +209,7 @@ export default function OnboardingPage() {
             {/* ─── RIGHT PANEL ─────────────────────────────────────── */}
             <div className="flex-1 flex flex-col">
                 {/* Top bar */}
-                <div className="flex items-center justify-between px-8 py-5" style={{ borderBottom: "1px solid var(--panel-border)" }}>
+                <div className="flex items-center justify-between px-8 py-5" style={{ borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--panel-border)" }}>
                     <StepDots step={step} />
  <button
                         onClick={toggleTheme}
@@ -238,7 +238,7 @@ export default function OnboardingPage() {
                         {step === 1 && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--foreground)" }}>
+                                    <h2 className="text-2xl font-medium mb-1" style={{ color: "var(--foreground)" }}>
                                         What kind of coach are you?
                                     </h2>
                                     <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
@@ -246,7 +246,7 @@ export default function OnboardingPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>
+                                    <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>
                                         Coaching type
                                     </p>
                                     <div className="flex flex-wrap gap-2">
@@ -262,7 +262,7 @@ export default function OnboardingPage() {
                         {step === 2 && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--foreground)" }}>
+                                    <h2 className="text-2xl font-medium mb-1" style={{ color: "var(--foreground)" }}>
                                         How many clients do you manage?
                                     </h2>
                                     <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
@@ -270,7 +270,7 @@ export default function OnboardingPage() {
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>
+                                    <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>
                                         Client range
                                     </p>
                                     <div className="flex flex-wrap gap-2">
@@ -286,7 +286,7 @@ export default function OnboardingPage() {
                         {step === 3 && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-2xl font-bold mb-1" style={{ color: "var(--foreground)" }}>
+                                    <h2 className="text-2xl font-medium mb-1" style={{ color: "var(--foreground)" }}>
                                         Add your first client
                                     </h2>
                                     <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
@@ -295,7 +295,7 @@ export default function OnboardingPage() {
                                 </div>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "var(--muted-foreground)" }}>
+                                        <label className="text-xs font-medium uppercase tracking-wider block mb-1.5" style={{ color: "var(--muted-foreground)" }}>
                                             Client name
                                         </label>
                                         <input
@@ -314,7 +314,7 @@ export default function OnboardingPage() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "var(--muted-foreground)" }}>
+                                        <label className="text-xs font-medium uppercase tracking-wider block mb-1.5" style={{ color: "var(--muted-foreground)" }}>
                                             Client email
                                         </label>
                                         <input
@@ -374,7 +374,7 @@ export default function OnboardingPage() {
  <button
                             onClick={handleNext}
                             disabled={!canContinue}
-                            className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all"
+                            className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition-all"
                             style={{
                                 background: canContinue ? "var(--primary)" : "var(--muted)",
                                 color: canContinue ? "var(--primary-foreground)" : "var(--muted-foreground)",
