@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, Chart, CheckCircle2 as CheckCircle } from "lucide-react";
+import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, BarChart3 as Chart, CheckCircle2 as CheckCircle } from "lucide-react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Step = 1 | 2 | 3;
