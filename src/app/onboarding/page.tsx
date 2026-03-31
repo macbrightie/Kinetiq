@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, BarChart3 as Chart, CheckCircle2 as CheckCircle } from "lucide-react";
+import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, PieChart, CheckCircle2 as CheckCircle } from "lucide-react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Step = 1 | 2 | 3;
@@ -144,7 +144,7 @@ export default function OnboardingPage() {
 
     const panelStats = [
         { icon: <Users size={14}  />, label: "Avg. clients per coach", value: "18" },
-        { icon: <Chart size={14}  />, label: "Risk alerts caught early", value: "94%" },
+        { icon: <PieChart size={14}  />, label: "Risk alerts caught early", value: "94%" },
         { icon: <CheckCircle size={14}  />, label: "Retention improvement", value: "+37%" },
     ];
 
