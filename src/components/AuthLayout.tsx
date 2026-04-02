@@ -13,14 +13,17 @@ const features = [
     {
         title: "Predictive Intelligence",
         desc: "Stay ahead of the curve. Our AI analyzes subtle shifts in behavior to predict risk before it happens, keeping your roster full.",
+        image: "/auth-hero.jpg"
     },
     {
         title: "Stop Client Churn",
         desc: "Protect your revenue. By identifying lagging engagement early, you can intervene and save clients before they quit.",
+        video: "/Onbaording-assets/Stop churn.mp4"
     },
     {
         title: "Seamless Strava Sync",
         desc: "Automatic data collection. Sync heart rate and workout data directly for a complete, human-centric view of health.",
+        video: "/Onbaording-assets/Strava.mp4"
     }
 ];
 
@@ -61,13 +64,29 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
             </div>
 
             {/* Right Section: Hero Image (Higgsfield inspired) */}
-            <div className="hidden lg:flex flex-1 relative overflow-hidden my-3 mr-3 rounded-[32px]">
-                <img 
-                    src="/auth-hero.jpg" 
-                    className="absolute inset-0 w-full h-full object-cover" 
-                    alt="Fitness Excellence"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="hidden lg:flex flex-1 relative overflow-hidden my-3 mr-3 rounded-[32px] bg-neutral-900">
+                {features[featureIndex].video ? (
+                    <video
+                        key={features[featureIndex].video}
+                        src={features[featureIndex].video}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        style={{ filter: "brightness(0.8)" }}
+                    />
+                ) : (
+                    <img 
+                        key={features[featureIndex].image}
+                        src={features[featureIndex].image || "/auth-hero.jpg"} 
+                        className="absolute inset-0 w-full h-full object-cover" 
+                        alt="Fitness Excellence"
+                    />
+                )}
+                
+                {/* Intensified bottom gradient for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
                 
                 {/* Content Overlay */}
                 <div className="absolute bottom-16 left-16 right-16">
