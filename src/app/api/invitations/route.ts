@@ -28,7 +28,29 @@ export async function POST(request: Request) {
         const emailAddress = user.emailAddresses[0]?.emailAddress;
         const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Coach';
 
-        // 1. Resolve Coach idempotently via Clerk userId
+        // 1. Resolve Coach & User profile (Self-healing for ID/Email mismatches)
+        // Check if a user with this email exists but has a DIFFERENT id than the Clerk userId
+        const conflictingUser = await prisma.user.findUnique({
+            where: { email: emailAddress }
+        });
+
+        if (conflictingUser && conflictingUser.id !== userId) {
+            console.log('Conflict found: User with same email exists but with different ID. Self-healing starting...', {
+                clerkId: userId,
+                dbId: conflictingUser.id,
+                email: emailAddress
+            });
+
+            // Perform cleanup to resolve the P2002 on email before upserting the correct ID
+            await prisma.$transaction([
+                // Delete orphaned coach profile for the old ID if it exists
+                prisma.coach.deleteMany({ where: { userId: conflictingUser.id } }),
+                // Delete the conflicting user record itself
+                prisma.user.deleteMany({ where: { id: conflictingUser.id } })
+            ]);
+            console.log('Stale user profile cleared for email sync.');
+        }
+
         let coach = await prisma.coach.upsert({
             where: { userId },
             include: { user: true },
