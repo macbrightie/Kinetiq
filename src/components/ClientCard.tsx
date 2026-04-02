@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn, getHealthColor } from '@/lib/utils';
-import { TriangleAlert, ChevronRight } from "lucide-react";
+import { TriangleAlert, ChevronRight, Activity } from "lucide-react";
 import Link from 'next/link';
 
 interface ClientCreditCardProps {

@@ -11,7 +11,7 @@ import {
     Users, 
     TriangleAlert, 
     MessageCircle as Message, 
-    BarChart3 as Chart, 
+    BarChart2 as Chart, 
     Settings, 
     HelpCircle as MessageQuestion, 
     Search, 
