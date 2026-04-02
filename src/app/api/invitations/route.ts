@@ -35,20 +35,70 @@ export async function POST(request: Request) {
         });
 
         if (conflictingUser && conflictingUser.id !== userId) {
-            console.log('Conflict found: User with same email exists but with different ID. Self-healing starting...', {
+            console.log('Conflict found: User with same email exists but with different ID. Merging profiles...', {
                 clerkId: userId,
                 dbId: conflictingUser.id,
                 email: emailAddress
             });
 
-            // Perform cleanup to resolve the P2002 on email before upserting the correct ID
-            await prisma.$transaction([
-                // Delete orphaned coach profile for the old ID if it exists
-                prisma.coach.deleteMany({ where: { userId: conflictingUser.id } }),
-                // Delete the conflicting user record itself
-                prisma.user.deleteMany({ where: { id: conflictingUser.id } })
-            ]);
-            console.log('Stale user profile cleared for email sync.');
+            // Perform a "Merge and Migrate" to preserve data while switching IDs
+            try {
+                await prisma.$transaction(async (tx) => {
+                    const tempEmail = `${emailAddress}-stale-${Date.now()}`;
+                    
+                    // 1. Swap the old user's email so the new ID can take it
+                    await tx.user.update({
+                        where: { id: conflictingUser.id },
+                        data: { email: tempEmail }
+                    });
+
+                    // 2. Ensure new User exists with the Clerk ID
+                    await tx.user.upsert({
+                        where: { id: userId },
+                        update: { email: emailAddress, name: fullName, image: user.imageUrl },
+                        create: {
+                            id: userId,
+                            email: emailAddress,
+                            name: fullName,
+                            role: conflictingUser.role,
+                            image: user.imageUrl,
+                        }
+                    });
+
+                    // 3. Migrate all data linked to the old ID to the new ID
+                    // Update Coach profile link
+                    await tx.coach.updateMany({
+                        where: { userId: conflictingUser.id },
+                        data: { userId: userId }
+                    });
+
+                    // Update Client profile link (if they were also a client)
+                    await tx.client.updateMany({
+                        where: { userId: conflictingUser.id },
+                        data: { userId: userId }
+                    });
+
+                    // Update Messages
+                    await tx.message.updateMany({
+                        where: { senderId: conflictingUser.id },
+                        data: { senderId: userId }
+                    });
+                    await tx.message.updateMany({
+                        where: { receiverId: conflictingUser.id },
+                        data: { receiverId: userId }
+                    });
+
+                    // 4. Finally, remove the orphaned old user record
+                    await tx.user.delete({
+                        where: { id: conflictingUser.id }
+                    });
+                });
+                console.log('Merge successful: Data migrated and stale record removed.');
+            } catch (mergeError) {
+                console.error('Merge/Migrate failed:', mergeError);
+                // Continue to the main upsert anyway as a fallback, 
+                // but this raw merge is the clean way to handle P2003/P2002
+            }
         }
 
         let coach = await prisma.coach.upsert({
