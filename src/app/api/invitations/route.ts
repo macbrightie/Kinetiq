@@ -24,55 +24,70 @@ export async function POST(request: Request) {
         console.log('Request body:', body);
         const { name, email, ig, x, whatsapp } = body;
 
-        // Always derive latest name/avatar from Clerk
+        // Derived latest values from Clerk
         const emailAddress = user.emailAddresses[0]?.emailAddress;
         const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Coach';
 
-        let coach = await prisma.coach.findUnique({
+        // 1. Resolve Coach idempotently via Clerk userId
+        let coach = await prisma.coach.upsert({
             where: { userId },
-            include: { user: true }
-        });
-
-        if (!coach) {
-            console.log('Coach not found, creating user and coach profile...');
-
-            // Ensure User exists first
-            const dbUser = await prisma.user.upsert({
-                where: { email: emailAddress },
-                update: { name: fullName, image: user.imageUrl },
-                create: {
-                    id: user.id,
-                    email: emailAddress,
-                    name: fullName,
-                    role: Role.COACH,
-                    image: user.imageUrl,
+            include: { user: true },
+            update: {
+                user: {
+                    update: { name: fullName, image: user.imageUrl }
                 }
-            });
-
-            coach = await prisma.coach.create({
-                data: {
-                    userId: dbUser.id,
-                    specialization: 'Fitness Coach',
+            },
+            create: {
+                user: {
+                    connectOrCreate: {
+                        where: { id: userId },
+                        create: {
+                            id: userId,
+                            email: emailAddress,
+                            name: fullName,
+                            role: Role.COACH,
+                            image: user.imageUrl,
+                        }
+                    }
                 },
-                include: { user: true }
-            });
-            console.log('Created coach:', coach.id);
-        } else {
-            // Coach exists — always sync name/avatar from Clerk so it stays current
-            await prisma.user.update({
-                where: { id: coach.userId },
-                data: { name: fullName, image: user.imageUrl }
-            });
-            // Refresh the coach object with updated user data
-            coach = await prisma.coach.findUnique({
-                where: { userId },
-                include: { user: true }
-            }) as typeof coach;
-            console.log('Synced coach name from Clerk:', fullName);
-        }
+                specialization: 'Fitness Coach',
+            }
+        });
 
         if (!coach || !coach.user) {
             return NextResponse.json({ error: 'Failed to establish coach profile' }, { status: 500 });
+        }
+        console.log('Coach profile verified/synced:', coach.id);
+
+        // 2. Check if this client already exists for this coach (User-Friendly Check)
+        const existingClient = await prisma.client.findFirst({
+            where: { 
+                coachId: coach.id,
+                user: { email: email.trim().toLowerCase() }
+            }
+        });
+
+        if (existingClient) {
+            return NextResponse.json({ 
+                error: 'Already Registered', 
+                details: 'This client is already in your dashboard.' 
+            }, { status: 400 });
+        }
+
+        const existingInvite = await prisma.clientInvitation.findFirst({
+            where: {
+                coachId: coach.id,
+                email: email.trim().toLowerCase(),
+                status: 'PENDING',
+                expiresAt: { gt: new Date() }
+            }
+        });
+
+        if (existingInvite) {
+            return NextResponse.json({ 
+                error: 'Invitation Pending', 
+                details: 'An invitation has already been sent to this email.' 
+            }, { status: 400 });
         }
 
         // 1. Create a unique invitation record
