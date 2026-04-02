@@ -106,8 +106,21 @@ export async function POST(request: Request) {
             inviteId: invitation.id,
             token: invitation.token // In dev, we might want to return this to skip email check
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Invitation API error:', error);
-        return NextResponse.json({ error: 'Failed to create invitation' }, { status: 500 });
+        
+        // Return more specific Prisma error info if available
+        let errorMessage = 'Failed to create invitation';
+        if (error.code) {
+            errorMessage += ` (${error.code})`;
+            if (error.message) {
+                console.error('Specific Prisma Error:', error.message);
+            }
+        }
+        
+        return NextResponse.json({ 
+            error: errorMessage,
+            details: error.message || 'Unknown error'
+        }, { status: 500 });
     }
 }
