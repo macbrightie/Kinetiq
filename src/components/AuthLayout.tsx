@@ -18,7 +18,7 @@ const features = [
     {
         title: "Stop Client Churn",
         desc: "Protect your revenue. By identifying lagging engagement early, you can intervene and save clients before they quit.",
-        video: "/Onbaording-assets/Stop churn.mp4"
+        video: "/Onbaording-assets/Stop%20churn.mp4"
     },
     {
         title: "Seamless Strava Sync",
@@ -68,25 +68,26 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
                 {features[featureIndex].video ? (
                     <video
                         key={features[featureIndex].video}
-                        src={features[featureIndex].video}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover shadow-2xl"
                         autoPlay
                         loop
                         muted
                         playsInline
-                        style={{ filter: "brightness(0.8)" }}
-                    />
+                    >
+                        <source src={features[featureIndex].video} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
                 ) : (
                     <img 
                         key={features[featureIndex].image}
                         src={features[featureIndex].image || "/auth-hero.jpg"} 
-                        className="absolute inset-0 w-full h-full object-cover" 
+                        className="absolute inset-0 w-full h-full object-cover shadow-2xl" 
                         alt="Fitness Excellence"
                     />
                 )}
                 
-                {/* Intensified bottom gradient for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                {/* Dynamic gradient overlay: lighter for visibility, darker at text base */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
                 
                 {/* Content Overlay */}
                 <div className="absolute bottom-16 left-16 right-16">
