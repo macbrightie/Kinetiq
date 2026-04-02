@@ -13,7 +13,7 @@ const features = [
     {
         title: "Predictive Intelligence",
         desc: "Stay ahead of the curve. Our AI analyzes subtle shifts in behavior to predict risk before it happens, keeping your roster full.",
-        image: "/auth-hero.jpg"
+        video: "/Onbaording-assets/intelligence.mp4"
     },
     {
         title: "Stop Client Churn",
@@ -40,14 +40,14 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
     return (
         <div className="flex min-h-screen bg-black text-white font-sans overflow-hidden">
             {/* Left Section: Form */}
-            <div className="w-full lg:w-[550px] flex flex-col justify-between p-8 lg:p-16 relative z-10 shrink-0">
+            <div className="w-full lg:w-1/2 flex flex-col justify-between p-8 lg:p-16 relative z-10 shrink-0">
                 <div className="flex-1 flex flex-col justify-center max-w-[400px] mx-auto w-full">
                     <div className="mb-10 text-center lg:text-left">
-                        <div className="w-12 h-12 rounded-2xl bg-fuchsia-600 flex items-center justify-center mb-6 shadow-xl shadow-fuchsia-600/20 mx-auto lg:mx-0">
-                            <Flash  size={24} className="text-white" />
+                        <div className="w-12 h-12 rounded-full bg-neutral-900 border border-white/5 flex items-center justify-center mb-6 shadow-xl shadow-fuchsia-600/5 mx-auto lg:mx-0">
+                            <img src="/Icon-logo-light.svg" className="w-7 h-7" alt="Logo" />
                         </div>
-                        <h1 className="text-4xl font-black tracking-tight mb-3">{title}</h1>
-                        <p className="text-neutral-400 font-bold">{subtitle}</p>
+                        <h1 className="text-4xl font-black tracking-tight mb-3 uppercase italic">{title}</h1>
+                        <p className="text-neutral-400 font-normal">{subtitle}</p>
                     </div>
 
                     <div className="space-y-6">
@@ -57,37 +57,28 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
 
                 {/* Footer terms */}
                 <div className="mt-12 text-center lg:text-left">
-                    <p className="text-[12px] text-neutral-500 max-w-[400px] mx-auto lg:mx-0 leading-relaxed uppercase tracking-widest font-medium">
+                    <p className="text-[12px] text-neutral-500 max-w-[400px] mx-auto lg:mx-0 leading-relaxed tracking-widest font-normal">
                         By continuing, I acknowledge the Privacy Policy and agree to the Terms of Service.
                     </p>
                 </div>
             </div>
 
-            {/* Right Section: Hero Image (Higgsfield inspired) */}
-            <div className="hidden lg:flex flex-1 relative overflow-hidden my-3 mr-3 rounded-[32px] bg-neutral-900">
-                {features[featureIndex].video ? (
-                    <video
-                        key={features[featureIndex].video}
-                        className="absolute inset-0 w-full h-full object-cover shadow-2xl"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                    >
-                        <source src={features[featureIndex].video} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                ) : (
-                    <img 
-                        key={features[featureIndex].image}
-                        src={features[featureIndex].image || "/auth-hero.jpg"} 
-                        className="absolute inset-0 w-full h-full object-cover shadow-2xl" 
-                        alt="Fitness Excellence"
-                    />
-                )}
+            {/* Right Section: Hero Video (Higgsfield inspired) */}
+            <div className="hidden lg:flex flex-1 relative overflow-hidden my-3 mr-3 rounded-[32px] bg-neutral-900 border border-white/5">
+                <video
+                    key={features[featureIndex].video}
+                    className="absolute inset-0 w-full h-full object-cover shadow-2xl"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                >
+                    <source src={features[featureIndex].video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
                 
-                {/* Dynamic gradient overlay: lighter for visibility, darker at text base */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
+                {/* Gradient overlay for text readability without obscuring the video */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/40 pointer-events-none" />
                 
                 {/* Content Overlay */}
                 <div className="absolute bottom-16 left-16 right-16">
@@ -103,7 +94,7 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
                     <h2 className="text-5xl font-black tracking-tighter mb-4 text-white uppercase italic">
                         {features[featureIndex].title}
                     </h2>
-                    <p className="text-xl text-white/60 font-medium max-w-xl leading-relaxed">
+                    <p className="text-xl text-white/60 font-normal max-w-xl leading-relaxed">
                         {features[featureIndex].desc}
                     </p>
 

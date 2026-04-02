@@ -101,9 +101,9 @@ function Chip({
     label: string; selected: boolean; onClick: () => void;
 }) {
     return (
- <button
+        <button
             onClick={onClick}
-            className="px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200"
+            className="px-5 h-[44px] rounded-full border text-sm font-normal transition-all duration-200"
             style={{
                 borderColor: selected ? "var(--primary)" : "var(--border)",
                 background: selected ? "color-mix(in srgb, var(--primary) 12%, transparent)" : "var(--input)",
@@ -161,7 +161,7 @@ export default function OnboardingPage() {
         >
             {/* ─── LEFT PANEL ──────────────────────────────────────── */}
             <div
-                className="hidden lg:flex flex-col justify-between w-2/5 relative overflow-hidden p-10"
+                className="hidden lg:flex flex-col justify-between w-1/2 relative overflow-hidden p-12"
                 style={{
                     background: "var(--panel-bg)",
                     borderRight: "1px solid var(--panel-border)",
@@ -169,15 +169,11 @@ export default function OnboardingPage() {
             >
                 {/* Logo */}
                 <div className="flex items-center gap-2 z-10">
-                    <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ background: "var(--primary)" }}
-                    >
-                        <Activity size={16} className="text-white" />
-                    </div>
-                    <span className="font-medium text-lg" style={{ color: "var(--foreground)" }}>
-                        Kinetiq
-                    </span>
+                    <img 
+                        src="/Logo-main-white.svg" 
+                        alt="Kinetiq Logo" 
+                        className="h-8 w-auto"
+                    />
                 </div>
 
                 {/* Animated Graph */}
@@ -189,14 +185,14 @@ export default function OnboardingPage() {
 
                 {/* Stats */}
                 <div className="z-10 space-y-3">
-                    <p className="text-xs uppercase tracking-widest font-medium mb-4" style={{ color: "var(--muted-foreground)" }}>
+                    <p className="text-xs uppercase tracking-widest font-normal mb-4" style={{ color: "var(--muted-foreground)" }}>
                         Trusted by elite coaches
                     </p>
                     {panelStats.map((stat, i) => (
                         <div key={i} className="flex items-center justify-between">
                             <div className="flex items-center gap-2" style={{ color: "var(--muted-foreground)" }}>
                                 {stat.icon}
-                                <span className="text-xs">{stat.label}</span>
+                                <span className="text-[12px] font-normal">{stat.label}</span>
                             </div>
                             <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>
                                 {stat.value}
@@ -211,15 +207,15 @@ export default function OnboardingPage() {
                 {/* Top bar */}
                 <div className="flex items-center justify-between px-8 py-5" style={{ borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--panel-border)" }}>
                     <StepDots step={step} />
- <button
+  <button
                         onClick={toggleTheme}
-                        className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
+                        className="w-[44px] h-[44px] rounded-full flex items-center justify-center transition-colors shadow-sm"
                         style={{
                             background: "var(--muted)",
                             color: "var(--muted-foreground)",
                         }}
                     >
-                        {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
                     </button>
                 </div>
 
@@ -228,25 +224,28 @@ export default function OnboardingPage() {
                     <div className="w-full max-w-md">
                         {/* Icon */}
                         <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow"
-                            style={{ background: "color-mix(in srgb, var(--primary) 15%, transparent)" }}
+                            className="mb-8"
                         >
-                            <Activity size={22} style={{ color: "var(--primary)" }} />
+                             <img 
+                                src={theme === "dark" ? "/Icon-logo-light.svg" : "/Icon-logo-dark.svg"} 
+                                alt="Kinetiq Icon" 
+                                className="w-12 h-12"
+                            />
                         </div>
 
                         {/* Step 1: Coach type */}
                         {step === 1 && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-2xl font-medium mb-1" style={{ color: "var(--foreground)" }}>
+                                    <h2 className="text-2xl font-black tracking-tight mb-2 uppercase italic" style={{ color: "var(--foreground)" }}>
                                         What kind of coach are you?
                                     </h2>
-                                    <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
-                                        We'll tailor your experience and dashboard to fit your style.
+                                    <p className="text-sm font-normal" style={{ color: "var(--muted-foreground)" }}>
+                                        Join the inner circle of data-driven fitness coaches. Save money by reducing churn and preventing departures before they start.
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>
+                                    <p className="text-[12px] font-normal uppercase tracking-widest mb-4" style={{ color: "var(--muted-foreground)" }}>
                                         Coaching type
                                     </p>
                                     <div className="flex flex-wrap gap-2">
@@ -262,15 +261,15 @@ export default function OnboardingPage() {
                         {step === 2 && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-2xl font-medium mb-1" style={{ color: "var(--foreground)" }}>
-                                        How many clients do you manage?
+                                    <h2 className="text-2xl font-black tracking-tight mb-2 uppercase italic" style={{ color: "var(--foreground)" }}>
+                                        Scale your impact.
                                     </h2>
-                                    <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
-                                        This helps us understand your scale and set up your dashboard.
+                                    <p className="text-sm font-normal" style={{ color: "var(--muted-foreground)" }}>
+                                        This helps us understand your roster size and optimize your baseline health algorithm for predictive insights.
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: "var(--muted-foreground)" }}>
+                                    <p className="text-[12px] font-normal uppercase tracking-widest mb-4" style={{ color: "var(--muted-foreground)" }}>
                                         Client range
                                     </p>
                                     <div className="flex flex-wrap gap-2">
@@ -286,11 +285,11 @@ export default function OnboardingPage() {
                         {step === 3 && (
                             <div className="space-y-6">
                                 <div>
-                                    <h2 className="text-2xl font-medium mb-1" style={{ color: "var(--foreground)" }}>
-                                        Add your first client
+                                    <h2 className="text-2xl font-black tracking-tight mb-2 uppercase italic" style={{ color: "var(--foreground)" }}>
+                                        Add your first client.
                                     </h2>
-                                    <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
-                                        Invite a client now and start monitoring their health signals immediately.
+                                    <p className="text-sm font-normal" style={{ color: "var(--muted-foreground)" }}>
+                                        Invite a client now and start monitoring their heart rate, activity, and health signals immediately.
                                     </p>
                                 </div>
                                 <div className="space-y-4">
@@ -303,7 +302,7 @@ export default function OnboardingPage() {
                                             placeholder="e.g. John Doe"
                                             value={clientName}
                                             onChange={(e) => setClientName(e.target.value)}
-                                            className="w-full px-4 py-2.5 rounded-lg text-sm outline-none transition-all"
+                                            className="w-full h-[44px] px-5 rounded-full text-sm outline-none transition-all placeholder:opacity-30"
                                             style={{
                                                 background: "var(--input)",
                                                 border: "1px solid var(--border)",
@@ -322,7 +321,7 @@ export default function OnboardingPage() {
                                             placeholder="e.g. john@example.com"
                                             value={clientEmail}
                                             onChange={(e) => setClientEmail(e.target.value)}
-                                            className="w-full px-4 py-2.5 rounded-lg text-sm outline-none transition-all"
+                                            className="w-full h-[44px] px-5 rounded-full text-sm outline-none transition-all placeholder:opacity-30"
                                             style={{
                                                 background: "var(--input)",
                                                 border: "1px solid var(--border)",
@@ -333,8 +332,8 @@ export default function OnboardingPage() {
                                         />
                                     </div>
                                 </div>
-                                <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
-                                    You can skip this step and add clients from your dashboard.
+                                <p className="text-[12px] font-normal" style={{ color: "var(--muted-foreground)" }}>
+                                    You can skip this step and add dozens of clients from your dashboard later.
                                 </p>
                             </div>
                         )}
@@ -360,21 +359,21 @@ export default function OnboardingPage() {
                     </button>
 
                     <div className="flex items-center gap-3">
- <button
+  <button
                             onClick={() => router.push("/dashboard")}
-                            className="px-4 py-2 rounded-lg text-xs font-medium border transition-all hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                            className="h-[44px] px-6 rounded-full text-xs font-bold border transition-all hover:bg-neutral-100 dark:hover:bg-neutral-800 uppercase tracking-widest"
                             style={{
                                 color: "var(--muted-foreground)",
                                 borderColor: "var(--border)",
                             }}
                         >
-                            Skip for now (Dev)
+                            Skip for now
                         </button>
 
- <button
+  <button
                             onClick={handleNext}
                             disabled={!canContinue}
-                            className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition-all"
+                            className="flex items-center gap-2 h-[44px] px-8 rounded-full text-sm font-bold uppercase tracking-widest transition-all shadow-xl shadow-indigo-500/20"
                             style={{
                                 background: canContinue ? "var(--primary)" : "var(--muted)",
                                 color: canContinue ? "var(--primary-foreground)" : "var(--muted-foreground)",
@@ -382,8 +381,8 @@ export default function OnboardingPage() {
                                 opacity: canContinue ? 1 : 0.6,
                             }}
                         >
-                            {step === 3 ? "Finish & Open Dashboard" : "Continue"}
-                            <ChevronRight size={16} />
+                            {step === 3 ? "Open Dashboard" : "Continue"}
+                            <ChevronRight size={18} />
                         </button>
                     </div>
                 </div>

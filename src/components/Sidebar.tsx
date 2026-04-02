@@ -43,7 +43,7 @@ const NAV_SETTINGS = [
     { href: "/dashboard/help", icon: MessageQuestion, label: "Help" },
 ];
 
-import { FitnessFigure } from "@/components/FitnessFigure";
+import { useTheme } from "@/components/ThemeProvider";
 
 export function Sidebar() {
     const pathname = usePathname();
@@ -51,9 +51,7 @@ export function Sidebar() {
     const { user } = useUser();
     const [collapsed, setCollapsed] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    // Assuming 'theme' and 'toggle' are provided by a context or hook elsewhere
-    const [theme, setTheme] = useState("dark"); // Placeholder for theme state
-    const toggle = () => setTheme(prev => prev === "dark" ? "light" : "dark"); // Placeholder for theme toggle
+    const { theme, toggle } = useTheme();
     const onInviteClick = () => console.log("Invite Client clicked"); // Placeholder for invite action
 
     const isActive = (href: string) =>
@@ -96,11 +94,12 @@ export function Sidebar() {
                 className="flex items-center gap-2.5 border-b overflow-hidden"
                 style={{ borderColor: "var(--border)", padding: collapsed ? "20px 20px" : "16px 20px" }}
             >
-                <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20"
-                    style={{ background: "linear-gradient(135deg, #6366f1, #a78bfa)" }}
-                >
-                    <FitnessFigure type="running" size={24} className="text-white" />
+                <div className="w-10 h-10 flex items-center justify-center shrink-0 border border-white/5 rounded-xl bg-white/5 group-hover:scale-110 transition-transform duration-300">
+                    <img 
+                        src={theme === "dark" ? "/Icon-logo-light.svg" : "/Icon-logo-dark.svg"} 
+                        alt="Kinetiq Logo" 
+                        style={{ width: '28px', height: '28px', objectFit: 'contain' }}
+                    />
                 </div>
                 {!collapsed && (
                     <div className="overflow-hidden">

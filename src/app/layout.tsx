@@ -5,6 +5,13 @@ import './globals.css'
 export const metadata = {
     title: 'Kinetiq | Client Health Intelligence',
     description: 'AI-powered motivation and risk detection for fitness coaches.',
+    icons: {
+        icon: [
+            { url: "/Icon-logo-light.svg", media: "(prefers-color-scheme: dark)" },
+            { url: "/Icon-logo-dark.svg", media: "(prefers-color-scheme: light)" }
+        ],
+        apple: "/Icon-logo-light.svg",
+    }
 }
 
 export default function RootLayout({

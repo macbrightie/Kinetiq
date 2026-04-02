@@ -10,6 +10,7 @@ interface ClientCreditCardProps {
         healthScore: number;
         riskStatus: string;
         lastActive: string;
+        image?: string;
     };
 }
 
@@ -18,11 +19,27 @@ export function ClientCreditCard({ client }: ClientCreditCardProps) {
         <Link href={`/clients/${client.id}`} className="block">
             <div className="glass p-5 rounded-2xl card-hover flex items-center justify-between group">
                 <div className="flex items-center gap-4">
-                    <div className={cn(
-                        "w-12 h-12 rounded-full flex items-center justify-center bg-opacity-10",
-                        client.healthScore >= 75 ? "bg-emerald-500" : client.healthScore >= 40 ? "bg-amber-500" : "bg-rose-500"
-                    )}>
-                        <Activity className={cn("w-6 h-6", getHealthColor(client.healthScore))} />
+                    <div className="relative">
+                        {client.image ? (
+                            <img 
+                                src={client.image} 
+                                alt={client.name} 
+                                className="w-12 h-12 rounded-full object-cover border-2 border-white/5 shadow-xl"
+                            />
+                        ) : (
+                            <div className={cn(
+                                "w-12 h-12 rounded-full flex items-center justify-center bg-opacity-10 text-xs font-bold",
+                                client.healthScore >= 75 ? "bg-emerald-500 text-emerald-500" : client.healthScore >= 40 ? "bg-amber-500 text-amber-500" : "bg-rose-500 text-rose-500"
+                            )}>
+                                {client.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                        )}
+                        <div className={cn(
+                            "absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-[#0a0a0a] flex items-center justify-center",
+                            client.healthScore >= 75 ? "bg-emerald-500" : client.healthScore >= 40 ? "bg-amber-500" : "bg-rose-500"
+                        )}>
+                            <Activity className="w-2 h-2 text-black" />
+                        </div>
                     </div>
                     <div>
                         <h3 className="font-medium text-lg">{client.name}</h3>

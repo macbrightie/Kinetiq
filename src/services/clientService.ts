@@ -45,7 +45,14 @@ export async function getCoachClients(coachId: string) {
     return prisma.client.findMany({
         where: { coachId },
         include: {
-            user: true
+            user: true,
+            activityLogs: {
+                where: {
+                    timestamp: {
+                        gte: new Date(new Date().setDate(new Date().getDate() - 7))
+                    }
+                }
+            }
         },
         orderBy: {
             healthScore: 'asc' // Prioritize at-risk clients

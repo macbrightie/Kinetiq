@@ -78,6 +78,8 @@ model Client {
   stravaRefreshToken String?
   stravaExpiresAt    DateTime?
   connectedChannels String[]    @default([])
+  origin            String?
+  topActivities     Json?           @default("[]")
   
   activityLogs    ActivityLog[]
   assessments     Assessment[]
