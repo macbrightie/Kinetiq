@@ -43,10 +43,10 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
             <div className="w-full lg:w-1/2 flex flex-col justify-between p-8 lg:p-16 relative z-10 shrink-0">
                 <div className="flex-1 flex flex-col justify-center max-w-[400px] mx-auto w-full">
                     <div className="mb-10 text-center lg:text-left">
-                        <div className="w-12 h-12 rounded-full bg-neutral-900 border border-white/5 flex items-center justify-center mb-6 shadow-xl shadow-fuchsia-600/5 mx-auto lg:mx-0">
-                            <img src="/Icon-logo-light.svg" className="w-7 h-7" alt="Logo" />
+                        <div className="mb-10 mx-auto lg:mx-0">
+                            <img src="/Logo-main-white.svg" className="h-8 w-auto" alt="Logo" />
                         </div>
-                        <h1 className="text-4xl font-black tracking-tight mb-3 uppercase italic">{title}</h1>
+                        <h1 className="text-4xl font-black tracking-tight mb-3 italic">{title}</h1>
                         <p className="text-neutral-400 font-normal">{subtitle}</p>
                     </div>
 

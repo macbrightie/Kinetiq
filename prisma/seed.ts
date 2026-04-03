@@ -74,6 +74,8 @@ async function main() {
         healthScore: persona.score,
         riskStatus: persona.status,
         igHandle: `${persona.name.toLowerCase().replace(/\s/g, '_')}`,
+        xHandle: `@${persona.name.toLowerCase().replace(/\s/g, '')}`,
+        whatsapp: `+1${Math.floor(1000000000 + Math.random() * 9000000000)}`,
         connectedChannels: ['strava', 'apple-health'],
         origin: persona.origin,
         topActivities: persona.topActivities as any,

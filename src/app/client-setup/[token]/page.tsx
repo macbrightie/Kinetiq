@@ -56,7 +56,7 @@ function MotionCard({ children, className = "", id }: { children: React.ReactNod
 const COMM_CHANNELS = [
     { id: 'whatsapp', label: 'WhatsApp', icon: Phone, placeholder: '+1 (555) 000-0000', color: '#25D366', hint: 'Phone number with country code' },
     { id: 'instagram', label: 'Instagram', icon: Instagram, placeholder: '@username', color: '#E1306C', hint: 'Your Instagram handle' },
-    { id: 'x', label: 'X / Twitter', icon: Twitter, placeholder: '@handle', color: '#000000', hint: 'Your X username' },
+    { id: 'x', label: 'X / Twitter', icon: Twitter, placeholder: '@handle', color: '#0C0C0C', hint: 'Your X username' },
     { id: 'email', label: 'Email', icon: AtSign, placeholder: 'you@example.com', color: '#6366f1', hint: 'Best email to reach you' },
 ];
 

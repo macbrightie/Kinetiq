@@ -27,6 +27,14 @@ export default function RootLayout({
                         baseTheme: dark,
                         variables: {
                             colorPrimary: '#c026d3',
+                            colorBackground: '#0C0C0C',
+                        },
+                        elements: {
+                            formButtonPrimary: 'h-10 rounded-full text-sm font-medium',
+                            formButtonSecondary: 'h-10 rounded-full text-sm font-medium',
+                            formFieldInput: 'h-10 rounded-full px-4 border-border/50 bg-muted/30 focus:ring-2 focus:ring-primary/20',
+                            socialButtonsBlockButton: 'h-10 rounded-full border-border/50 hover:bg-muted/30 transition-all',
+                            card: 'rounded-[32px] border border-border/50 shadow-2xl',
                         }
                     }}
                 >

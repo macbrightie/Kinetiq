@@ -296,7 +296,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                 {/* Controls — pushed right */}
                 <div className="flex items-center gap-2.5 shrink-0">
                     {/* Search bar */}
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl"
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-full"
                         style={{ background: "var(--card)", border: "1px solid var(--border)", width: 230 }}>
                         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--muted-foreground)", opacity: 0.5, flexShrink: 0 }}>
                             <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -318,7 +318,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                     </div>
 
                     {/* Grid / List toggle */}
-                    <div className="flex items-center rounded-xl overflow-hidden p-0.5 gap-0.5"
+                    <div className="flex items-center rounded-full p-0.5 gap-0.5"
                         style={{ background: "var(--muted)" }}>
                          {(["grid", "list"] as const).map((v) => (
                             <Button 
@@ -327,7 +327,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                                 variant={viewMode === v ? "secondary" : "ghost"}
                                 size="sm"
                                 className={cn(
-                                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-bold uppercase transition-all shadow-none",
+                                    "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold uppercase transition-all shadow-none",
                                     viewMode === v ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
                                 )}
                             >

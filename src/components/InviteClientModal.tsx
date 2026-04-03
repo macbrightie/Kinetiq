@@ -18,6 +18,8 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,10 +31,11 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+      const data = await res.json().catch(() => ({}));
       if (res.ok) {
+        setToken(data.token);
         setSent(true);
       } else {
-        const data = await res.json().catch(() => ({}));
         setError(data?.error || `Server error (${res.status}). Please try again.`);
       }
     } catch (err) {
@@ -41,6 +44,15 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const copyLink = () => {
+    if (!token) return;
+    const baseUrl = window.location.origin;
+    const link = `${baseUrl}/client-setup/${token}`;
+    navigator.clipboard.writeText(link);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const XIcon = () => (
@@ -58,17 +70,30 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
             <CheckCircle size={40} className="text-emerald-500" />
           </div>
           <h3 className="text-xl font-medium mb-2 font-plus-jakarta">Invitation Sent!</h3>
-          <p className="text-sm leading-relaxed mb-8 opacity-60">
+          <p className="text-sm leading-relaxed mb-6 opacity-60">
             We've sent an invitation to <strong className="font-medium">{form.email}</strong>.<br />
-            They can now set up their profile and connect their apps.
+            You can also manually copy and share the setup link below.
           </p>
-          <Button 
-            onClick={onClose} 
-            size="lg"
-            className="w-full shadow-lg"
-          >
-            Awesome, thanks!
-          </Button>
+          
+          <div className="w-full space-y-3 mb-8">
+            <Button 
+                onClick={copyLink} 
+                variant="secondary"
+                size="lg"
+                className="w-full flex items-center justify-center gap-2"
+            >
+                {copied ? <CheckCircle size={16} /> : <BadgeCheck size={16} />}
+                {copied ? "Copied Link!" : "Copy Invitation Link"}
+            </Button>
+            <Button 
+                onClick={onClose} 
+                variant="ghost"
+                size="lg"
+                className="w-full"
+            >
+                Close
+            </Button>
+          </div>
         </CreditCard>
       </div>
     );

@@ -51,6 +51,9 @@ export async function GET() {
                 tip: client.riskStatus === 'AT_RISK' ? 'URGENT: Missing logs.' : 'Keep monitoring trend.',
                 actionLabel: client.riskStatus === 'AT_RISK' ? '🚨 Contact Now' : '💬 Check In',
                 connectedChannels: client.connectedChannels || ['kinetiq'],
+                igHandle: client.igHandle,
+                xHandle: client.xHandle,
+                whatsapp: client.whatsapp,
             };
         });
 

@@ -38,10 +38,11 @@ function ProfilePanel({ user, onClose }: { user: any; onClose: () => void }) {
       setLoading(true);
       const parts = name.trim().split(" ");
       const firstName = parts[0] || "";
-      const lastName = parts.slice(1).join(" ") || undefined;
+      const lastName = parts.slice(1).join(" ") || ""; // Use empty string to clear it
       
       try {
         await user.update({ firstName, lastName });
+        // After clerk update, we should ideally trigger a DB sync or re-fetch
       } catch (e) {
         console.error("Failed to update name:", e);
       }

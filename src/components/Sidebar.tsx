@@ -91,14 +91,14 @@ export function Sidebar() {
             </button>
 
             <div
-                className="flex items-center gap-2.5 border-b overflow-hidden"
-                style={{ borderColor: "var(--border)", padding: collapsed ? "20px 20px" : "16px 20px" }}
+                className="flex items-center border-b overflow-hidden"
+                style={{ borderColor: "var(--border)", padding: collapsed ? "20px 20px" : "16px 20px", gap: "6px" }}
             >
                 <div className="w-10 h-10 flex items-center justify-center shrink-0 border border-white/5 rounded-xl bg-white/5 group-hover:scale-110 transition-transform duration-300">
                     <img 
                         src={theme === "dark" ? "/Icon-logo-light.svg" : "/Icon-logo-dark.svg"} 
                         alt="Kinetiq Logo" 
-                        style={{ width: '28px', height: '28px', objectFit: 'contain' }}
+                        style={{ width: '32px', height: '32px', objectFit: 'contain' }}
                     />
                 </div>
                 {!collapsed && (

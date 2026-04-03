@@ -227,9 +227,9 @@ export default function OnboardingPage() {
                             className="mb-8"
                         >
                              <img 
-                                src={theme === "dark" ? "/Icon-logo-light.svg" : "/Icon-logo-dark.svg"} 
-                                alt="Kinetiq Icon" 
-                                className="w-12 h-12"
+                                src={theme === "dark" ? "/Logo-main-white.svg" : "/Logo-main.svg"} 
+                                alt="Kinetiq Logo" 
+                                className="h-8 w-auto"
                             />
                         </div>
 

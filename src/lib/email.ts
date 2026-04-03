@@ -13,7 +13,15 @@ export const sendClientInvitation = async ({
     coachName: string;
     token: string;
 }) => {
-    const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/client-setup/${token}`;
+    // Robust URL construction
+    let baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+    
+    // Final safety check: if for some reason baseUrl is literally the string "undefined" or empty, fallback to localhost
+    if (!baseUrl || baseUrl.includes('undefined')) {
+        baseUrl = 'http://localhost:3000';
+    }
+
+    const inviteUrl = `${baseUrl.replace(/\/$/, '')}/client-setup/${token}`;
 
     try {
         console.log('Resend attempt starting...', { to: email, from: 'onboarding@resend.dev' });

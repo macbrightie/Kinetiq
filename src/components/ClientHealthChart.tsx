@@ -217,9 +217,18 @@ export default function ClientHealthChart({
                         </div>
                     </div>
                     <div className="flex items-center gap-3 px-5 py-4">
-                        <Activity size={18} className="text-indigo-500" />
+                        <Activity size={18} className="text-indigo-500 shrink-0" />
                         <p className="text-sm font-medium" style={{ color: "var(--foreground)" }}>
-                            Overall client health is up by <span className="text-emerald-500 font-medium">12%</span> this month. {warningCount + riskCount} clients are currently flagged for intervention, primarily due to recent inactivity.
+                            {selectedClient ? (
+                                <>
+                                    <span className="font-bold text-indigo-500">{selectedClient.name}: </span>
+                                    {selectedClient.aiMsg}
+                                </>
+                            ) : (
+                                <>
+                                    Overall client health is up by <span className="text-emerald-500 font-medium">12%</span> this month. {warningCount + riskCount} clients are currently flagged for intervention, primarily due to recent inactivity.
+                                </>
+                            )}
                         </p>
                     </div>
                 </div>

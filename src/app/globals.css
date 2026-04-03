@@ -53,7 +53,7 @@
 /* ─── Dark Mode (default) ─── */
 :root {
   color-scheme: dark;
-  --background: #0a0a0a;
+  --background: #0C0C0C;
   --foreground: #ededed;
   --card: #141414;
   --card-foreground: #ffffff;
