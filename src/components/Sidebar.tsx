@@ -340,16 +340,16 @@ export function Sidebar() {
                                                 <CheckCircle size={14} className="text-emerald-500" />
                                             </DropdownMenu.Item>
                                             <DropdownMenu.Item 
-                                                className="px-0 py-0 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer transition-all overflow-hidden"
+                                                onSelect={(e) => {
+                                                    e.preventDefault();
+                                                    openSignIn({ signUpFallbackRedirectUrl: "/onboarding" });
+                                                }}
+                                                className="flex items-center gap-3 px-3 py-2.5 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer transition-all"
                                             >
-                                                <SignInButton mode="modal" forceRedirectUrl="/dashboard" signUpFallbackRedirectUrl="/onboarding">
-                                                    <div className="flex items-center gap-3 px-3 py-2.5 w-full">
-                                                        <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center">
-                                                            <Plus size={12} />
-                                                        </div>
-                                                        Add New Account
-                                                    </div>
-                                                </SignInButton>
+                                                <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center">
+                                                    <Plus size={12} />
+                                                </div>
+                                                Add New Account
                                             </DropdownMenu.Item>
                                         </DropdownMenu.SubContent>
                                     </DropdownMenu.Portal>
