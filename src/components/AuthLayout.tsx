@@ -64,24 +64,27 @@ export function AuthLayout({ children, title = "Welcome to Kinetiq", subtitle = 
             </div>
 
             {/* Right Section: Hero Video (Higgsfield inspired) */}
-            <div className="hidden lg:flex flex-1 relative overflow-hidden my-3 mr-3 rounded-[32px] bg-neutral-900 border border-white/5">
-                <video
-                    key={features[featureIndex].video}
-                    className="absolute inset-0 w-full h-full object-cover shadow-2xl"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                >
-                    <source src={features[featureIndex].video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
+            <div className="hidden lg:flex flex-1 relative overflow-hidden my-3 mr-3 rounded-[32px] bg-gradient-to-br from-neutral-900 to-[#0C0C0C] border border-white/5 shadow-2xl">
+                {features.map((feature, idx) => (
+                    <video
+                        key={feature.video}
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${idx === featureIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                    >
+                        <source src={feature.video} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                ))}
                 
                 {/* Gradient overlay for text readability without obscuring the video */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/40 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/40 z-20 pointer-events-none" />
                 
                 {/* Content Overlay */}
-                <div className="absolute bottom-16 left-16 right-16">
+                <div className="absolute bottom-16 left-16 right-16 z-30">
                     <div className="flex gap-2 mb-6">
                         <span className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-[12px] font-medium uppercase tracking-widest text-white/80">
                             Elite Coaching

@@ -71,28 +71,36 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
           </div>
           <h3 className="text-xl font-medium mb-2 font-plus-jakarta">Invitation Sent!</h3>
           <p className="text-sm leading-relaxed mb-6 opacity-60">
-            We've sent an invitation to <strong className="font-medium">{form.email}</strong>.<br />
-            You can also manually copy and share the setup link below.
+            We've sent an invitation to <strong className="font-medium text-white">{form.email}</strong>.
+            You can also manually copy the setup link below.
           </p>
           
-          <div className="w-full space-y-3 mb-8">
-            <Button 
-                onClick={copyLink} 
-                variant="secondary"
-                size="lg"
-                className="w-full flex items-center justify-center gap-2"
-            >
-                {copied ? <CheckCircle size={16} /> : <BadgeCheck size={16} />}
-                {copied ? "Copied Link!" : "Copy Invitation Link"}
-            </Button>
-            <Button 
-                onClick={onClose} 
-                variant="ghost"
-                size="lg"
-                className="w-full"
-            >
-                Close
-            </Button>
+          <div className="w-full space-y-4 mb-8">
+            <div className="flex items-center gap-2 p-2 rounded-xl bg-black/20 border border-white/5">
+                <input 
+                    readOnly 
+                    value={token ? `${window.location.origin}/client-setup/${token}` : "Generating link..."}
+                    className="bg-transparent border-none outline-none text-[13px] font-medium text-white/50 w-full px-2"
+                />
+                <Button 
+                    onClick={copyLink} 
+                    size="sm"
+                    className="shrink-0 h-8 rounded-lg px-3 bg-white/10 hover:bg-white/20 text-white border border-white/10"
+                >
+                    {copied ? <CheckCircle size={14} /> : <Add size={14} style={{transform: "rotate(45deg)"}} />}
+                </Button>
+            </div>
+
+            <div className="pt-2">
+                <Button 
+                    onClick={onClose} 
+                    variant="outline"
+                    size="lg"
+                    className="w-full rounded-2xl h-12 font-medium"
+                >
+                    Awesome, thanks!
+                </Button>
+            </div>
           </div>
         </CreditCard>
       </div>

@@ -25,7 +25,10 @@ import {
   Trash2 as Trash, 
   ChevronRight, 
   CheckCircle2, 
-  AlertCircle as Danger 
+  AlertCircle as Danger,
+  Instagram,
+  Twitter,
+  Phone
 } from "lucide-react";
 import { InviteClientModal } from "@/components/InviteClientModal";
 import { DashboardHeader } from "@/components/DashboardHeader";
@@ -44,6 +47,9 @@ interface ClientType {
     origin: string; week: number[]; topActivities: ActivityItem[];
     calories: number; weightChange: number; aiMsg: string; tip: string; actionLabel: string;
     connectedChannels: string[];
+    igHandle?: string;
+    xHandle?: string;
+    whatsapp?: string;
 }
 type SortMode = "name" | "score" | "active";
 type RiskFilter = "all" | "Healthy" | "Warning" | "At Risk";
@@ -399,11 +405,41 @@ export default function ClientsPage() {
                                                             style={{ color: "var(--foreground)" }}>
                                                             <Eye size={15}  /> View Profile
                                                         </button>
- <button onClick={() => { alert(`Message ${client.name} — coming soon!`); setOpenMenuId(null); }}
-                                                            className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium hover:bg-muted/50 transition-colors text-left"
-                                                            style={{ color: "var(--foreground)" }}>
-                                                            <MessageCircle size={15}  /> Message Client
-                                                        </button>
+  <div className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-[#6366f1] opacity-70 bg-indigo-500/5">⚡️ Personalize & Send</div>
+                                                        {client.igHandle && (
+                                                            <button 
+                                                                onClick={() => { window.open(`https://instagram.com/${client.igHandle?.replace('@', '')}`, '_blank'); setOpenMenuId(null); }}
+                                                                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium hover:bg-muted/50 transition-colors text-left"
+                                                                style={{ color: "var(--foreground)" }}
+                                                            >
+                                                                <Instagram size={15}  /> Instagram
+                                                            </button>
+                                                        )}
+                                                        {client.whatsapp && (
+                                                            <button 
+                                                                onClick={() => { window.open(`https://wa.me/${client.whatsapp?.replace(/[^0-9]/g, '')}`, '_blank'); setOpenMenuId(null); }}
+                                                                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium hover:bg-muted/50 transition-colors text-left"
+                                                                style={{ color: "var(--foreground)" }}
+                                                            >
+                                                                <Phone size={15}  /> WhatsApp
+                                                            </button>
+                                                        )}
+                                                        {client.xHandle && (
+                                                            <button 
+                                                                onClick={() => { window.open(`https://x.com/${client.xHandle?.replace('@', '')}`, '_blank'); setOpenMenuId(null); }}
+                                                                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium hover:bg-muted/50 transition-colors text-left"
+                                                                style={{ color: "var(--foreground)" }}
+                                                            >
+                                                                <Twitter size={15}  /> X / Twitter
+                                                            </button>
+                                                        )}
+                                                        {!client.igHandle && !client.whatsapp && !client.xHandle && (
+                                                             <button onClick={() => { alert(`Message ${client.name} — coming soon!`); setOpenMenuId(null); }}
+                                                                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium hover:bg-muted/50 transition-colors text-left opacity-50"
+                                                                style={{ color: "var(--foreground)" }}>
+                                                                <MessageCircle size={15}  /> Message Client
+                                                            </button>
+                                                        )}
                                                         <div className="my-1 h-px" style={{ background: "var(--border)" }} />
  <button onClick={() => { setClients(prev => prev.filter(c => c.id !== client.id)); setOpenMenuId(null); }}
                                                             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium hover:bg-red-500/10 transition-colors text-left text-red-500">

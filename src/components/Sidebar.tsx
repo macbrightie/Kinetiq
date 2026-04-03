@@ -27,8 +27,10 @@ import {
     Sun, 
     Moon, 
     UserPlus,
-    Award
+    Award,
+    LayoutGrid
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const NAV_MAIN = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -303,6 +305,21 @@ export function Sidebar() {
                                 <DropdownMenu.Item className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-white/70 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer mb-1">
                                     <CreditCard size={14}  />
                                     Billing & Subscription
+                                </DropdownMenu.Item>
+
+                                <div className="py-2 px-3 my-1 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-between group cursor-pointer hover:bg-indigo-500/20 transition-all">
+                                    <div>
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Current Scope</p>
+                                        <p className="text-[12px] font-medium text-white">Elite Coaching Admin</p>
+                                    </div>
+                                    <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg group-hover:bg-indigo-500/20">
+                                        <ChevronRight size={14} className="text-indigo-400" />
+                                    </Button>
+                                </div>
+
+                                <DropdownMenu.Item className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-xl outline-none cursor-pointer mb-0.5">
+                                    <LayoutGrid size={14}  />
+                                    Switch Account
                                 </DropdownMenu.Item>
 
                                 <div className="pt-1 border-t border-white/5">
