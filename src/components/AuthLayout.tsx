@@ -13,17 +13,17 @@ const features = [
     {
         title: "Predictive Intelligence",
         desc: "Stay ahead of the curve. Our AI analyzes subtle shifts in behavior to predict risk before it happens, keeping your roster full.",
-        video: "/Onbaording-assets/intelligence.mp4"
+        video: "/Onboarding-assets/intelligence.mp4"
     },
     {
         title: "Stop Client Churn",
         desc: "Protect your revenue. By identifying lagging engagement early, you can intervene and save clients before they quit.",
-        video: "/Onbaording-assets/Stop%20churn.mp4"
+        video: "/Onboarding-assets/Stop%20churn.mp4"
     },
     {
         title: "Seamless Strava Sync",
         desc: "Automatic data collection. Sync heart rate and workout data directly for a complete, human-centric view of health.",
-        video: "/Onbaording-assets/Strava.mp4"
+        video: "/Onboarding-assets/Strava.mp4"
     }
 ];
 

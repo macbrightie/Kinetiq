@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, BarChart2, CheckCircle2 as CheckCircle } from "lucide-react";
 
@@ -8,73 +8,23 @@ import { Activity, ChevronRight, ChevronLeft, Sun, Moon, Users, BarChart2, Check
 type Step = 1 | 2 | 3;
 
 // ─── Animated Client Graph (Left Panel Visual) ────────────────────────────────
-function ClientGraph() {
-    const nodes = [
-        { cx: "50%", cy: "12%", delay: "0s", size: 36 },
-        { cx: "82%", cy: "30%", delay: "0.5s", size: 32 },
-        { cx: "88%", cy: "62%", delay: "1s", size: 28 },
-        { cx: "68%", cy: "86%", delay: "1.5s", size: 32 },
-        { cx: "32%", cy: "86%", delay: "2s", size: 28 },
-        { cx: "12%", cy: "62%", delay: "2.5s", size: 32 },
-        { cx: "18%", cy: "30%", delay: "3s", size: 36 },
-    ];
-
-    const initials = ["AR", "JD", "KL", "MP", "SR", "TN", "WP"];
-    const colors = [
-        "bg-violet-500", "bg-emerald-500", "bg-amber-500",
-        "bg-rose-500", "bg-sky-500", "bg-fuchsia-500", "bg-teal-500"
-    ];
-
-    return (
-        <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-            {/* Outer dashed ring */}
-            <div
-                className="ring-spin absolute rounded-full border border-dashed opacity-20"
-                style={{ width: "85%", maxWidth: 380, aspectRatio: "1", borderColor: "var(--primary)" }}
-            />
-            {/* Middle dashed ring */}
-            <div
-                className="ring-spin-reverse absolute rounded-full border border-dashed opacity-15"
-                style={{ width: "60%", maxWidth: 270, aspectRatio: "1", borderColor: "var(--primary)" }}
-            />
-
-            {/* Center coach node */}
-            <div className="absolute float-anim flex flex-col items-center gap-1.5 z-10">
-                <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center text-white font-medium text-lg shadow-lg"
-                    style={{ background: "var(--primary)", boxShadow: "0 0 32px color-mix(in srgb, var(--primary) 60%, transparent)" }}
-                >
-                    YOU
-                </div>
-                <span className="text-xs font-medium opacity-60" style={{ color: "var(--foreground)" }}>
-                    Coach
-                </span>
-            </div>
-
-            {/* Satellite client nodes */}
-            {nodes.map((node, i) => (
-                <div
-                    key={i}
-                    className="node-pulse absolute z-10 flex items-center justify-center rounded-full text-white text-xs font-medium shadow-md select-none"
-                    style={{
-                        left: node.cx,
-                        top: node.cy,
-                        width: node.size,
-                        height: node.size,
-                        transform: "translate(-50%, -50%)",
-                        animationDelay: node.delay,
-                    }}
-                >
-                    <div
-                        className={`w-full h-full rounded-full flex items-center justify-center text-white text-xs font-medium ${colors[i]}`}
-                    >
-                        {initials[i]}
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-}
+const features = [
+    {
+        title: "Predictive Intelligence",
+        desc: "Stay ahead of the curve. Our AI analyzes subtle shifts in behavior to predict risk before it happens, keeping your roster full.",
+        video: "/Onboarding-assets/intelligence.mp4"
+    },
+    {
+        title: "Stop Client Churn",
+        desc: "Protect your revenue. By identifying lagging engagement early, you can intervene and save clients before they quit.",
+        video: "/Onboarding-assets/Stop%20churn.mp4"
+    },
+    {
+        title: "Seamless Strava Sync",
+        desc: "Automatic data collection. Sync heart rate and workout data directly for a complete, human-centric view of health.",
+        video: "/Onboarding-assets/Strava.mp4"
+    }
+];
 
 // ─── Step indicator ───────────────────────────────────────────────────────────
 function StepDots({ step }: { step: Step }) {
@@ -123,7 +73,15 @@ export default function OnboardingPage() {
     const [clientCount, setClientCount] = useState("");
     const [clientName, setClientName] = useState("");
     const [clientEmail, setClientEmail] = useState("");
+    const [featureIndex, setFeatureIndex] = useState(0);
     const router = useRouter();
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setFeatureIndex((prev) => (prev + 1) % features.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
 
     const toggleTheme = () =>
         setTheme((t) => (t === "dark" ? "light" : "dark"));
@@ -161,44 +119,71 @@ export default function OnboardingPage() {
         >
             {/* ─── LEFT PANEL ──────────────────────────────────────── */}
             <div
-                className="hidden lg:flex flex-col justify-between w-1/2 relative overflow-hidden p-12"
+                className="hidden lg:flex flex-col justify-end w-1/2 relative overflow-hidden p-16"
                 style={{
-                    background: "var(--panel-bg)",
-                    borderRight: "1px solid var(--panel-border)",
+                    background: "#0C0C0C",
+                    borderRight: "1px solid rgba(255,255,255,0.05)",
                 }}
             >
-                {/* Logo */}
-                <div className="flex items-center gap-2 z-10">
-                    <img 
-                        src="/Logo-main-white.svg" 
-                        alt="Kinetiq Logo" 
-                        className="h-8 w-auto"
-                    />
-                </div>
-
-                {/* Animated Graph */}
-                <div className="flex-1 flex items-center justify-center py-8 relative">
-                    <div className="w-full max-w-xs aspect-square">
-                        <ClientGraph />
-                    </div>
-                </div>
-
-                {/* Stats */}
-                <div className="z-10 space-y-3">
-                    <p className="text-xs uppercase tracking-widest font-normal mb-4" style={{ color: "var(--muted-foreground)" }}>
-                        Trusted by elite coaches
-                    </p>
-                    {panelStats.map((stat, i) => (
-                        <div key={i} className="flex items-center justify-between">
-                            <div className="flex items-center gap-2" style={{ color: "var(--muted-foreground)" }}>
-                                {stat.icon}
-                                <span className="text-[12px] font-normal">{stat.label}</span>
-                            </div>
-                            <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>
-                                {stat.value}
-                            </span>
-                        </div>
+                {/* Cinematic Background Videos */}
+                <div className="absolute inset-0 z-0">
+                    {features.map((feature, idx) => (
+                        <video
+                            key={feature.video}
+                            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${idx === featureIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                        >
+                            <source src={feature.video} type="video/mp4" />
+                        </video>
                     ))}
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 z-20" />
+                </div>
+
+                {/* Top Logo Overlay */}
+                <div className="absolute top-12 left-16 z-30">
+                    <img src="/Logo-main-white.svg" className="h-8 w-auto" alt="Logo" />
+                </div>
+
+                {/* Content Overlay */}
+                <div className="relative z-30">
+                    <div className="flex gap-2 mb-6">
+                        <span className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/80">
+                            Elite Coaching
+                        </span>
+                        <span className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/80">
+                            AI Intelligence
+                        </span>
+                    </div>
+                    
+                    <h2 className="text-5xl font-black tracking-tighter mb-4 text-white uppercase italic leading-none">
+                        {features[featureIndex].title}
+                    </h2>
+                    <p className="text-lg text-white/60 font-medium max-w-md leading-relaxed mb-12">
+                        {features[featureIndex].desc}
+                    </p>
+
+                    {/* Progress Indicators */}
+                    <div className="flex gap-2 relative">
+                        {features.map((_, i) => (
+                            <div key={i} className="h-[2px] flex-1 bg-white/10 rounded-full overflow-hidden">
+                                {i === featureIndex && (
+                                    <div className="h-full bg-white/60 rounded-full animate-progress-bar" />
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-between mt-4">
+                        {features.map((f, i) => (
+                            <p key={i} className={`text-[9px] font-bold uppercase tracking-widest transition-all duration-300 ${i === featureIndex ? 'text-white' : 'text-white/20'}`}>
+                                {f.title}
+                            </p>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -387,6 +372,15 @@ export default function OnboardingPage() {
                     </div>
                 </div>
             </div>
+            <style jsx global>{`
+                @keyframes progress-bar {
+                    0% { width: 0%; }
+                    100% { width: 100%; }
+                }
+                .animate-progress-bar {
+                    animation: progress-bar 5s linear infinite;
+                }
+            `}</style>
         </div>
     );
 }
