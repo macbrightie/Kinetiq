@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { UserPlus, Mail, Instagram, Phone, Send, Plus as Add, CheckCircle2 as CheckCircle, Sparkles, X, ArrowRight, BadgeCheck } from "lucide-react";
+import { UserPlus, Mail, Instagram, Phone, Send, Plus as Add, CheckCircle2 as CheckCircle, Sparkles, X, ArrowRight, BadgeCheck, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,16 +87,16 @@ export function InviteClientModal({ onClose }: InviteClientModalProps) {
                     size="sm"
                     className="shrink-0 h-8 rounded-lg px-3 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/10"
                 >
-                    {copied ? <CheckCircle size={14} /> : <Add size={14} style={{transform: "rotate(45deg)"}} />}
+                    {copied ? <CheckCircle size={14} /> : <Copy size={14} />}
                 </Button>
             </div>
 
             <div className="pt-2">
                 <Button 
                     onClick={onClose} 
-                    variant="outline"
+                    variant="default"
                     size="lg"
-                    className="w-full rounded-2xl h-12 font-medium text-[14px]"
+                    className="w-full rounded-2xl h-12 font-medium text-[14px] bg-indigo-600 hover:bg-indigo-700 text-white border-none shadow-lg shadow-indigo-500/20"
                 >
                     Awesome, thanks!
                 </Button>

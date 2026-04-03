@@ -28,7 +28,10 @@ import {
   AlertCircle as Danger,
   Instagram,
   Twitter,
-  Phone
+  Phone,
+  MessageCircle as Message,
+  Zap,
+  X
 } from "lucide-react";
 import { InviteClientModal } from "@/components/InviteClientModal";
 import { DashboardHeader } from "@/components/DashboardHeader";
@@ -254,13 +257,18 @@ export default function ClientsPage() {
 
             {/* Filters bar */}
             <div className="px-8 py-4 sticky top-[69px] z-20 flex items-center gap-4" style={{ background: "var(--background)", borderBottomWidth: "1px", borderBottomStyle: "solid", borderBottomColor: "var(--border)" }}>
-                <div className="flex items-center gap-2.5 flex-1 max-w-xl">
-                    <div className="flex items-center gap-2 px-4 py-2.5 rounded-full flex-1"
-                        style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+                <div className="flex items-center gap-2.5 flex-1 max-w-xl group">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full flex-1 transition-all border border-border bg-card focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-500/40">
                         <Search size={16} className="text-muted-foreground opacity-50" />
-                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search by name, origin..."
-                            className="bg-transparent outline-none text-sm w-full font-medium" />
+                        <div className="flex-1 py-1.5 px-0.5">
+                            <input 
+                                type="text" 
+                                value={search} 
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Search by name, origin..."
+                                className="bg-transparent outline-none text-[14px] w-full font-medium text-foreground placeholder:text-muted-foreground/50" 
+                            />
+                        </div>
                     </div>
                     <div className="relative">
                         <select value={riskFilter} onChange={(e) => setRiskFilter(e.target.value as RiskFilter)}
@@ -332,7 +340,7 @@ export default function ClientsPage() {
                         <button onClick={() => setViewMode("list")} className="px-6 py-2 rounded-full text-sm font-medium transition-all hover:opacity-80" style={{ background: "var(--foreground)", color: "var(--card)" }}>Switch to List</button>
                     </div>
                 ) : (
-                    <div className="rounded-[32px] overflow-hidden border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+                    <div className="rounded-[24px] overflow-hidden border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b" style={{ borderColor: "var(--border)", background: "var(--muted)" }}>
@@ -459,6 +467,45 @@ export default function ClientsPage() {
 
             {showInviteModal && <InviteClientModal onClose={() => setShowInviteModal(false)} />}
             {profileClient && <ClientProfilePanel client={profileClient} onClose={() => setProfileClient(null)} />}
+
+            {/* Bulk Actions Bar */}
+            {selectedClients.length > 0 && (
+                <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] animate-in slide-in-from-bottom-8 duration-500 ease-out">
+                    <div className="flex items-center gap-6 px-6 py-4 rounded-[32px] bg-[#0C0C0C] text-white shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 backdrop-blur-xl">
+                        <div className="flex items-center gap-3">
+                            <div className="w-7 h-7 rounded-full bg-indigo-500 flex items-center justify-center text-[12px] font-bold text-white shadow-lg shadow-indigo-500/40">
+                                {selectedClients.length}
+                            </div>
+                            <span className="text-sm font-semibold tracking-tight">Selected</span>
+                        </div>
+                        
+                        <div className="w-px h-6 bg-white/10" />
+                        
+                        <div className="flex items-center gap-2">
+           <button onClick={() => alert("Bulk messaging coming soon!")} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10 transition-all border border-white/5">
+                                <Message size={14} className="text-indigo-400" /> Message
+                            </button>
+           <button onClick={() => alert("Bulk status update coming soon!")} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10 transition-all border border-white/5">
+                                <Zap size={14} className="text-amber-400" /> Update Status
+                            </button>
+           <button onClick={() => {
+                if(confirm(`Are you sure you want to remove ${selectedClients.length} clients?`)) {
+                    setClients(prev => prev.filter(c => !selectedClients.includes(c.id)));
+                    setSelectedClients([]);
+                }
+           }} className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-all border border-rose-500/20">
+                                <Trash size={14} /> Remove
+                            </button>
+                        </div>
+                        
+                        <div className="w-px h-6 bg-white/10" />
+                        
+       <button onClick={() => setSelectedClients([])} className="p-2 rounded-full hover:bg-white/10 transition-all text-white/40 hover:text-white">
+                            <X size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

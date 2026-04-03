@@ -309,18 +309,8 @@ export function Sidebar() {
                                     Billing & Subscription
                                 </DropdownMenu.Item>
 
-                                <div className="py-2 px-3 my-1 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-between group cursor-pointer hover:bg-indigo-500/20 transition-all">
-                                    <div>
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Current Scope</p>
-                                        <p className="text-[12px] font-medium text-white">Elite Coaching Admin</p>
-                                    </div>
-                                    <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg group-hover:bg-indigo-500/20">
-                                        <ChevronRight size={14} className="text-indigo-400" />
-                                    </Button>
-                                </div>
-
                                 <DropdownMenu.Sub>
-                                    <DropdownMenu.SubTrigger className="flex items-center justify-between w-full px-3 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-xl outline-none cursor-pointer mb-0.5 group">
+                                    <DropdownMenu.SubTrigger className="flex items-center justify-between w-full px-3 py-2.5 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-xl outline-none cursor-pointer group transition-all">
                                         <div className="flex items-center gap-2">
                                             <LayoutGrid size={14}  />
                                             Switch Account
@@ -329,27 +319,34 @@ export function Sidebar() {
                                     </DropdownMenu.SubTrigger>
                                     <DropdownMenu.Portal>
                                         <DropdownMenu.SubContent 
-                                            className="z-[210] min-w-[180px] bg-[#1c1c24] border border-white/5 rounded-2xl p-2 shadow-2xl animate-in fade-in slide-in-from-left-2 duration-200"
+                                            className="z-[210] min-w-[200px] bg-[#1c1c24] border border-white/5 rounded-2xl p-2 shadow-2xl animate-in fade-in slide-in-from-left-2 duration-200"
                                             sideOffset={8}
                                         >
                                             <div className="px-3 py-1.5 mb-1">
-                                                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">Select Account</p>
+                                                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">Managed Accounts</p>
                                             </div>
-                                            <DropdownMenu.Item className="flex items-center justify-between px-3 py-2 text-xs font-medium text-white bg-white/5 rounded-xl outline-none cursor-default mb-0.5">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                            <DropdownMenu.Item className="flex items-center justify-between px-3 py-3 text-xs font-medium text-white bg-white/5 rounded-xl outline-none cursor-default mb-1">
+                                                <div className="flex items-center gap-3">
+                                                    {userImage ? (
+                                                        <img src={userImage} alt="" className="w-5 h-5 rounded-full ring-1 ring-white/10" />
+                                                    ) : (
+                                                        <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                                        </div>
+                                                    )}
                                                     Kinetiq Admin
                                                 </div>
-                                                <CheckCircle size={12} className="text-emerald-500" />
+                                                <CheckCircle size={14} className="text-emerald-500" />
                                             </DropdownMenu.Item>
                                             <DropdownMenu.Item 
                                                 onClick={() => {
-                                                    // Clerk simulation for "Add Account"
                                                     window.location.href = "/sign-in?force=true";
                                                 }}
-                                                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer"
+                                                className="flex items-center gap-3 px-3 py-2.5 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer transition-all"
                                             >
-                                                <Plus size={14} />
+                                                <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center">
+                                                    <Plus size={12} />
+                                                </div>
                                                 Add New Account
                                             </DropdownMenu.Item>
                                         </DropdownMenu.SubContent>
