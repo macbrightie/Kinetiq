@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, useClerk, SignInButton } from "@clerk/nextjs";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { SignOutButton } from "@clerk/nextjs";
 import { 
@@ -340,15 +340,16 @@ export function Sidebar() {
                                                 <CheckCircle size={14} className="text-emerald-500" />
                                             </DropdownMenu.Item>
                                             <DropdownMenu.Item 
-                                                onClick={() => {
-                                                    openSignIn({ signUpFallbackRedirectUrl: "/onboarding" });
-                                                }}
-                                                className="flex items-center gap-3 px-3 py-2.5 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer transition-all"
+                                                className="px-0 py-0 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer transition-all overflow-hidden"
                                             >
-                                                <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center">
-                                                    <Plus size={12} />
-                                                </div>
-                                                Add New Account
+                                                <SignInButton mode="modal" forceRedirectUrl="/dashboard" signUpFallbackRedirectUrl="/onboarding">
+                                                    <div className="flex items-center gap-3 px-3 py-2.5 w-full">
+                                                        <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center">
+                                                            <Plus size={12} />
+                                                        </div>
+                                                        Add New Account
+                                                    </div>
+                                                </SignInButton>
                                             </DropdownMenu.Item>
                                         </DropdownMenu.SubContent>
                                     </DropdownMenu.Portal>
