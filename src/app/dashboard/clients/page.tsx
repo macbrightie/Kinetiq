@@ -63,6 +63,15 @@ const STATUS_CFG: Record<string, { color: string; bg: string; label: string; ico
     "At Risk": { color: "#ef4444", bg: "rgba(239,68,68,0.12)", label: "At Risk", icon: <FitnessFigure type="at-risk" size={14}  /> },
 };
 
+const getStatusConfig = (status: string) => {
+    return STATUS_CFG[status] || { 
+        color: "#94a3b8", 
+        bg: "rgba(148,163,184,0.12)", 
+        label: status || "Unknown", 
+        icon: <Activity size={14} /> 
+    };
+};
+
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 // ─── Helper Components ────────────────────────────────────────────────────────
@@ -92,7 +101,7 @@ function CreditCardPattern({ id }: { id: string }) {
 
 // ─── Client Profile Side Panel ────────────────────────────────────────────────
 function ClientProfilePanel({ client, onClose }: { client: ClientType; onClose: () => void }) {
-    const cfg = STATUS_CFG[client.status];
+    const cfg = getStatusConfig(client.status);
     return (
         <div className="fixed inset-0 z-50 flex justify-end" style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(4px)" }} onClick={onClose}>
             <div
@@ -358,7 +367,7 @@ export default function ClientsPage() {
                             </thead>
                             <tbody>
                                 {filteredAndSortedClients.map((client) => {
-                                    const cfg = STATUS_CFG[client.status];
+                                    const cfg = getStatusConfig(client.status);
                                     return (
                                         <tr key={client.id} className="border-b hover:bg-muted/30 transition-colors last:border-0" style={{ borderColor: "var(--border)" }}>
                                             <td className="px-6 py-4">

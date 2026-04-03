@@ -22,6 +22,15 @@ export const STATUS_CFG: Record<string, { color: string; bg: string; label: stri
     "At Risk": { color: "#ef4444", bg: "rgba(239,68,68,0.12)", label: "At Risk", icon: <FitnessFigure type="at-risk" size={14}  /> },
 };
 
+export const getStatusConfig = (status: string) => {
+    return STATUS_CFG[status] || { 
+        color: "#94a3b8", 
+        bg: "rgba(148,163,184,0.12)", 
+        label: status || "Unknown", 
+        icon: <Activity size={14} /> 
+    };
+};
+
 export const FILTER_LABELS: Record<SortMode, string> = { all: "All Clients", best: "Best Performance", worst: "Struggling", warning: "Needs Attention" };
 
 export function Hatch({ id, color }: { id: string; color: string }) {
@@ -123,7 +132,7 @@ export default function ClientHealthChart({
                         const barH = Math.max(6, (client.score / 100) * CHART_H);
                         const isSel = selectedClient?.id === sorted[i].id;
                         const isHov = hovered === i;
-                        const cfg = STATUS_CFG[client.status];
+                        const cfg = getStatusConfig(client.status);
                         return (
                             <div key={client.id} className="relative flex-1 flex flex-col items-center cursor-pointer"
                                 style={{ height: "100%", justifyContent: "flex-end" }}

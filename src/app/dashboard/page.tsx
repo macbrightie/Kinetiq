@@ -34,7 +34,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BadgeCheck, BookmarkIcon, ArrowUpRightIcon } from "lucide-react";
 
-import ClientHealthChart, { ClientType, SortMode, STATUS_CFG } from "@/components/ClientHealthChart";
+import ClientHealthChart, { ClientType, SortMode, STATUS_CFG, getStatusConfig } from "@/components/ClientHealthChart";
 import { FitnessFigure } from "@/components/FitnessFigure";
 import { getActivityType } from "@/lib/fitnessUtils";
 
@@ -140,7 +140,7 @@ function OutlineLightButton({ label }: { label: string }) {
 
 // ─── Push-layout right panel (inline card, no overlay) ───────────────────────
 function ClientSidePanel({ client, onClose, onCheckIn }: { client: ClientType; onClose: () => void; onCheckIn: () => void }) {
-    const cfg = STATUS_CFG[client.status];
+    const cfg = getStatusConfig(client.status);
     const [msg, setMsg] = useState(client.aiMsg);
     useEffect(() => { setMsg(client.aiMsg); }, [client.aiMsg]);
 
@@ -389,7 +389,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
             {viewMode === "grid" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                     {filtered.map((client) => {
-                        const cfg = STATUS_CFG[client.status];
+                        const cfg = getStatusConfig(client.status);
                         return (
                             <div key={client.id}
                                 className="rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-1"
@@ -476,7 +476,7 @@ function ActivitySection({ onCheckIn, clients }: { onCheckIn: (c: ClientType) =>
                         <span>Client</span><span>Score</span><span>Top Activity</span><span>Sessions</span><span>Calories</span><span>Status</span>
                     </div>
                     {filtered.map((client, i) => {
-                        const cfg = STATUS_CFG[client.status];
+                        const cfg = getStatusConfig(client.status);
                         const topAct = client.topActivities[0];
                         return (
                             <div key={client.id}
@@ -554,7 +554,7 @@ function CheckInModal({ client, onClose, onSend }: { client: ClientType; onClose
     const { theme } = useTheme();
     const dark = theme === "dark";
     const [msg, setMsg] = useState(client.aiMsg);
-    const cfg = STATUS_CFG[client.status];
+    const cfg = getStatusConfig(client.status);
 
     const border = "var(--border)";
     const textMuted = "var(--muted-foreground)";
