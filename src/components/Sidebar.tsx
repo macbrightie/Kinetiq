@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { SignOutButton } from "@clerk/nextjs";
 import { 
@@ -53,6 +53,7 @@ export function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const { user } = useUser();
+    const { openSignIn } = useClerk();
     const [collapsed, setCollapsed] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const { theme, toggle } = useTheme();
@@ -340,7 +341,7 @@ export function Sidebar() {
                                             </DropdownMenu.Item>
                                             <DropdownMenu.Item 
                                                 onClick={() => {
-                                                    window.location.href = "/sign-in?force=true";
+                                                    openSignIn({ signUpFallbackRedirectUrl: "/onboarding" });
                                                 }}
                                                 className="flex items-center gap-3 px-3 py-2.5 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer transition-all"
                                             >
