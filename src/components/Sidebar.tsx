@@ -28,7 +28,9 @@ import {
     Moon, 
     UserPlus,
     Award,
-    LayoutGrid
+    LayoutGrid,
+    CheckCircle2 as CheckCircle,
+    Plus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -317,10 +319,42 @@ export function Sidebar() {
                                     </Button>
                                 </div>
 
-                                <DropdownMenu.Item className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-xl outline-none cursor-pointer mb-0.5">
-                                    <LayoutGrid size={14}  />
-                                    Switch Account
-                                </DropdownMenu.Item>
+                                <DropdownMenu.Sub>
+                                    <DropdownMenu.SubTrigger className="flex items-center justify-between w-full px-3 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 rounded-xl outline-none cursor-pointer mb-0.5 group">
+                                        <div className="flex items-center gap-2">
+                                            <LayoutGrid size={14}  />
+                                            Switch Account
+                                        </div>
+                                        <ChevronRight size={14} className="opacity-50 group-hover:opacity-100 transition-opacity" />
+                                    </DropdownMenu.SubTrigger>
+                                    <DropdownMenu.Portal>
+                                        <DropdownMenu.SubContent 
+                                            className="z-[210] min-w-[180px] bg-[#1c1c24] border border-white/5 rounded-2xl p-2 shadow-2xl animate-in fade-in slide-in-from-left-2 duration-200"
+                                            sideOffset={8}
+                                        >
+                                            <div className="px-3 py-1.5 mb-1">
+                                                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">Select Account</p>
+                                            </div>
+                                            <DropdownMenu.Item className="flex items-center justify-between px-3 py-2 text-xs font-medium text-white bg-white/5 rounded-xl outline-none cursor-default mb-0.5">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                                    Kinetiq Admin
+                                                </div>
+                                                <CheckCircle size={12} className="text-emerald-500" />
+                                            </DropdownMenu.Item>
+                                            <DropdownMenu.Item 
+                                                onClick={() => {
+                                                    // Clerk simulation for "Add Account"
+                                                    window.location.href = "/sign-in?force=true";
+                                                }}
+                                                className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 rounded-xl outline-none cursor-pointer"
+                                            >
+                                                <Plus size={14} />
+                                                Add New Account
+                                            </DropdownMenu.Item>
+                                        </DropdownMenu.SubContent>
+                                    </DropdownMenu.Portal>
+                                </DropdownMenu.Sub>
 
                                 <div className="pt-1 border-t border-white/5">
                                     <SignOutButton>
